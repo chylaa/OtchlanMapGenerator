@@ -177,7 +177,6 @@ namespace OtchlanMapGenerator
         private void addPanel_Enter(object sender, EventArgs e)
         {
             addPanel.Enabled = true;
-
         }
 
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)

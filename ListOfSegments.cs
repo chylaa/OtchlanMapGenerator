@@ -44,7 +44,6 @@ namespace OtchlanMapGenerator
                 CorrectLocation(0, ScrollSpeed*(dy-old_dy)*-1);
                 old_dy = dy;
             }
- 
         }
 
         void CorrectLocation(int dx, int dy)

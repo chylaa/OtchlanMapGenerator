@@ -53,11 +53,6 @@ namespace OtchlanMapGenerator
         public void setBitmap()//use this in constructor, if i decide to List<Segment> - then List.add(new Segment(location, description,exits)) and inside setBitmap checks whith bitmap set 
         {
             
-            //exits.Add(exit1);
-            //exits.Add(exit2);
-            //exits.Add(exit3);
-            //exits.Add(exit4);
-
             if(this.exits.Equals(new ExitPoints(Exit.north, Exit.not, Exit.not, Exit.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorth.bmp");
             if (this.exits.Equals(new ExitPoints(Exit.not, Exit.south, Exit.not, Exit.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouth.bmp");
             if (this.exits.Equals(new ExitPoints(Exit.not, Exit.not, Exit.east, Exit.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukEast.bmp");
