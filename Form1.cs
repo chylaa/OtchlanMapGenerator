@@ -21,7 +21,7 @@ namespace OtchlanMapGenerator
         String keyBuffer="";
         int dx = 0;
         int dy = 0;
-        int newID=13; // after implementing adding this must start from 0 
+        int newID=1; // start from 1 becouse there is always starting element 
 
         public Form1()
         {
@@ -118,6 +118,7 @@ namespace OtchlanMapGenerator
             addPanel.Enabled = true;
             SetDefaultButtonsStyle();
 
+            // TODO: CHANGES ONLY ON CHOSEN AND ONE METHOD "UPDATE_FORM_CHOSEN" AFTER EACH CHANGE
             textboxName.Text = s.description;
             chosen.description = s.description; //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
             chosen.id = s.id;

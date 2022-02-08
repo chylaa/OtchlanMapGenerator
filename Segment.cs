@@ -9,7 +9,7 @@ namespace OtchlanMapGenerator
 {
     class ExitPoints
     {
-        public Dir e1,e2,e3,e4;
+        public Dir e1,e2,e3,e4; //north, south, east, west
         public int neighbourID1, neighbourID2, neighbourID3, neighbourID4; // -1 if dont exist
         public ExitPoints(Dir a, Dir b, Dir c, Dir d)
         {
@@ -53,15 +53,21 @@ namespace OtchlanMapGenerator
         public void setBitmap()//use this in constructor, if i decide to List<Segment> - then List.add(new Segment(location, description,exits)) and inside setBitmap checks whith bitmap set 
         {
             if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBruk.bmp");
-            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorth.bmp");
-            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouth.bmp");
             if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukEast.bmp");
-            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukWest.bmp");
-            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouth.bmp");
             if (this.exits.Equals(new ExitPoints(Dir.not,Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukEastWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorth.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthEast.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthEastWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouth.bmp");
             if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthEast.bmp");
             if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthEastWest.bmp");
-
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouth.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthEast.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthEastWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthWest.bmp");
+            if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukWest.bmp");
             
         }
 
