@@ -11,50 +11,115 @@ namespace OtchlanMapGenerator
     class ListOfSegments
     {
         public List<Segment> segments;
-        const int BitmapSize = 50;
+        public int BitmapSize = 50;
+        const int padding = 10;
         const int ScrollSpeed = 5;
         public ListOfSegments()
         {
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(10, 10), Exit.not, Exit.south, Exit.not, Exit.not, "Location"));
-            segments.Add(new Segment(1, new Point(10, 10+BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_2"));
-            segments.Add(new Segment(2, new Point(10, 10 + 2*BitmapSize), Exit.north, Exit.south, Exit.east, Exit.not, "Location_3"));
-            segments.Add(new Segment(3, new Point(10+BitmapSize, 10 + 2*BitmapSize), Exit.not, Exit.not, Exit.east, Exit.west, "Location_4"));
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.south, Dir.not, Dir.not, "Location"));
+            segments.Add(new Segment(1, new Point(padding, padding+BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_2"));
+            segments.Add(new Segment(2, new Point(padding, padding + 2*BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_3"));
+            segments.Add(new Segment(3, new Point(padding+BitmapSize, padding + 2*BitmapSize), Dir.not, Dir.not, Dir.east, Dir.west, "Location_4"));
 
-            segments.Add(new Segment(4, new Point(10, 10 + 3 * BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_5"));
-            segments.Add(new Segment(5, new Point(10, 10 + 4 * BitmapSize), Exit.north, Exit.south, Exit.east, Exit.not, "Location_6"));
-            segments.Add(new Segment(6, new Point(10, 10 + 5 * BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_7"));
-            segments.Add(new Segment(7, new Point(10, 10 + 6 * BitmapSize), Exit.north, Exit.south, Exit.east, Exit.not, "Location_8"));
-            segments.Add(new Segment(8, new Point(10, 10 + 7 * BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_9"));
-            segments.Add(new Segment(9, new Point(10, 10 + 8 * BitmapSize), Exit.north, Exit.south, Exit.east, Exit.not, "Location_10"));
-            segments.Add(new Segment(10, new Point(10, 10 + 9 * BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_11"));
-            segments.Add(new Segment(11, new Point(10, 10 + 10 * BitmapSize), Exit.north, Exit.south, Exit.east, Exit.not, "Location_12"));
-            segments.Add(new Segment(12, new Point(10, 10 + 11 * BitmapSize), Exit.north, Exit.south, Exit.not, Exit.not, "Location_13"));
+            segments.Add(new Segment(4, new Point(padding, padding + 3 * BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_5"));
+            segments.Add(new Segment(5, new Point(padding, padding + 4 * BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_6"));
+            segments.Add(new Segment(6, new Point(padding, padding + 5 * BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_7"));
+            segments.Add(new Segment(7, new Point(padding, padding + 6 * BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_8"));
+            segments.Add(new Segment(8, new Point(padding, padding + 7 * BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_9"));
+            segments.Add(new Segment(9, new Point(padding, padding + 8 * BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_10"));
+            segments.Add(new Segment(10, new Point(padding, padding + 9 * BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_11"));
+            segments.Add(new Segment(11, new Point(padding, padding + 10 * BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_12"));
+            segments.Add(new Segment(12, new Point(padding, padding + 11 * BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_13"));
         }
 
-        public void UpdateSegmentsLocation(int dx, int dy, int old_dx, int old_dy)
+        public void UpdateSegmentsLocationScroll(int dx, int dy, int old_dx, int old_dy)
         {
-            if(old_dx!=dx && old_dy==dy)  //Zle sa te ify w chuj
+            if(old_dx!=dx) //&& old_dy==dy)  
             {
-                CorrectLocation((ScrollSpeed*(dx-old_dx)*-1), 0);
+                CorrectLocationScroll((ScrollSpeed*(dx-old_dx)*-1), 0);
                 old_dx = dx;
             }            
-            if(old_dy!=dy && old_dx==dx)
+            if(old_dy!=dy)// && old_dx==dx)
             {
-                CorrectLocation(0, ScrollSpeed*(dy-old_dy)*-1);
+                CorrectLocationScroll(0, ScrollSpeed*(dy-old_dy)*-1);
                 old_dy = dy;
             }
         }
 
-        void CorrectLocation(int dx, int dy)
+        void CorrectLocationScroll(int dx, int dy)
         {
             foreach (Segment s in this.segments)
             {
-                s.BMPlocation.X += dx;  //tu nwm wsm chyba bez ( -old_ ) bylo "lepiej"
+                s.BMPlocation.X += dx;
                 s.BMPlocation.Y += dy;
             }
 
         }
+
+        public int CheckKeyBuffer(int newID, String keyBuffer, Segment chosen)
+        {
+            
+            if (keyBuffer.Equals("n\r"))
+            {
+                if (chosen.BMPlocation.Y - BitmapSize < 0)
+                {
+                    CorrectSegmentsLocationAdd(0, BitmapSize, chosen);
+                    return AddSegment(newID, 0, 0,chosen);
+                }
+                return AddSegment(newID, 0, -1 * BitmapSize,chosen);
+            }
+            if (keyBuffer.Equals("s\r"))
+            {
+                return AddSegment(newID, 0, BitmapSize, chosen);            
+            }
+            if (keyBuffer.Equals("e\r"))
+            {
+               return AddSegment(newID, BitmapSize, 0, chosen);
+               
+            }
+            if (keyBuffer.Equals("w\r"))
+            {
+                if (chosen.BMPlocation.X - BitmapSize < 0)
+                {
+                    CorrectSegmentsLocationAdd(BitmapSize, 0, chosen);
+                    return AddSegment(newID, 0, 0,chosen);
+                }
+                return AddSegment(newID, -1 * BitmapSize, 0,chosen);
+
+            }
+            return 0;
+
+        }
+        private int AddSegment(int newID, int xShift, int yShift, Segment chosen) //xShift yShift - shift of coordinates relative to the chosen segment
+        {
+            Segment s = new Segment(newID, new Point(chosen.BMPlocation.X + xShift, chosen.BMPlocation.Y + yShift), Dir.not, Dir.not, Dir.not, Dir.not, "Default name");
+            if(findSegmentByLocation(s.BMPlocation) == true) return 0;
+            segments.Add(s);
+            return 1;
+        }
+
+        public void CorrectSegmentsLocationAdd(int xShift, int yShift, Segment chosen)
+        {
+            UpdateChosenLocation(chosen);
+            foreach (Segment s in segments)
+            {
+                s.BMPlocation.X += xShift;
+                s.BMPlocation.Y += yShift;
+            }
+        }
+
+        void UpdateChosenLocation(Segment chosen)
+        {
+            foreach (Segment s in segments) if (s.id == chosen.id) chosen.BMPlocation = s.BMPlocation;
+        }
+
+        public bool findSegmentByLocation(Point location)
+        {
+            foreach (Segment s in segments) if (s.BMPlocation == location) return true;
+            return false;
+        }
+
 
 
     }

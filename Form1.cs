@@ -16,8 +16,12 @@ namespace OtchlanMapGenerator
         ListOfSegments SegList = new ListOfSegments();
         Segment chosen = new Segment(); 
         ToolTip tip = new ToolTip();
+
+        int timesKeyPressed = 0;
+        String keyBuffer="";
         int dx = 0;
         int dy = 0;
+        int newID=13; // after implementing adding this must start from 0 
 
         public Form1()
         {
@@ -56,8 +60,8 @@ namespace OtchlanMapGenerator
         }
 
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e) //zmienic z mouse move na timer co 100? zapisywac czy mysz kliknieta i jak tak to ->segmentClicked ->clicked=false
-        {
+        //private void Form1_MouseMove(object sender, MouseEventArgs e) //zmienic z mouse move na timer co 100? zapisywac czy mysz kliknieta i jak tak to ->segmentClicked ->clicked=false
+        //{
         //    bool wasShown = false;
         //    Point p;
         //        foreach (Segment segment in SegList.segments)
@@ -92,7 +96,7 @@ namespace OtchlanMapGenerator
         //        tip.Hide(this);
         //        wasShown = false;
         //    }
-        }
+        //}
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             //DisplaySegments();
@@ -117,11 +121,12 @@ namespace OtchlanMapGenerator
             textboxName.Text = s.description;
             chosen.description = s.description; //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
             chosen.id = s.id;
+            chosen.BMPlocation = s.BMPlocation;
 
-            if (s.exits.e1 == Exit.north) SetButtonStyle(s, button_set_n, "N");
-            if (s.exits.e2 == Exit.south) SetButtonStyle(s, button_set_s, "S");
-            if (s.exits.e3 == Exit.east) SetButtonStyle(s, button_set_e, "E");
-            if (s.exits.e4 == Exit.west) SetButtonStyle(s, button_set_w, "W");
+            if (s.exits.e1 == Dir.north) SetButtonStyle(s, button_set_n, "N");
+            if (s.exits.e2 == Dir.south) SetButtonStyle(s, button_set_s, "S");
+            if (s.exits.e3 == Dir.east) SetButtonStyle(s, button_set_e, "E");
+            if (s.exits.e4 == Dir.west) SetButtonStyle(s, button_set_w, "W");
 
 
 
@@ -184,7 +189,7 @@ namespace OtchlanMapGenerator
             dy = e.NewValue;
             
             addPanel.Text = "dx: " + dx + " dy: " + dy;
-            SegList.UpdateSegmentsLocation(dx, dy,dx,e.OldValue);
+            SegList.UpdateSegmentsLocationScroll(dx, dy,dx,e.OldValue);
             DisplaySegments();
         }
 
@@ -192,9 +197,38 @@ namespace OtchlanMapGenerator
         {
             dx = e.NewValue;
             addPanel.Text = "dx: " + dx + " dy: " + dy;
-            SegList.UpdateSegmentsLocation(dx, dy,e.OldValue,dy);
+            SegList.UpdateSegmentsLocationScroll(dx, dy,e.OldValue,dy);
             DisplaySegments();
         }
+
+        //Handling adding new Segments
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            //keyBuffer += e.KeyCode.ToString();
+            //if (keyBuffer.Length > 2) keyBuffer = "";
+            //CheckKeyBuffer();
+        }
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (timesKeyPressed >= 2)
+            {
+                keyBuffer = "";
+                timesKeyPressed = 0;
+            }
+            keyBuffer += e.KeyChar;
+            timesKeyPressed++;
+            if(SegList.CheckKeyBuffer(newID,keyBuffer,chosen)==1)
+            {
+                newID++;
+                keyBuffer = "";
+                timesKeyPressed = 0;
+                DisplaySegments();
+            }
+        }
+
+
+
+        //=============================================================
     }
     
 }
