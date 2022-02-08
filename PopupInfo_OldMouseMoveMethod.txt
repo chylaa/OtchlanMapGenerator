@@ -1,0 +1,39 @@
+﻿
+
+        //private void Form1_MouseMove(object sender, MouseEventArgs e) //zmienic z mouse move na timer co 100? zapisywac czy mysz kliknieta i jak tak to ->segmentClicked ->clicked=false
+        //{
+        //    bool wasShown = false;
+        //    Point p;
+        //        foreach (Segment segment in SegList.segments)
+        //        {
+        //        if (MouseButtons.Left == e.Button) return;
+        //            if (segment.bitmap == null) return;
+        //            p = segment.BMPlocation;
+        //            if (e.Location.X > p.X && e.Location.X < p.X + segment.bitmap.Width)
+        //            {
+        //                if (e.Location.Y > p.Y && e.Location.Y < p.Y + segment.bitmap.Height)
+        //                {
+        //                    //if (MouseButtons.Left == e.Button)
+        //                    //{
+        //                    //    SegmentClicked(segment);
+        //                    //    return;
+        //                    //}
+        //                    tip.ToolTipIcon = ToolTipIcon.None;
+        //                    //tip.AutomaticDelay = 10;
+        //                    //tip.UseFading = true;
+        //                    tip.InitialDelay = 10;
+        //                    p.Offset(segment.bitmap.Width, segment.bitmap.Height);
+        //                    tip.Show(segment.description, this, p);
+        //                    wasShown = true;
+        //                }
+
+        //            }
+        //        }
+
+        //    System.Threading.Thread.Sleep(200);
+        //    if (wasShown)
+        //    {
+        //        tip.Hide(this);
+        //        wasShown = false;
+        //    }
+        //}

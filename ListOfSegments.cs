@@ -139,6 +139,11 @@ namespace OtchlanMapGenerator
             foreach (Segment s in segments) if (s.BMPlocation == location) return true;
             return false;
         }
+        public Segment findSegment(Segment searched)
+        {
+            foreach (Segment s in segments) if (s.id == searched.id) return s;
+            return null;
+        }
 
 
 

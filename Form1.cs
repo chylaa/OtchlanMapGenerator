@@ -35,6 +35,7 @@ namespace OtchlanMapGenerator
             //textboxName.Enabled = false;
             addPanel.Enabled = false;
         }
+        //=================Handling painting bitmaps on form======================================
         private void DisplaySegments()
         {
             this.Invalidate();
@@ -48,55 +49,16 @@ namespace OtchlanMapGenerator
             foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
             
         }
-
+        //==========================================================================================
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            //DisplaySegments();
-            // for(int i=0; i=SegList.segments.Count; i++) if (SegList.segments[i].id == chosen.id)  = chosen;
             SegList.segments[chosen.id].description = chosen.description;
             //updateDescription()
             //updateBitmap()
             //update...
         }
 
-
-        //private void Form1_MouseMove(object sender, MouseEventArgs e) //zmienic z mouse move na timer co 100? zapisywac czy mysz kliknieta i jak tak to ->segmentClicked ->clicked=false
-        //{
-        //    bool wasShown = false;
-        //    Point p;
-        //        foreach (Segment segment in SegList.segments)
-        //        {
-        //        if (MouseButtons.Left == e.Button) return;
-        //            if (segment.bitmap == null) return;
-        //            p = segment.BMPlocation;
-        //            if (e.Location.X > p.X && e.Location.X < p.X + segment.bitmap.Width)
-        //            {
-        //                if (e.Location.Y > p.Y && e.Location.Y < p.Y + segment.bitmap.Height)
-        //                {
-        //                    //if (MouseButtons.Left == e.Button)
-        //                    //{
-        //                    //    SegmentClicked(segment);
-        //                    //    return;
-        //                    //}
-        //                    tip.ToolTipIcon = ToolTipIcon.None;
-        //                    //tip.AutomaticDelay = 10;
-        //                    //tip.UseFading = true;
-        //                    tip.InitialDelay = 10;
-        //                    p.Offset(segment.bitmap.Width, segment.bitmap.Height);
-        //                    tip.Show(segment.description, this, p);
-        //                    wasShown = true;
-        //                }
-
-        //            }
-        //        }
-            
-        //    System.Threading.Thread.Sleep(200);
-        //    if (wasShown)
-        //    {
-        //        tip.Hide(this);
-        //        wasShown = false;
-        //    }
-        //}
+        //=================Handling clicking on segments to display info and select=================================================
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             //DisplaySegments();
@@ -155,26 +117,6 @@ namespace OtchlanMapGenerator
             button_set_w.BackColor = Control.DefaultBackColor;
         }
 
-        //private void Form1_MouseClick(object sender, MouseEventArgs e)
-        //{
-        //    foreach (Segment s in SegList.segments)
-        //    {
-        //        if (e.Location.X > s.BMPlocation.X && e.Location.X < s.BMPlocation.X + s.bitmap.Width)
-        //        {
-        //            if (e.Location.Y > s.BMPlocation.Y && e.Location.Y < s.BMPlocation.Y + s.bitmap.Height)
-        //            {
-        //                textboxName.Text = s.description;
-        //                chosen.description = s.description; //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
-        //                chosen.id = s.id;
-
-        //                addPanel.Enabled = true;
-        //                //confirmButton.Enabled = true;
-        //                //textboxName.Enabled = true;
-        //            }
-        //        }
-        //    }
-
-        //}
         private void textboxName_TextChanged(object sender, EventArgs e)
         {
             chosen.description = textboxName.Text;
@@ -184,7 +126,7 @@ namespace OtchlanMapGenerator
         {
             addPanel.Enabled = true;
         }
-
+        //==================Handling ScrollBars=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             dy = e.NewValue;
@@ -202,21 +144,26 @@ namespace OtchlanMapGenerator
             DisplaySegments();
         }
 
-        //Handling adding new Segments
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            //keyBuffer += e.KeyCode.ToString();
-            //if (keyBuffer.Length > 2) keyBuffer = "";
-            //CheckKeyBuffer();
-        }
+        //=====================Handling adding new Segments========================
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
+
+            //if ((e.KeyChar == '\r' && timesKeyPressed == 0)) return; //protection from deadlock
             if (timesKeyPressed >= 2)
             {
-                keyBuffer = "";
-                timesKeyPressed = 0;
+                if (keyBuffer[0] == '\r') //protection from deadlock
+                {
+                    keyBuffer = keyBuffer[1].ToString();
+                    timesKeyPressed = 1;
+                }
+                else
+                {
+                    keyBuffer = "";
+                    timesKeyPressed = 0;
+                }
             }
             keyBuffer += e.KeyChar;
+            addPanel.Text = keyBuffer;
             timesKeyPressed++;
             if(SegList.CheckKeyBuffer(newID,keyBuffer,chosen)==1)
             {
@@ -224,12 +171,10 @@ namespace OtchlanMapGenerator
                 keyBuffer = "";
                 timesKeyPressed = 0;
                 DisplaySegments();
+                SegmentClicked(SegList.findSegment(chosen));
             }
         }
-
-
-
-        //=============================================================
+        //=========TODO: Player position (new Segment playerSeg? -> user can still select with mouse other segment)==============
     }
     
 }
