@@ -73,7 +73,7 @@ namespace OtchlanMapGenerator
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 134);
+            this.label1.Location = new System.Drawing.Point(72, 138);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 6;
@@ -82,7 +82,7 @@ namespace OtchlanMapGenerator
             // button_set_w
             // 
             this.button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_set_w.Location = new System.Drawing.Point(19, 120);
+            this.button_set_w.Location = new System.Drawing.Point(26, 124);
             this.button_set_w.Name = "button_set_w";
             this.button_set_w.Size = new System.Drawing.Size(40, 40);
             this.button_set_w.TabIndex = 5;
@@ -91,7 +91,7 @@ namespace OtchlanMapGenerator
             // 
             // button_set_s
             // 
-            this.button_set_s.Location = new System.Drawing.Point(65, 168);
+            this.button_set_s.Location = new System.Drawing.Point(72, 172);
             this.button_set_s.Name = "button_set_s";
             this.button_set_s.Size = new System.Drawing.Size(40, 40);
             this.button_set_s.TabIndex = 4;
@@ -100,7 +100,7 @@ namespace OtchlanMapGenerator
             // 
             // button_set_e
             // 
-            this.button_set_e.Location = new System.Drawing.Point(110, 120);
+            this.button_set_e.Location = new System.Drawing.Point(117, 124);
             this.button_set_e.Name = "button_set_e";
             this.button_set_e.Size = new System.Drawing.Size(40, 40);
             this.button_set_e.TabIndex = 3;
@@ -109,7 +109,7 @@ namespace OtchlanMapGenerator
             // 
             // button_set_n
             // 
-            this.button_set_n.Location = new System.Drawing.Point(65, 75);
+            this.button_set_n.Location = new System.Drawing.Point(72, 79);
             this.button_set_n.Name = "button_set_n";
             this.button_set_n.Size = new System.Drawing.Size(40, 40);
             this.button_set_n.TabIndex = 2;
@@ -118,11 +118,15 @@ namespace OtchlanMapGenerator
             // 
             // textboxName
             // 
-            this.textboxName.Location = new System.Drawing.Point(6, 30);
+            this.textboxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textboxName.Location = new System.Drawing.Point(12, 29);
             this.textboxName.Name = "textboxName";
+            this.textboxName.ReadOnly = true;
+            this.textboxName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textboxName.Size = new System.Drawing.Size(166, 20);
             this.textboxName.TabIndex = 1;
-            this.textboxName.Text = "Enter location name";
+            this.textboxName.Text = "Location name";
+            this.textboxName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textboxName.TextChanged += new System.EventHandler(this.textboxName_TextChanged);
             // 
             // vScrollBar1
@@ -160,14 +164,10 @@ namespace OtchlanMapGenerator
             this.Activated += new System.EventHandler(this.Form1_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1_PreviewKeyDown);
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
             this.ResumeLayout(false);
-
-
 
         }
 

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace OtchlanMapGenerator
 {
     public partial class Form1 : Form
@@ -16,6 +18,7 @@ namespace OtchlanMapGenerator
         ListOfSegments SegList = new ListOfSegments();
         Segment chosen = new Segment(); 
         ToolTip tip = new ToolTip();
+        KeyHandler ghk_r, ghk_n, ghk_s, ghk_e, ghk_w;
 
         int timesKeyPressed = 0;
         String keyBuffer="";
@@ -26,7 +29,16 @@ namespace OtchlanMapGenerator
         public Form1()
         {
             InitializeComponent();
-
+            ghk_n = new KeyHandler(Keys.N, this);
+            ghk_s = new KeyHandler(Keys.S, this);
+            ghk_e = new KeyHandler(Keys.E, this);
+            ghk_w = new KeyHandler(Keys.W, this);
+            ghk_r = new KeyHandler(Keys.Enter, this);
+            ghk_n.Register();
+            ghk_s.Register();
+            ghk_e.Register();
+            ghk_w.Register();
+            ghk_r.Register();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,6 +46,10 @@ namespace OtchlanMapGenerator
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
             addPanel.Enabled = false;
+            if (SegList.segments.Count() > 0)
+            {
+                SegmentClicked((SegList.segments.First()));
+            }
         }
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments()
@@ -84,9 +100,7 @@ namespace OtchlanMapGenerator
 
             // TODO: CHANGES ONLY ON CHOSEN AND ONE METHOD "UPDATE_FORM_CHOSEN" AFTER EACH CHANGE
             textboxName.Text = s.description;
-            chosen.description = s.description; //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
-            chosen.id = s.id;
-            chosen.BMPlocation = s.BMPlocation;
+            chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
             if (s.exits.e1 == Dir.north) SetButtonStyle(s, button_set_n, "N");
             if (s.exits.e2 == Dir.south) SetButtonStyle(s, button_set_s, "S");
@@ -144,10 +158,12 @@ namespace OtchlanMapGenerator
         }
 
         //=====================Handling adding new Segments========================
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void Form1_KeyPress(KeyPressEventArgs e)
         {
             int Added = -1;
-            //if ((e.KeyChar == '\r' && timesKeyPressed == 0)) return; //protection from deadlock
+    
+            //!Poblem with commands -> must add recognition - is it only "w\r" or maybe "ekw\r" ??
+            //!Maybe second buffer "prevKeys" which monitores whats before - could be added in begining of HandleHotkey() and get m.WParam()
             if (timesKeyPressed >= 2)
             {
                 if (keyBuffer[0] == '\r') //protection from deadlock
@@ -176,42 +192,30 @@ namespace OtchlanMapGenerator
             if(Added==0 || Added ==1) DisplaySegments();
 
         }
-
-        private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void HandleHotkey(Message m)
         {
-            ////if ((e.KeyChar == '\r' && timesKeyPressed == 0)) return; //protection from deadlock
-            //if (timesKeyPressed >= 2)
-            //{
-            //    if (keyBuffer[0] == '\r') //protection from deadlock
-            //    {
-            //        keyBuffer = keyBuffer[1].ToString();
-            //        timesKeyPressed = 1;
-            //    }
-            //    else
-            //    {
-            //        keyBuffer = "";
-            //        timesKeyPressed = 0;
-            //    }
-            //}
-            //keyBuffer += mapKeyCode(e.KeyCode.ToString());
-            //addPanel.Text = keyBuffer;
-            //timesKeyPressed++;
-            //if (SegList.CheckKeyBuffer(newID, keyBuffer, chosen) == 1)
-            //{
-            //    newID++;
-            //    keyBuffer = "";
-            //    timesKeyPressed = 0;
-            //    DisplaySegments();
-            //    SegmentClicked(SegList.findSegment(chosen));
-            //}
+            //message.wParam with the GetHashCode of the KeyHandler
+            if (m.WParam.ToInt32() == ghk_n.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('n'));
+            if (m.WParam.ToInt32() == ghk_s.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('s'));
+            if (m.WParam.ToInt32() == ghk_e.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('e'));
+            if (m.WParam.ToInt32() == ghk_w.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('w'));
+            if (m.WParam.ToInt32() == ghk_r.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('\r'));
+        }
 
-        }
-        private string mapKeyCode(string keyCode)
+        protected override void WndProc(ref Message m)
         {
-            keyCode=keyCode.ToLower();
-            if (keyCode == "return") keyCode = "\r";
-            return keyCode;
+            
+            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
+                HandleHotkey(m);
+            base.WndProc(ref m);
         }
+
+        //private string mapKeyCode(string keyCode)
+        //{
+        //    keyCode=keyCode.ToLower();
+        //    if (keyCode == "return") keyCode = "\r";
+        //    return keyCode;
+        //}
 
         private void Form1_Activated(object sender, EventArgs e)
         {

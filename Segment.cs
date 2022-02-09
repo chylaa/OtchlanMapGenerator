@@ -75,5 +75,11 @@ namespace OtchlanMapGenerator
         {
             this.exits = exitPoints;
         }
+        public void assignValues(Segment s)
+        {
+            this.description = s.description; 
+            this.id = s.id;
+            this.BMPlocation = s.BMPlocation;
+        }
     }
 }
