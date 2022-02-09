@@ -94,10 +94,14 @@ namespace OtchlanMapGenerator
         private int AddSegment(int newID, int xShift, int yShift, Segment chosen, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
         {
             Segment s = new Segment(newID, new Point(chosen.BMPlocation.X + xShift, chosen.BMPlocation.Y + yShift), e.e1, e.e2, e.e3, e.e4, "Default name");
-            if(findSegmentByLocation(s.BMPlocation) == true) return 0;
-            segments.Add(s);
-            UpdateNeighbourExits(chosen, e);
-            return 1;
+            //if(UpdatePrevSegmentExits(findSegmentByLocation(s.BMPlocation), e)==1) return 0; 
+            //if(findSegmentByLocation(s.BMPlocation) != null) return 0;
+            if (UpdateEnterdSegmentExits(findSegmentByLocation(s.BMPlocation), e) == 0) //handle adding new path when entering existing segment 
+            {     
+                segments.Add(s);
+            }
+            return UpdatePrevSegmentExits(findSegment(chosen), e);
+            //return 1;
         }
 
         public void CorrectSegmentsLocationAdd(int xShift, int yShift, Segment chosen)
@@ -114,30 +118,49 @@ namespace OtchlanMapGenerator
         {
             foreach (Segment s in segments) if (s.id == chosen.id) chosen.BMPlocation = s.BMPlocation;
         }
-        void UpdateNeighbourExits(Segment chosen, ExitPoints e)
+        int UpdatePrevSegmentExits(Segment selected, ExitPoints e)
+        {
+            if (selected == null) return 0;
+
+            Dir OldN= selected.exits.e1;
+            Dir OldS= selected.exits.e2;
+            Dir OldE= selected.exits.e3;
+            Dir OldW= selected.exits.e4;
+
+            if (e.e1==Dir.north) selected.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
+            if (e.e2 == Dir.south) selected.exits = new ExitPoints(Dir.north, OldS, OldE, OldW);
+            if (e.e3 == Dir.east) selected.exits = new ExitPoints(OldN, OldS, OldE, Dir.west);
+            if (e.e4 == Dir.west) selected.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
+            selected.setBitmap();
+            return 1;
+        }
+        int UpdateEnterdSegmentExits(Segment s, ExitPoints e)
+        {
+            if (s == null) return 0;
+
+            Dir OldN = s.exits.e1;
+            Dir OldS = s.exits.e2;
+            Dir OldE = s.exits.e3;
+            Dir OldW = s.exits.e4;
+
+            if (e.e1 == Dir.north) s.exits = new ExitPoints(Dir.north, OldS, OldE, OldW); 
+            if (e.e2 == Dir.south) s.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
+            if (e.e3 == Dir.east) s.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
+            if (e.e4 == Dir.west) s.exits = new ExitPoints(OldN, OldS, OldE, Dir.west); 
+            s.setBitmap();
+            return 1;
+        }
+
+        public Segment findSegmentByLocation(Point location)
         {
             foreach (Segment s in segments)
             {
-                if (s.id == chosen.id)  //must remember previous existing exits!!! Now only one is updated!
-                {                
-                    Dir OldN= s.exits.e1;
-                    Dir OldS= s.exits.e2;
-                    Dir OldE= s.exits.e3;
-                    Dir OldW= s.exits.e4;
-
-                    if (e.e1==Dir.north) s.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
-                    if (e.e2 == Dir.south) s.exits = new ExitPoints(Dir.north, OldS, OldE, OldW);
-                    if (e.e3 == Dir.east) s.exits = new ExitPoints(OldN, OldS, OldE, Dir.west);
-                    if (e.e4 == Dir.west) s.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
-                    s.setBitmap();
+                if (s.BMPlocation == location)
+                {
+                    return s;
                 }
             }
-        }
-
-        public bool findSegmentByLocation(Point location)
-        {
-            foreach (Segment s in segments) if (s.BMPlocation == location) return true;
-            return false;
+            return null;
         }
         public Segment findSegment(Segment searched)
         {

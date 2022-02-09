@@ -61,6 +61,8 @@ namespace OtchlanMapGenerator
         //=================Handling clicking on segments to display info and select=================================================
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
+
             //DisplaySegments();
             foreach (Segment segment in SegList.segments)
             {
@@ -126,6 +128,7 @@ namespace OtchlanMapGenerator
         {
             addPanel.Enabled = true;
         }
+
         //==================Handling ScrollBars=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
@@ -162,10 +165,11 @@ namespace OtchlanMapGenerator
                     timesKeyPressed = 0;
                 }
             }
+
             keyBuffer += e.KeyChar;
             addPanel.Text = keyBuffer;
             timesKeyPressed++;
-            if(SegList.CheckKeyBuffer(newID,keyBuffer,chosen)==1)
+            if (SegList.CheckKeyBuffer(newID, keyBuffer, chosen) == 1)
             {
                 newID++;
                 keyBuffer = "";
@@ -173,7 +177,56 @@ namespace OtchlanMapGenerator
                 DisplaySegments();
                 SegmentClicked(SegList.findSegment(chosen));
             }
+
         }
+
+        private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            ////if ((e.KeyChar == '\r' && timesKeyPressed == 0)) return; //protection from deadlock
+            //if (timesKeyPressed >= 2)
+            //{
+            //    if (keyBuffer[0] == '\r') //protection from deadlock
+            //    {
+            //        keyBuffer = keyBuffer[1].ToString();
+            //        timesKeyPressed = 1;
+            //    }
+            //    else
+            //    {
+            //        keyBuffer = "";
+            //        timesKeyPressed = 0;
+            //    }
+            //}
+            //keyBuffer += mapKeyCode(e.KeyCode.ToString());
+            //addPanel.Text = keyBuffer;
+            //timesKeyPressed++;
+            //if (SegList.CheckKeyBuffer(newID, keyBuffer, chosen) == 1)
+            //{
+            //    newID++;
+            //    keyBuffer = "";
+            //    timesKeyPressed = 0;
+            //    DisplaySegments();
+            //    SegmentClicked(SegList.findSegment(chosen));
+            //}
+
+        }
+        private string mapKeyCode(string keyCode)
+        {
+            keyCode=keyCode.ToLower();
+            if (keyCode == "return") keyCode = "\r";
+            return keyCode;
+        }
+
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+
+            //RaiseKeyEvent(sender, new KeyEventArgs(Keys.Enter));
+            //addPanel.Enabled = false;
+        }
+
+
+
+
+
         //=========TODO: Player position (new Segment playerSeg? -> user can still select with mouse other segment)==============
     }
     

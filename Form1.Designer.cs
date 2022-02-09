@@ -155,17 +155,23 @@ namespace OtchlanMapGenerator
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.addPanel);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Activated += new System.EventHandler(this.Form1_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1_PreviewKeyDown);
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
             this.ResumeLayout(false);
 
+
+
         }
+
 
         #endregion
 
