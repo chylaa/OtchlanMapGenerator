@@ -69,7 +69,6 @@ namespace OtchlanMapGenerator
             this.addPanel.TabIndex = 1;
             this.addPanel.TabStop = false;
             this.addPanel.Text = "Add Panel";
-            this.addPanel.Enter += new System.EventHandler(this.addPanel_Enter);
             // 
             // label1
             // 

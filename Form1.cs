@@ -124,10 +124,6 @@ namespace OtchlanMapGenerator
             chosen.description = textboxName.Text;
         }
 
-        private void addPanel_Enter(object sender, EventArgs e)
-        {
-            addPanel.Enabled = true;
-        }
 
         //==================Handling ScrollBars=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -150,7 +146,7 @@ namespace OtchlanMapGenerator
         //=====================Handling adding new Segments========================
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            int Added = -1;
             //if ((e.KeyChar == '\r' && timesKeyPressed == 0)) return; //protection from deadlock
             if (timesKeyPressed >= 2)
             {
@@ -169,14 +165,15 @@ namespace OtchlanMapGenerator
             keyBuffer += e.KeyChar;
             addPanel.Text = keyBuffer;
             timesKeyPressed++;
-            if (SegList.CheckKeyBuffer(newID, keyBuffer, chosen) == 1)
+            Added = SegList.CheckKeyBuffer(newID, keyBuffer, chosen);
+            if (Added == 1)
             {
                 newID++;
                 keyBuffer = "";
                 timesKeyPressed = 0;
-                DisplaySegments();
                 SegmentClicked(SegList.findSegment(chosen));
             }
+            if(Added==0 || Added ==1) DisplaySegments();
 
         }
 

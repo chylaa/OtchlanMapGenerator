@@ -56,7 +56,7 @@ namespace OtchlanMapGenerator
             }
 
         }
-
+        //Returns "1" if segment added, "0" if segment not added, "-1" if keyBuffer was never equal 
         public int CheckKeyBuffer(int newID, String keyBuffer, Segment chosen)
         {
             
@@ -88,7 +88,7 @@ namespace OtchlanMapGenerator
                 return AddSegment(newID, -1 * BitmapSize, 0,chosen, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not));
 
             }
-            return 0;
+            return -1; 
 
         } //TODO -change of neighbour's ID on segment edit / (or segment added if I can take info from otchlan's process)
         private int AddSegment(int newID, int xShift, int yShift, Segment chosen, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
@@ -99,9 +99,10 @@ namespace OtchlanMapGenerator
             if (UpdateEnterdSegmentExits(findSegmentByLocation(s.BMPlocation), e) == 0) //handle adding new path when entering existing segment 
             {     
                 segments.Add(s);
+                return UpdatePrevSegmentExits(findSegment(chosen), e);
             }
-            return UpdatePrevSegmentExits(findSegment(chosen), e);
-            //return 1;
+            UpdatePrevSegmentExits(findSegment(chosen), e);
+            return 0;
         }
 
         public void CorrectSegmentsLocationAdd(int xShift, int yShift, Segment chosen)
