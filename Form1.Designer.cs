@@ -29,6 +29,7 @@ namespace OtchlanMapGenerator
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.confirmButton = new System.Windows.Forms.Button();
             this.addPanel = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,6 +40,7 @@ namespace OtchlanMapGenerator
             this.textboxName = new System.Windows.Forms.TextBox();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.addPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,6 +151,12 @@ namespace OtchlanMapGenerator
             this.hScrollBar1.TabIndex = 3;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 30;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -184,6 +192,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

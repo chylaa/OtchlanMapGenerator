@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,16 +13,22 @@ using System.Windows.Forms;
 
 namespace OtchlanMapGenerator
 {
+
     public partial class Form1 : Form
     {
         //Segment segment = new Segment();
         ListOfSegments SegList = new ListOfSegments();
-        Segment chosen = new Segment(); 
+        Segment chosen = new Segment();
+        //Segment playerSeg = new Segment();
         ToolTip tip = new ToolTip();
-        KeyHandler ghk_r, ghk_n, ghk_s, ghk_e, ghk_w;
+        
+        
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
 
         int timesKeyPressed = 0;
         String keyBuffer="";
+        String allKeys = "";
         int dx = 0;
         int dy = 0;
         int newID=1; // start from 1 becouse there is always starting element 
@@ -29,16 +36,16 @@ namespace OtchlanMapGenerator
         public Form1()
         {
             InitializeComponent();
-            ghk_n = new KeyHandler(Keys.N, this);
-            ghk_s = new KeyHandler(Keys.S, this);
-            ghk_e = new KeyHandler(Keys.E, this);
-            ghk_w = new KeyHandler(Keys.W, this);
-            ghk_r = new KeyHandler(Keys.Enter, this);
-            ghk_n.Register();
-            ghk_s.Register();
-            ghk_e.Register();
-            ghk_w.Register();
-            ghk_r.Register();
+            //ghk_n = new KeyHandler(Keys.N, this);
+            //ghk_s = new KeyHandler(Keys.S, this);
+            //ghk_e = new KeyHandler(Keys.E, this);
+            //ghk_w = new KeyHandler(Keys.W, this);
+            //ghk_r = new KeyHandler(Keys.Enter, this);
+            //ghk_n.Register();
+            //ghk_s.Register();
+            //ghk_e.Register();
+            //ghk_w.Register();
+            //ghk_r.Register();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -49,6 +56,7 @@ namespace OtchlanMapGenerator
             if (SegList.segments.Count() > 0)
             {
                 SegmentClicked((SegList.segments.First()));
+                //playerSeg = SegList.segments.First();
             }
         }
         //=================Handling painting bitmaps on form======================================
@@ -161,24 +169,25 @@ namespace OtchlanMapGenerator
         private void Form1_KeyPress(KeyPressEventArgs e)
         {
             int Added = -1;
-    
+            if (keyBuffer.Length > 2) keyBuffer = keyBuffer.Substring(keyBuffer.Last() - 2);
             //!Poblem with commands -> must add recognition - is it only "w\r" or maybe "ekw\r" ??
             //!Maybe second buffer "prevKeys" which monitores whats before - could be added in begining of HandleHotkey() and get m.WParam()
-            if (timesKeyPressed >= 2)
+            if(keyBuffer.Length==2 && keyBuffer[0].Equals(keyBuffer[1])) //protection from gettin keys too fast
             {
-                if (keyBuffer[0] == '\r') //protection from deadlock
+                if (keyBuffer[0] == '\r' || keyBuffer[0] == 'n' || keyBuffer[0] == 's' || keyBuffer[0] == 'e' || keyBuffer[0] == 'w')
                 {
                     keyBuffer = keyBuffer[1].ToString();
                     timesKeyPressed = 1;
-                }
-                else
-                {
-                    keyBuffer = "";
-                    timesKeyPressed = 0;
-                }
+                }        
+            }
+            if (timesKeyPressed >= 2)
+            {
+                keyBuffer = "";
+                timesKeyPressed = 0;
             }
 
             keyBuffer += e.KeyChar;
+            allKeys += keyBuffer;
             addPanel.Text = keyBuffer;
             timesKeyPressed++;
             Added = SegList.CheckKeyBuffer(newID, keyBuffer, chosen);
@@ -192,23 +201,23 @@ namespace OtchlanMapGenerator
             if(Added==0 || Added ==1) DisplaySegments();
 
         }
-        private void HandleHotkey(Message m)
-        {
-            //message.wParam with the GetHashCode of the KeyHandler
-            if (m.WParam.ToInt32() == ghk_n.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('n'));
-            if (m.WParam.ToInt32() == ghk_s.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('s'));
-            if (m.WParam.ToInt32() == ghk_e.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('e'));
-            if (m.WParam.ToInt32() == ghk_w.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('w'));
-            if (m.WParam.ToInt32() == ghk_r.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('\r'));
-        }
+        //private void HandleHotkey(Message m)  //problem - this method "takes" all keyboard action for itself
+        //{
+        //    //message.wParam with the GetHashCode of the KeyHandler
+        //    if (m.WParam.ToInt32() == ghk_n.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('n'));
+        //    if (m.WParam.ToInt32() == ghk_s.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('s'));
+        //    if (m.WParam.ToInt32() == ghk_e.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('e'));
+        //    if (m.WParam.ToInt32() == ghk_w.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('w'));
+        //    if (m.WParam.ToInt32() == ghk_r.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('\r'));
+        //}
 
-        protected override void WndProc(ref Message m)
-        {
+        //protected override void WndProc(ref Message m)
+        //{
             
-            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
-                HandleHotkey(m);
-            base.WndProc(ref m);
-        }
+        //    if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
+        //        HandleHotkey(m);
+        //    base.WndProc(ref m);
+        //}
 
         //private string mapKeyCode(string keyCode)
         //{
@@ -216,6 +225,84 @@ namespace OtchlanMapGenerator
         //    if (keyCode == "return") keyCode = "\r";
         //    return keyCode;
         //}
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //zeruj wszystkie key state
+            //ooo albo lepiej tworzyc je wszystkie tu
+            short keyState_r = GetAsyncKeyState(Constants.VK_ENTER);
+            short keyState_n = GetAsyncKeyState(Constants.VK_NORTH);
+            short keyState_s = GetAsyncKeyState(Constants.VK_SOUTH);
+            short keyState_e = GetAsyncKeyState(Constants.VK_EAST);
+            short keyState_w = GetAsyncKeyState(Constants.VK_WEST);
+
+            //Check if the MSB is set. If so, then the key is pressed.
+            bool R_IsPressed = ((keyState_r >> 15) & 0x0001) == 0x0001;
+            bool N_IsPressed = ((keyState_n >> 15) & 0x0001) == 0x0001;
+            bool S_IsPressed = ((keyState_s >> 15) & 0x0001) == 0x0001;
+            bool E_IsPressed = ((keyState_e >> 15) & 0x0001) == 0x0001;
+            bool W_IsPressed = ((keyState_w >> 15) & 0x0001) == 0x0001;
+
+            //Check if the LSB is set. If so, then the key was pressed since
+            //the last call to GetAsyncKeyState
+            bool unprocessedPress_r = ((keyState_r >> 0) & 0x0001) == 0x0001;
+            bool unprocessedPress_n = ((keyState_r >> 0) & 0x0001) == 0x0001;
+            bool unprocessedPress_s = ((keyState_r >> 0) & 0x0001) == 0x0001;
+            bool unprocessedPress_e = ((keyState_r >> 0) & 0x0001) == 0x0001;
+            bool unprocessedPress_w = ((keyState_r >> 0) & 0x0001) == 0x0001;
+
+           
+            //HandleKeys(unprocessedPress_r || R_IsPressed,
+                       //unprocessedPress_n || N_IsPressed,
+                       //unprocessedPress_s || S_IsPressed,
+                       //unprocessedPress_e || E_IsPressed,
+                       //unprocessedPress_w || W_IsPressed);
+            HandleKeys(R_IsPressed, N_IsPressed, S_IsPressed, E_IsPressed, W_IsPressed);
+            //HandleKeys(unprocessedPress_r, unprocessedPress_n, unprocessedPress_s, unprocessedPress_e, unprocessedPress_w);
+            //if (R_IsPressed) //|| unprosesedPress??
+            //{
+            //    //TODO Execute client code...
+            //}
+
+            //if (unprocessedPress_r)
+            //{
+            //    //TODO Execute client code...
+            //}
+        }
+
+
+        private int HandleKeys(bool pressedR, bool pressedN, bool pressedS, bool pressedE, bool pressedW)
+        {
+            if (!(pressedR || pressedN || pressedS || pressedE || pressedW)) return 0;
+
+            if(pressedR)
+            {
+                Form1_KeyPress(new KeyPressEventArgs('\r'));
+                return 1;
+            }
+            if (pressedN)
+            {
+                Form1_KeyPress(new KeyPressEventArgs('n'));
+                return 1;
+            }
+            if (pressedS)
+            {
+                Form1_KeyPress(new KeyPressEventArgs('s'));
+                return 1;
+            }
+            if (pressedE)
+            {
+                Form1_KeyPress(new KeyPressEventArgs('e'));
+                return 1;
+            }
+            if (pressedW)
+            {
+                Form1_KeyPress(new KeyPressEventArgs('w'));
+                return 1;
+            }
+            return 0;
+
+        }
 
         private void Form1_Activated(object sender, EventArgs e)
         {

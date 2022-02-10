@@ -11,8 +11,15 @@ namespace OtchlanMapGenerator
 
     public static class Constants
     {
-        //windows message id for hotkey
-        public const int WM_HOTKEY_MSG_ID = 0x0312;
+        ////windows message id for hotkey
+        //public const int WM_HOTKEY_MSG_ID = 0x0312;
+
+        //HEX
+        public const int VK_ENTER = 0xD; //This is the enter key.
+        public const int VK_NORTH = 0x4E; //This is the n key.
+        public const int VK_SOUTH = 0x53; //This is the s key.
+        public const int VK_EAST = 0x45; //This is the e key.
+        public const int VK_WEST = 0x57; //This is the w key.
     }
 
     class KeyHandler
