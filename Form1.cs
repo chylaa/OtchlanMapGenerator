@@ -133,7 +133,7 @@ namespace OtchlanMapGenerator
             if (s.exits.e3 == Dir.east) SetButtonStyle(s, button_set_e, "E");
             if (s.exits.e4 == Dir.west) SetButtonStyle(s, button_set_w, "W");
 
-
+            infoLabel.Text = "ID: " + s.id + " Neighbours: " + s.exits.neighbourID1 + "N " + s.exits.neighbourID2 + "S " + s.exits.neighbourID3 + "E " + s.exits.neighbourID4 + "W";
 
         }
         private void SetButtonStyle(Segment s, Button b, string x)

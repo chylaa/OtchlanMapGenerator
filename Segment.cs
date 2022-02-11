@@ -17,12 +17,40 @@ namespace OtchlanMapGenerator
             this.e2 = b;
             this.e3 = c;
             this.e4 = d;
+            this.neighbourID1 = -1;
+            this.neighbourID2 = -1;
+            this.neighbourID3 = -1;
+            this.neighbourID4 = -1;
         }
 
         public virtual bool Equals(ExitPoints other)
         {
             if (this.e1 == other.e1 && this.e2 == other.e2 && this.e3 == other.e3 && this.e4 == other.e4) return true;
             return false;
+        }
+        public Dir getExistingExit() //returns first !not direction from exits (nessesary for settin neighbourID) 
+        {
+            if (this.e1 == Dir.north) return this.e1;
+            if (this.e2 == Dir.south) return this.e2;
+            if (this.e3 == Dir.east) return this.e3;
+            if (this.e4 == Dir.west) return this.e4;
+            return Dir.not;
+        }
+        public Dir getOppositeDir()
+        {
+            if (this.e1 == Dir.north) return Dir.south;
+            if (this.e2 == Dir.south) return Dir.north;
+            if (this.e3 == Dir.east) return Dir.west;
+            if (this.e4 == Dir.west) return Dir.east;
+            return Dir.not;
+        }
+        public void setNeighbours(int[] tabOf4)
+        {
+            //if (tabOf4.Length != 4) return;
+            this.neighbourID1 = tabOf4[0];
+            this.neighbourID2 = tabOf4[1];
+            this.neighbourID3 = tabOf4[2];
+            this.neighbourID4 = tabOf4[3];
         }
 
 
@@ -88,6 +116,18 @@ namespace OtchlanMapGenerator
         {
             this.exits = exitPoints;
         }
+
+        public void setNeighbourID(int segmentID,Dir neighbourLocation) //int segmentID = ID of neighbour's of this segment | Dir neighbourLocation - witch way from this segment is his neighbour
+        {
+            //if (neighbourLocation == Dir.not) return; //Error situation
+            if (neighbourLocation == Dir.north) this.exits.neighbourID1 = segmentID;
+            if (neighbourLocation == Dir.south) this.exits.neighbourID2 = segmentID;
+            if (neighbourLocation == Dir.east) this.exits.neighbourID3 = segmentID;
+            if (neighbourLocation == Dir.west) this.exits.neighbourID4 = segmentID;
+
+        }
+
+
         public void assignValues(Segment s)
         {
             this.description = s.description; 

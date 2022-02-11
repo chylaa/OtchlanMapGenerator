@@ -32,6 +32,7 @@ namespace OtchlanMapGenerator
             this.components = new System.ComponentModel.Container();
             this.confirmButton = new System.Windows.Forms.Button();
             this.addPanel = new System.Windows.Forms.GroupBox();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button_set_w = new System.Windows.Forms.Button();
             this.button_set_s = new System.Windows.Forms.Button();
@@ -41,7 +42,7 @@ namespace OtchlanMapGenerator
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.deleteButton = new System.Windows.Forms.Button();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.addPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +60,7 @@ namespace OtchlanMapGenerator
             // 
             this.addPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.addPanel.Controls.Add(this.infoLabel);
             this.addPanel.Controls.Add(this.deleteButton);
             this.addPanel.Controls.Add(this.label1);
             this.addPanel.Controls.Add(this.button_set_w);
@@ -67,12 +69,23 @@ namespace OtchlanMapGenerator
             this.addPanel.Controls.Add(this.button_set_n);
             this.addPanel.Controls.Add(this.textboxName);
             this.addPanel.Controls.Add(this.confirmButton);
-            this.addPanel.Location = new System.Drawing.Point(359, 1);
+            this.addPanel.Location = new System.Drawing.Point(380, 1);
             this.addPanel.Name = "addPanel";
-            this.addPanel.Size = new System.Drawing.Size(184, 400);
+            this.addPanel.Size = new System.Drawing.Size(201, 400);
             this.addPanel.TabIndex = 1;
             this.addPanel.TabStop = false;
             this.addPanel.Text = "Add Panel";
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(38, 316);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(105, 54);
+            this.deleteButton.TabIndex = 7;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // label1
             // 
@@ -137,7 +150,7 @@ namespace OtchlanMapGenerator
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.vScrollBar1.Location = new System.Drawing.Point(543, 1);
+            this.vScrollBar1.Location = new System.Drawing.Point(564, 1);
             this.vScrollBar1.Name = "vScrollBar1";
             this.vScrollBar1.Size = new System.Drawing.Size(17, 400);
             this.vScrollBar1.TabIndex = 2;
@@ -149,7 +162,7 @@ namespace OtchlanMapGenerator
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hScrollBar1.Location = new System.Drawing.Point(0, 405);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(544, 17);
+            this.hScrollBar1.Size = new System.Drawing.Size(565, 17);
             this.hScrollBar1.TabIndex = 3;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
             // 
@@ -159,33 +172,32 @@ namespace OtchlanMapGenerator
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // deleteButton
+            // infoLabel
             // 
-            this.deleteButton.Location = new System.Drawing.Point(38, 316);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(105, 54);
-            this.deleteButton.TabIndex = 7;
-            this.deleteButton.TabStop = false;
-            this.deleteButton.Text = "Delete";
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Location = new System.Drawing.Point(6, 224);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(70, 13);
+            this.infoLabel.TabIndex = 8;
+            this.infoLabel.Text = "Segment Info";
+            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(557, 422);
+            this.ClientSize = new System.Drawing.Size(578, 422);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.addPanel);
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseWheel);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseWheel);
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -207,6 +219,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Label infoLabel;
     }
 }
 
