@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PopupInfo_OldMouseMoveMethod.txt" />
+    <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

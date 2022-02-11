@@ -66,7 +66,6 @@ namespace OtchlanMapGenerator
         {
             SegList.playerSeg.setPlayerBitmap(from);
             this.Invalidate();
-            //dodac obsluge scrollowania - zeby odejmowalo odpowiednia ilosc od BMPLocation przy scrollu aby bylo widac tylko te co ma byc widac
         }
 
 
@@ -96,7 +95,6 @@ namespace OtchlanMapGenerator
             confirmButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments('x');
             
-            //TODO Erase exits of neighbours
 
         }
 
@@ -336,13 +334,7 @@ namespace OtchlanMapGenerator
             return 0;
 
         }
-
-
-
-
-
-
-        //=========TODO: Player position (new Segment SegList.playerSeg? -> user can still select with mouse other segment)==============
+   
     }
     
 }
