@@ -64,8 +64,8 @@ namespace OtchlanMapGenerator
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments(char from) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
-            this.Invalidate();
             SegList.playerSeg.setPlayerBitmap(from);
+            this.Invalidate();
             //dodac obsluge scrollowania - zeby odejmowalo odpowiednia ilosc od BMPLocation przy scrollu aby bylo widac tylko te co ma byc widac
         }
 
@@ -125,7 +125,6 @@ namespace OtchlanMapGenerator
             addPanel.Enabled = true;
             SetDefaultButtonsStyle();
 
-            // TODO: CHANGES ONLY ON CHOSEN AND ONE METHOD "UPDATE_FORM_CHOSEN" AFTER EACH CHANGE
             textboxName.Text = s.description;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
@@ -215,21 +214,24 @@ namespace OtchlanMapGenerator
             }
 
             keyBuffer += e.KeyChar;
-            allKeys += keyBuffer;
-            addPanel.Text = keyBuffer;
+            lastDir = keyBuffer[0];
             timesKeyPressed++;
-            Added = SegList.CheckKeyBuffer(newID, keyBuffer); 
-            if (Added == 1)                               
+
+            allKeys += keyBuffer;   //just control
+            addPanel.Text = keyBuffer; //-||-
+
+            Added = SegList.CheckKeyBuffer(newID, keyBuffer);
+            if (Added == -1) return;
+            if (Added == 1)  //new segment added                             
             {
                 newID++;
-                lastDir=keyBuffer[0];
                 keyBuffer = "";
                 timesKeyPressed = 0;
                 //SegList.playerSeg = SegList.segments.Last();
-                SegmentClicked(SegList.playerSeg);
                 //SegList.ResetBitmapSizes();
             }
-            if(Added==0 || Added ==1) DisplaySegments(lastDir);
+            SegmentClicked(SegList.playerSeg);
+            DisplaySegments(lastDir);
 
         }
         //private void HandleHotkey(Message m)  //problem - this method "takes" all keyboard action for itself
