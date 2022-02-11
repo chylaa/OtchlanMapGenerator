@@ -24,7 +24,8 @@ namespace OtchlanMapGenerator
             if (this.e1 == other.e1 && this.e2 == other.e2 && this.e3 == other.e3 && this.e4 == other.e4) return true;
             return false;
         }
-            
+
+
     }
 
     enum Dir {not,north,south,west,east};
@@ -33,6 +34,7 @@ namespace OtchlanMapGenerator
         public int id;
         //int neighbour_id //todo - show route
         public Bitmap bitmap;
+        //public Size BitmapSize= new Size(50,50);
         public Point BMPlocation;
         public String description;
         //public List<Dir> exits;
@@ -70,6 +72,17 @@ namespace OtchlanMapGenerator
             if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukWest.bmp");
             
         }
+        public void setPlayerBitmap(char from)
+        {
+            if (from == 'x') return;
+            if (from == 'n') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerNorth.bmp");
+            if (from == 's') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerSouth.bmp");
+            if (from == 'e') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerEast.bmp");
+            if (from == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerWest.bmp");
+
+
+            //this.bitmap = new Bitmap(this.bitmap, BitmapSize);
+        }
 
         public void setExits(ExitPoints exitPoints)
         {
@@ -80,6 +93,14 @@ namespace OtchlanMapGenerator
             this.description = s.description; 
             this.id = s.id;
             this.BMPlocation = s.BMPlocation;
+
+            if (this.exits!=null)
+            {
+                this.exits.e1 = s.exits.e1;
+                this.exits.e2 = s.exits.e2;
+                this.exits.e3 = s.exits.e3;
+                this.exits.e4 = s.exits.e4;
+            }
         }
     }
 }

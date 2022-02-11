@@ -20,6 +20,7 @@ namespace OtchlanMapGenerator
         ListOfSegments SegList = new ListOfSegments();
         Segment chosen = new Segment();
         //Segment playerSeg = new Segment();
+        //Segment previousSeg;
         ToolTip tip = new ToolTip();
         
         
@@ -56,13 +57,15 @@ namespace OtchlanMapGenerator
             if (SegList.segments.Count() > 0)
             {
                 SegmentClicked((SegList.segments.First()));
-                //playerSeg = SegList.segments.First();
+                //SegList.playerSeg.assignValues(SegList.segments.First());
+                SegList.playerSeg = SegList.segments.First();
             }
         }
         //=================Handling painting bitmaps on form======================================
-        private void DisplaySegments()
+        private void DisplaySegments(char from) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
             this.Invalidate();
+            SegList.playerSeg.setPlayerBitmap(from);
             //dodac obsluge scrollowania - zeby odejmowalo odpowiednia ilosc od BMPLocation przy scrollu aby bylo widac tylko te co ma byc widac
         }
 
@@ -76,14 +79,30 @@ namespace OtchlanMapGenerator
         //==========================================================================================
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            SegList.segments[chosen.id].description = chosen.description;
+            chosen.description = textboxName.Text;
+            chosen.assignValues(SegList.findSegment(chosen));
             //updateDescription()
             //updateBitmap()
             //update...
         }
 
-        //=================Handling clicking on segments to display info and select=================================================
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (SegList.segments.Count <= 1 || chosen.id==SegList.playerSeg.id) return;
+            
+            SegList.segments.Remove(SegList.findSegment(chosen));
+            chosen.assignValues(SegList.playerSeg);
+            confirmButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
+            DisplaySegments('x');
+            
+            //TODO Erase exits of neighbours
+
+        }
+
+
+            //=================Handling clicking on segments to display info and select=================================================
+            private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
 
@@ -143,18 +162,18 @@ namespace OtchlanMapGenerator
 
         private void textboxName_TextChanged(object sender, EventArgs e)
         {
-            chosen.description = textboxName.Text;
+
         }
 
 
-        //==================Handling ScrollBars=================================
+        //==================Handling ScrollBars and MouseWheel=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             dy = e.NewValue;
             
             addPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,dx,e.OldValue);
-            DisplaySegments();
+            DisplaySegments('x');
         }
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -162,13 +181,22 @@ namespace OtchlanMapGenerator
             dx = e.NewValue;
             addPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,e.OldValue,dy);
-            DisplaySegments();
+            DisplaySegments('x');
+        }
+
+        private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            addPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
+            SegList.ChangeSegmentSizes(e.Delta);
+            DisplaySegments('x');
+            
         }
 
         //=====================Handling adding new Segments========================
         private void Form1_KeyPress(KeyPressEventArgs e)
         {
             int Added = -1;
+            char lastDir = 'x';
             if (keyBuffer.Length > 2) keyBuffer = keyBuffer.Substring(keyBuffer.Last() - 2);
             //!Poblem with commands -> must add recognition - is it only "w\r" or maybe "ekw\r" ??
             //!Maybe second buffer "prevKeys" which monitores whats before - could be added in begining of HandleHotkey() and get m.WParam()
@@ -190,15 +218,18 @@ namespace OtchlanMapGenerator
             allKeys += keyBuffer;
             addPanel.Text = keyBuffer;
             timesKeyPressed++;
-            Added = SegList.CheckKeyBuffer(newID, keyBuffer, chosen);
-            if (Added == 1)
+            Added = SegList.CheckKeyBuffer(newID, keyBuffer); 
+            if (Added == 1)                               
             {
                 newID++;
+                lastDir=keyBuffer[0];
                 keyBuffer = "";
                 timesKeyPressed = 0;
-                SegmentClicked(SegList.findSegment(chosen));
+                //SegList.playerSeg = SegList.segments.Last();
+                SegmentClicked(SegList.playerSeg);
+                //SegList.ResetBitmapSizes();
             }
-            if(Added==0 || Added ==1) DisplaySegments();
+            if(Added==0 || Added ==1) DisplaySegments(lastDir);
 
         }
         //private void HandleHotkey(Message m)  //problem - this method "takes" all keyboard action for itself
@@ -251,12 +282,12 @@ namespace OtchlanMapGenerator
             bool unprocessedPress_e = ((keyState_r >> 0) & 0x0001) == 0x0001;
             bool unprocessedPress_w = ((keyState_r >> 0) & 0x0001) == 0x0001;
 
-           
+
             //HandleKeys(unprocessedPress_r || R_IsPressed,
-                       //unprocessedPress_n || N_IsPressed,
-                       //unprocessedPress_s || S_IsPressed,
-                       //unprocessedPress_e || E_IsPressed,
-                       //unprocessedPress_w || W_IsPressed);
+            //           unprocessedPress_n || N_IsPressed,
+            //           unprocessedPress_s || S_IsPressed,
+            //           unprocessedPress_e || E_IsPressed,
+            //           unprocessedPress_w || W_IsPressed);
             HandleKeys(R_IsPressed, N_IsPressed, S_IsPressed, E_IsPressed, W_IsPressed);
             //HandleKeys(unprocessedPress_r, unprocessedPress_n, unprocessedPress_s, unprocessedPress_e, unprocessedPress_w);
             //if (R_IsPressed) //|| unprosesedPress??
@@ -304,18 +335,12 @@ namespace OtchlanMapGenerator
 
         }
 
-        private void Form1_Activated(object sender, EventArgs e)
-        {
-
-            //RaiseKeyEvent(sender, new KeyEventArgs(Keys.Enter));
-            //addPanel.Enabled = false;
-        }
 
 
 
 
 
-        //=========TODO: Player position (new Segment playerSeg? -> user can still select with mouse other segment)==============
+        //=========TODO: Player position (new Segment SegList.playerSeg? -> user can still select with mouse other segment)==============
     }
     
 }

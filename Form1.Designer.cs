@@ -41,16 +41,17 @@ namespace OtchlanMapGenerator
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.deleteButton = new System.Windows.Forms.Button();
             this.addPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // confirmButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(32, 254);
+            this.confirmButton.Location = new System.Drawing.Point(39, 250);
             this.confirmButton.Name = "confirmButton";
             this.confirmButton.Size = new System.Drawing.Size(105, 52);
             this.confirmButton.TabIndex = 0;
-            this.confirmButton.Text = "confirm";
+            this.confirmButton.Text = "Correct";
             this.confirmButton.UseVisualStyleBackColor = true;
             this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
@@ -58,6 +59,7 @@ namespace OtchlanMapGenerator
             // 
             this.addPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.addPanel.Controls.Add(this.deleteButton);
             this.addPanel.Controls.Add(this.label1);
             this.addPanel.Controls.Add(this.button_set_w);
             this.addPanel.Controls.Add(this.button_set_s);
@@ -67,7 +69,7 @@ namespace OtchlanMapGenerator
             this.addPanel.Controls.Add(this.confirmButton);
             this.addPanel.Location = new System.Drawing.Point(359, 1);
             this.addPanel.Name = "addPanel";
-            this.addPanel.Size = new System.Drawing.Size(184, 366);
+            this.addPanel.Size = new System.Drawing.Size(184, 400);
             this.addPanel.TabIndex = 1;
             this.addPanel.TabStop = false;
             this.addPanel.Text = "Add Panel";
@@ -137,7 +139,7 @@ namespace OtchlanMapGenerator
             | System.Windows.Forms.AnchorStyles.Right)));
             this.vScrollBar1.Location = new System.Drawing.Point(543, 1);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 366);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 400);
             this.vScrollBar1.TabIndex = 2;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
@@ -145,7 +147,7 @@ namespace OtchlanMapGenerator
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 371);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 405);
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(544, 17);
             this.hScrollBar1.TabIndex = 3;
@@ -157,19 +159,30 @@ namespace OtchlanMapGenerator
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(38, 316);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(105, 54);
+            this.deleteButton.TabIndex = 7;
+            this.deleteButton.TabStop = false;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(557, 388);
+            this.ClientSize = new System.Drawing.Size(557, 422);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.addPanel);
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Activated += new System.EventHandler(this.Form1_Activated);
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseWheel);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
@@ -193,6 +206,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
 
