@@ -16,10 +16,10 @@ namespace OtchlanMapGenerator
         public int baseBitmapSize = 50;
         const int padding = 10;
         const int ScrollSpeed = 5;
-        public ListOfSegments()
+        public ListOfSegments(Text texts)
         {
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.north, Dir.south, Dir.east, Dir.west, "Start Location"));
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.north, Dir.south, Dir.east, Dir.west, texts.msg_StartLocation));
             //segments.Add(new Segment(1, new Point(padding, padding+BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_2"));
             //segments.Add(new Segment(2, new Point(padding, padding + 2*BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_3"));
             //segments.Add(new Segment(3, new Point(padding+BitmapSize, padding + 2*BitmapSize), Dir.not, Dir.not, Dir.east, Dir.west, "Location_4"));
@@ -190,6 +190,13 @@ namespace OtchlanMapGenerator
             }
             return null;
         }
+        public Segment findSegmentByID(int id)
+        {
+            if (id < 0) return null;
+            foreach (Segment s in segments) if (s.id == id) return s;
+
+            return null;
+        }
         public Segment findSegment(Segment searched)
         {
             foreach (Segment s in segments) if (s.id == searched.id) return s;
@@ -224,13 +231,76 @@ namespace OtchlanMapGenerator
             }
 
         }
-            public void ResetBitmapSizes()
+        public void ResetBitmapSizes()
+        {
+            foreach (Segment s in this.segments)
             {
-                foreach (Segment s in this.segments)
-                {
-                    s.bitmap = new Bitmap(s.bitmap, new Size(this.baseBitmapSize,this.baseBitmapSize));
-                }
+                s.bitmap = new Bitmap(s.bitmap, new Size(this.baseBitmapSize,this.baseBitmapSize));
             }
+        }
+
+        //Method assigns each segment distance from player's segment (recursive)
+        void UpdateDistanceMap(Segment thisSeg,int ID_neighbour, int prevSegID, int distance, int destSegID) 
+        {
+            if ( thisSeg==null  || ID_neighbour == -1 || ID_neighbour == prevSegID || thisSeg.distance >= 0) return;
+            thisSeg.distance = distance;
+            distance++;
+
+            //if (thisSeg.id == destSegID || distance>=segments.Count) return;
+
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID1), thisSeg.exits.neighbourID1, thisSeg.id, distance, destSegID);
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID2), thisSeg.exits.neighbourID2, thisSeg.id, distance, destSegID);
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID3), thisSeg.exits.neighbourID3, thisSeg.id, distance, destSegID);
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID4), thisSeg.exits.neighbourID4, thisSeg.id, distance,destSegID);
+        }
+
+
+        public string FindWay(Segment segFrom, Segment segDest)
+        {
+            string route="";
+            int distance= segDest.distance; 
+            Segment temp = segDest;
+            UpdateDistanceMap(segFrom, 0, -1, 0, segDest.id);
+
+
+            while(distance>0)
+            {               
+                temp = findSegmentByID(segDest.exits.neighbourID1); //n
+                if (temp!=null && temp.distance == (distance - 1))
+                {
+                    distance--;
+                    route += "n,";
+                    segDest = temp;
+                    continue;
+                }
+                temp = findSegmentByID(segDest.exits.neighbourID2); //s
+                if (temp != null && temp.distance == (distance - 1))
+                {
+                    distance--;
+                    route += "s,";
+                    segDest = temp;
+                    continue;
+                }
+                temp = findSegmentByID(segDest.exits.neighbourID3); //e
+                if (temp != null && temp.distance == (distance - 1))
+                {
+                    distance--;
+                    route += "e,";
+                    segDest = temp;
+                    continue;
+                }
+                temp = findSegmentByID(segDest.exits.neighbourID4); //w
+                if (temp != null && temp.distance == (distance - 1))
+                {
+                    distance--;
+                    route += "w,";
+                    segDest = temp;
+                    continue;
+                }
+
+            }
+            return route;
+        }
 
 
 

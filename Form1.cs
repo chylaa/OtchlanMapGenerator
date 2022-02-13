@@ -17,12 +17,12 @@ namespace OtchlanMapGenerator
     public partial class Form1 : Form
     {
         //Segment segment = new Segment();
-        ListOfSegments SegList = new ListOfSegments();
+        ListOfSegments SegList;
         Segment chosen = new Segment();
         //Segment playerSeg = new Segment();
         //Segment previousSeg;
         ToolTip tip = new ToolTip();
-        
+        Text texts;
         
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
@@ -37,29 +37,44 @@ namespace OtchlanMapGenerator
         public Form1()
         {
             InitializeComponent();
-            //ghk_n = new KeyHandler(Keys.N, this);
-            //ghk_s = new KeyHandler(Keys.S, this);
-            //ghk_e = new KeyHandler(Keys.E, this);
-            //ghk_w = new KeyHandler(Keys.W, this);
-            //ghk_r = new KeyHandler(Keys.Enter, this);
-            //ghk_n.Register();
-            //ghk_s.Register();
-            //ghk_e.Register();
-            //ghk_w.Register();
-            //ghk_r.Register();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
-            addPanel.Enabled = false;
+            setTexts(Language.EN);
+            SegList = new ListOfSegments(texts);
+            segmentPanel.Enabled = false;
+
             if (SegList.segments.Count() > 0)
             {
                 SegmentClicked((SegList.segments.First()));
-                //SegList.playerSeg.assignValues(SegList.segments.First());
                 SegList.playerSeg = SegList.segments.First();
             }
+        }
+        //================================Language things============================================
+        private void setTexts(Language ln)
+        {
+            texts = new Text(ln);
+
+            this.Text = texts.text_FormName;
+            correctButton.Text = texts.text_correctButton;
+            segmentPanel.Text = texts.text_segmentPanel;
+            textboxName.Text = texts.text_textboxName;
+            exitsLabel.Text = texts.text_exitsLabel;
+            deleteButton.Text = texts.text_deleteButton;
+            infoLabel.Text = texts.text_infoLabel;
+            languageGroupBox.Text = texts.text_languageGroupBox;
+        }
+        private void ENradioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            setTexts(Language.EN);
+        }
+
+        private void PLradioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            setTexts(Language.PL);
         }
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments(char from) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
@@ -75,8 +90,8 @@ namespace OtchlanMapGenerator
             foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
             
         }
-        //==========================================================================================
-        private void confirmButton_Click(object sender, EventArgs e)
+        //===================================Buttons Handling=======================================================
+        private void correctButton_Click(object sender, EventArgs e)
         {
             chosen.description = textboxName.Text;
             chosen.assignValues(SegList.findSegment(chosen));
@@ -92,7 +107,7 @@ namespace OtchlanMapGenerator
             
             SegList.segments.Remove(SegList.findSegment(chosen));
             chosen.assignValues(SegList.playerSeg);
-            confirmButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
+            correctButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments('x');
             
 
@@ -118,9 +133,24 @@ namespace OtchlanMapGenerator
             }
         }
 
+        private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            foreach (Segment segment in SegList.segments)
+            {
+                if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
+                {
+                    if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
+                    {
+                        SegmentDoubleClicked(segment);
+                    }
+                }
+            }
+        }
+
         private void SegmentClicked(Segment s)
         {
-            addPanel.Enabled = true;
+            segmentPanel.Enabled = true;
             SetDefaultButtonsStyle();
 
             textboxName.Text = s.description;
@@ -133,6 +163,13 @@ namespace OtchlanMapGenerator
 
             infoLabel.Text = "ID: " + s.id + " Neighbours: " + s.exits.neighbourID1 + "N " + s.exits.neighbourID2 + "S " + s.exits.neighbourID3 + "E " + s.exits.neighbourID4 + "W";
 
+        }
+        private void SegmentDoubleClicked(Segment s)
+        {
+            SegmentClicked(s);
+            infoLabel.Text = "";
+            //infoLabel.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen));
+            foreach (Segment seg in SegList.segments) infoLabel.Text += seg.distance + " ";
         }
         private void SetButtonStyle(Segment s, Button b, string x)
         {
@@ -168,7 +205,7 @@ namespace OtchlanMapGenerator
         {
             dy = e.NewValue;
             
-            addPanel.Text = "dx: " + dx + " dy: " + dy;
+            segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,dx,e.OldValue);
             DisplaySegments('x');
         }
@@ -176,14 +213,14 @@ namespace OtchlanMapGenerator
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             dx = e.NewValue;
-            addPanel.Text = "dx: " + dx + " dy: " + dy;
+            segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,e.OldValue,dy);
             DisplaySegments('x');
         }
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            addPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
+            segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
             SegList.ChangeSegmentSizes(e.Delta);
             DisplaySegments('x');
             
@@ -216,7 +253,7 @@ namespace OtchlanMapGenerator
             timesKeyPressed++;
 
             allKeys += keyBuffer;   //just control
-            addPanel.Text = keyBuffer; //-||-
+            segmentPanel.Text = keyBuffer; //-||-
 
             Added = SegList.CheckKeyBuffer(newID, keyBuffer);
             if (Added == -1) return;
@@ -334,7 +371,8 @@ namespace OtchlanMapGenerator
             return 0;
 
         }
-   
+
+
     }
     
 }

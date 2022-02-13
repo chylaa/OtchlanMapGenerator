@@ -30,10 +30,14 @@ namespace OtchlanMapGenerator
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.confirmButton = new System.Windows.Forms.Button();
-            this.addPanel = new System.Windows.Forms.GroupBox();
+            this.correctButton = new System.Windows.Forms.Button();
+            this.segmentPanel = new System.Windows.Forms.GroupBox();
+            this.languageGroupBox = new System.Windows.Forms.GroupBox();
+            this.PLradioButton1 = new System.Windows.Forms.RadioButton();
+            this.ENradioButton = new System.Windows.Forms.RadioButton();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.exitsLabel = new System.Windows.Forms.Label();
             this.button_set_w = new System.Windows.Forms.Button();
             this.button_set_s = new System.Windows.Forms.Button();
             this.button_set_e = new System.Windows.Forms.Button();
@@ -42,39 +46,87 @@ namespace OtchlanMapGenerator
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.infoLabel = new System.Windows.Forms.Label();
-            this.addPanel.SuspendLayout();
+            this.segmentPanel.SuspendLayout();
+            this.languageGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // confirmButton
+            // correctButton
             // 
-            this.confirmButton.Location = new System.Drawing.Point(39, 250);
-            this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(105, 52);
-            this.confirmButton.TabIndex = 0;
-            this.confirmButton.Text = "Correct";
-            this.confirmButton.UseVisualStyleBackColor = true;
-            this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
+            this.correctButton.Location = new System.Drawing.Point(39, 250);
+            this.correctButton.Name = "correctButton";
+            this.correctButton.Size = new System.Drawing.Size(105, 52);
+            this.correctButton.TabIndex = 0;
+            this.correctButton.Text = "Correct";
+            this.correctButton.UseVisualStyleBackColor = true;
+            this.correctButton.Click += new System.EventHandler(this.correctButton_Click);
             // 
-            // addPanel
+            // segmentPanel
             // 
-            this.addPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.segmentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.addPanel.Controls.Add(this.infoLabel);
-            this.addPanel.Controls.Add(this.deleteButton);
-            this.addPanel.Controls.Add(this.label1);
-            this.addPanel.Controls.Add(this.button_set_w);
-            this.addPanel.Controls.Add(this.button_set_s);
-            this.addPanel.Controls.Add(this.button_set_e);
-            this.addPanel.Controls.Add(this.button_set_n);
-            this.addPanel.Controls.Add(this.textboxName);
-            this.addPanel.Controls.Add(this.confirmButton);
-            this.addPanel.Location = new System.Drawing.Point(380, 1);
-            this.addPanel.Name = "addPanel";
-            this.addPanel.Size = new System.Drawing.Size(201, 400);
-            this.addPanel.TabIndex = 1;
-            this.addPanel.TabStop = false;
-            this.addPanel.Text = "Add Panel";
+            this.segmentPanel.Controls.Add(this.languageGroupBox);
+            this.segmentPanel.Controls.Add(this.infoLabel);
+            this.segmentPanel.Controls.Add(this.deleteButton);
+            this.segmentPanel.Controls.Add(this.exitsLabel);
+            this.segmentPanel.Controls.Add(this.button_set_w);
+            this.segmentPanel.Controls.Add(this.button_set_s);
+            this.segmentPanel.Controls.Add(this.button_set_e);
+            this.segmentPanel.Controls.Add(this.button_set_n);
+            this.segmentPanel.Controls.Add(this.textboxName);
+            this.segmentPanel.Controls.Add(this.correctButton);
+            this.segmentPanel.Location = new System.Drawing.Point(380, 1);
+            this.segmentPanel.Name = "segmentPanel";
+            this.segmentPanel.Size = new System.Drawing.Size(201, 438);
+            this.segmentPanel.TabIndex = 1;
+            this.segmentPanel.TabStop = false;
+            this.segmentPanel.Text = "Segment Panel";
+            // 
+            // languageGroupBox
+            // 
+            this.languageGroupBox.Controls.Add(this.PLradioButton1);
+            this.languageGroupBox.Controls.Add(this.ENradioButton);
+            this.languageGroupBox.Location = new System.Drawing.Point(3, 395);
+            this.languageGroupBox.Name = "languageGroupBox";
+            this.languageGroupBox.Size = new System.Drawing.Size(184, 42);
+            this.languageGroupBox.TabIndex = 9;
+            this.languageGroupBox.TabStop = false;
+            this.languageGroupBox.Text = "Select language";
+            // 
+            // PLradioButton1
+            // 
+            this.PLradioButton1.AutoSize = true;
+            this.PLradioButton1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PLradioButton1.Location = new System.Drawing.Point(102, 20);
+            this.PLradioButton1.Name = "PLradioButton1";
+            this.PLradioButton1.Size = new System.Drawing.Size(38, 17);
+            this.PLradioButton1.TabIndex = 1;
+            this.PLradioButton1.TabStop = true;
+            this.PLradioButton1.Text = "PL";
+            this.PLradioButton1.UseVisualStyleBackColor = true;
+            this.PLradioButton1.CheckedChanged += new System.EventHandler(this.PLradioButton1_CheckedChanged);
+            // 
+            // ENradioButton
+            // 
+            this.ENradioButton.AutoSize = true;
+            this.ENradioButton.Checked = true;
+            this.ENradioButton.Location = new System.Drawing.Point(36, 20);
+            this.ENradioButton.Name = "ENradioButton";
+            this.ENradioButton.Size = new System.Drawing.Size(40, 17);
+            this.ENradioButton.TabIndex = 0;
+            this.ENradioButton.TabStop = true;
+            this.ENradioButton.Text = "EN";
+            this.ENradioButton.UseVisualStyleBackColor = true;
+            this.ENradioButton.CheckedChanged += new System.EventHandler(this.ENradioButton_CheckedChanged);
+            // 
+            // infoLabel
+            // 
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Location = new System.Drawing.Point(6, 224);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(70, 13);
+            this.infoLabel.TabIndex = 8;
+            this.infoLabel.Text = "Segment Info";
+            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // deleteButton
             // 
@@ -87,14 +139,14 @@ namespace OtchlanMapGenerator
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // label1
+            // exitsLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(72, 138);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = " Exits";
+            this.exitsLabel.AutoSize = true;
+            this.exitsLabel.Location = new System.Drawing.Point(72, 138);
+            this.exitsLabel.Name = "exitsLabel";
+            this.exitsLabel.Size = new System.Drawing.Size(32, 13);
+            this.exitsLabel.TabIndex = 6;
+            this.exitsLabel.Text = " Exits";
             // 
             // button_set_w
             // 
@@ -152,7 +204,7 @@ namespace OtchlanMapGenerator
             | System.Windows.Forms.AnchorStyles.Right)));
             this.vScrollBar1.Location = new System.Drawing.Point(564, 1);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 400);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 438);
             this.vScrollBar1.TabIndex = 2;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
@@ -160,7 +212,7 @@ namespace OtchlanMapGenerator
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 405);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 443);
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(565, 17);
             this.hScrollBar1.TabIndex = 3;
@@ -172,34 +224,27 @@ namespace OtchlanMapGenerator
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // infoLabel
-            // 
-            this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(6, 224);
-            this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(70, 13);
-            this.infoLabel.TabIndex = 8;
-            this.infoLabel.Text = "Segment Info";
-            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(578, 422);
+            this.ClientSize = new System.Drawing.Size(578, 460);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
-            this.Controls.Add(this.addPanel);
+            this.Controls.Add(this.segmentPanel);
             this.KeyPreview = true;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Otchłań Map Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseWheel);
-            this.addPanel.ResumeLayout(false);
-            this.addPanel.PerformLayout();
+            this.segmentPanel.ResumeLayout(false);
+            this.segmentPanel.PerformLayout();
+            this.languageGroupBox.ResumeLayout(false);
+            this.languageGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -207,19 +252,22 @@ namespace OtchlanMapGenerator
 
         #endregion
 
-        private System.Windows.Forms.Button confirmButton;
-        private System.Windows.Forms.GroupBox addPanel;
+        private System.Windows.Forms.Button correctButton;
+        private System.Windows.Forms.GroupBox segmentPanel;
         private System.Windows.Forms.TextBox textboxName;
         private System.Windows.Forms.Button button_set_w;
         private System.Windows.Forms.Button button_set_s;
         private System.Windows.Forms.Button button_set_e;
         private System.Windows.Forms.Button button_set_n;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label exitsLabel;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label infoLabel;
+        private System.Windows.Forms.GroupBox languageGroupBox;
+        private System.Windows.Forms.RadioButton PLradioButton1;
+        private System.Windows.Forms.RadioButton ENradioButton;
     }
 }
 

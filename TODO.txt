@@ -1,21 +1,20 @@
 ﻿
-[==================================================TODO LIST==========================================================]
+[==================================================TODO LIST==========================================================] //this correspond to already existing things.
 
 0)\\DONE | Adding neighbours IDs to each segment.													
 ---------|------------------------------------------------------------------------------------------------------------]
-1)//TODO | Erase neighbours exit and ID reffering to deleted segment.													
+1)//TODO | Erase neighbours exit and ID reffering to deleted segment.
 ---------|------------------------------------------------------------------------------------------------------------]
 2)//TODO | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
 ---------|------------------------------------------------------------------------------------------------------------]
-3)//TODO | Add recognition if string from keyboard input is proper Direction Command 
-		 | and not end of different (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
+3)//TODO | Add recognition if string from keyboard input is proper Direction Command and not end of different one 
+		 | (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
 ---------|------------------------------------------------------------------------------------------------------------]
 4)//TODO | All stuff with correcting specific segment's (checked by click) atributes by user.
 ---------|------------------------------------------------------------------------------------------------------------]
-5)//TODO | Mapping the route between selected segments (selected and the player's segment?) and giving user 
-		   appropriate command string to paste into the game.
+5)//TODO | "Camera" following player segment
 ---------|------------------------------------------------------------------------------------------------------------]
-6)//TODO | 
+6)//TODO | FIX BUG WITH CREATING DISTANCES MAP (ALL -1)
 ---------|------------------------------------------------------------------------------------------------------------]
 7)//TODO | 
 ---------|------------------------------------------------------------------------------------------------------------]
@@ -25,4 +24,20 @@
 
 
 
-[====================================================IDEAS============================================================]
+[================================================FUTURE IDEAS=========================================================] //this I'd like to implement.
+
+0)//IDEA | Mapping the route between selected segments (selected and the player's segment?) and giving user 
+		 | appropriate command string to paste into the game.
+---------|------------------------------------------------------------------------------------------------------------]
+1)//IDEA | Geting all nessesary data (like exits, locations names, maybe descriptions) automatically from the game. 
+---------|------------------------------------------------------------------------------------------------------------]
+2)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
+---------|------------------------------------------------------------------------------------------------------------]
+3)//IDEA | Saving all data of generated map to file/database - possibility of opening different maps?
+---------|------------------------------------------------------------------------------------------------------------]
+4)//IDEA | Add the ability to correct player's position by the user (Based on the selected segment)
+---------|------------------------------------------------------------------------------------------------------------]
+5)//IDEA | Undo function?
+---------|------------------------------------------------------------------------------------------------------------]
+6)//IDEA | 
+---------|------------------------------------------------------------------------------------------------------------]

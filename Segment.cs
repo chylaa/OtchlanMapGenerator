@@ -60,6 +60,7 @@ namespace OtchlanMapGenerator
     class Segment
     {
         public int id;
+        public int distance; //def distance from another, chosen segment.
         //int neighbour_id //todo - show route
         public Bitmap bitmap;
         //public Size BitmapSize= new Size(50,50);
@@ -67,6 +68,7 @@ namespace OtchlanMapGenerator
         public String description;
         //public List<Dir> exits;
         public ExitPoints exits;
+
 
         public Segment()
         {
@@ -78,6 +80,8 @@ namespace OtchlanMapGenerator
             setBitmap();
             this.description = name;
             this.BMPlocation = location;
+
+            this.distance = -1;
         }
 
         public void setBitmap()//use this in constructor, if i decide to List<Segment> - then List.add(new Segment(location, description,exits)) and inside setBitmap checks whith bitmap set 
@@ -133,6 +137,7 @@ namespace OtchlanMapGenerator
             this.description = s.description; 
             this.id = s.id;
             this.BMPlocation = s.BMPlocation;
+            this.distance = s.distance;
 
             if (this.exits!=null)
             {
