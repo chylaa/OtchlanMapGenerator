@@ -239,14 +239,29 @@ namespace OtchlanMapGenerator
             }
         }
 
+        void ClearDistances()
+        {
+            foreach (Segment s in this.segments) s.distance = -1;
+        }
+
         //Method assigns each segment distance from player's segment (recursive)
         void UpdateDistanceMap(Segment thisSeg,int ID_neighbour, int prevSegID, int distance, int destSegID) 
         {
-            if ( thisSeg==null  || ID_neighbour == -1 || ID_neighbour == prevSegID || thisSeg.distance >= 0) return;
+            if ( thisSeg==null  || ID_neighbour == -1 || ID_neighbour == prevSegID) return;
+            if ( thisSeg.distance >= 0)
+            {
+                if (distance < thisSeg.distance)
+                {
+                    thisSeg.distance = distance;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             thisSeg.distance = distance;
             distance++;
-
-            //if (thisSeg.id == destSegID || distance>=segments.Count) return;
 
             UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID1), thisSeg.exits.neighbourID1, thisSeg.id, distance, destSegID);
             UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourID2), thisSeg.exits.neighbourID2, thisSeg.id, distance, destSegID);
@@ -258,10 +273,12 @@ namespace OtchlanMapGenerator
         public string FindWay(Segment segFrom, Segment segDest)
         {
             string route="";
-            int distance= segDest.distance; 
-            Segment temp = segDest;
+
+            ClearDistances();
             UpdateDistanceMap(segFrom, 0, -1, 0, segDest.id);
 
+            Segment temp = segDest;
+            int distance= segDest.distance; 
 
             while(distance>0)
             {               

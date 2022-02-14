@@ -161,14 +161,14 @@ namespace OtchlanMapGenerator
             if (s.exits.e3 == Dir.east) SetButtonStyle(s, button_set_e, "E");
             if (s.exits.e4 == Dir.west) SetButtonStyle(s, button_set_w, "W");
 
-            infoLabel.Text = "ID: " + s.id + " Neighbours: " + s.exits.neighbourID1 + "N " + s.exits.neighbourID2 + "S " + s.exits.neighbourID3 + "E " + s.exits.neighbourID4 + "W";
+            infoLabel.Text = "ID: " + s.id + " Dist: " +s.distance +" | "+ s.exits.neighbourID1 + "N " + s.exits.neighbourID2 + "S " + s.exits.neighbourID3 + "E " + s.exits.neighbourID4 + "W";
 
         }
         private void SegmentDoubleClicked(Segment s)
         {
             SegmentClicked(s);
             infoLabel.Text = "";
-            //infoLabel.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen));
+            infoLabel.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen)) + " ";
             foreach (Segment seg in SegList.segments) infoLabel.Text += seg.distance + " ";
         }
         private void SetButtonStyle(Segment s, Button b, string x)
