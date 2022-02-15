@@ -26,7 +26,7 @@
 
 [================================================FUTURE IDEAS=========================================================] //this I'd like to implement.
 
-0)//IDEA | Mapping the route between selected segments (selected and the player's segment?) and giving user 
+0)\\DONE | Mapping the route between selected segments (selected and the player's segment?) and giving user 
 		 | appropriate command string to paste into the game.
 ---------|------------------------------------------------------------------------------------------------------------]
 1)//IDEA | Geting all nessesary data (like exits, locations names, maybe descriptions) automatically from the game. 

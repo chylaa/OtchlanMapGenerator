@@ -154,7 +154,7 @@ namespace OtchlanMapGenerator
             if (e.e2 == Dir.south) selected.exits = new ExitPoints(Dir.north, OldS, OldE, OldW);
             if (e.e3 == Dir.east) selected.exits = new ExitPoints(OldN, OldS, OldE, Dir.west);
             if (e.e4 == Dir.west) selected.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
-            selected.setBitmap();
+            selected.setBitmap('x','x');
             selected.exits.setNeighbours(oldNeighID);
             return 1;
         }
@@ -173,7 +173,7 @@ namespace OtchlanMapGenerator
             if (e.e2 == Dir.south) s.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
             if (e.e3 == Dir.east) s.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
             if (e.e4 == Dir.west) s.exits = new ExitPoints(OldN, OldS, OldE, Dir.west); 
-            s.setBitmap();
+            s.setBitmap('x','x');
             s.exits.setNeighbours(oldNeighID);
             return 1;
         }
@@ -272,54 +272,87 @@ namespace OtchlanMapGenerator
 
         public string FindWay(Segment segFrom, Segment segDest)
         {
-            string route="";
+            String route="";
+            //List<Segment> routeSegments = new List<Segment>();
+            char previousDir='x'; // 'x' to establish this is start position 
 
             ClearDistances();
             UpdateDistanceMap(segFrom, 0, -1, 0, segDest.id);
 
             Segment temp = segDest;
-            int distance= segDest.distance; 
+            int distance= segDest.distance;
 
-            while(distance>0)
+
+            while(distance>0)   //letters in String route are swapped to get proper sequence ( loop executes from the destination segment - not to it).
             {               
                 temp = findSegmentByID(segDest.exits.neighbourID1); //n
                 if (temp!=null && temp.distance == (distance - 1))
                 {
+                    //routeSegments.Add(temp);
+                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'n');
+                    segDest.setBitmap(previousDir, 'n');
                     distance--;
-                    route += "n,";
+                    route += "s,";
+                    previousDir = 's';
                     segDest = temp;
                     continue;
                 }
                 temp = findSegmentByID(segDest.exits.neighbourID2); //s
                 if (temp != null && temp.distance == (distance - 1))
                 {
+                    //routeSegments.Add(temp);
+                    if (previousDir == 'x') segDest.setBitmap(previousDir, 's');
+                    segDest.setBitmap(previousDir, 's');
                     distance--;
-                    route += "s,";
+                    route += "n,";
+                    previousDir = 'n';
                     segDest = temp;
                     continue;
                 }
                 temp = findSegmentByID(segDest.exits.neighbourID3); //e
                 if (temp != null && temp.distance == (distance - 1))
                 {
+                   // routeSegments.Add(temp);
+                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'e');
+                    segDest.setBitmap(previousDir, 'e');
                     distance--;
-                    route += "e,";
+                    route += "w,";
+                    previousDir = 'w';
                     segDest = temp;
                     continue;
                 }
                 temp = findSegmentByID(segDest.exits.neighbourID4); //w
                 if (temp != null && temp.distance == (distance - 1))
                 {
+                   // routeSegments.Add(temp);
+                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'w');
+                    segDest.setBitmap(previousDir, 'w');
                     distance--;
-                    route += "w,";
+                    route += "e,";
+                    previousDir = 'e';
                     segDest = temp;
                     continue;
                 }
 
             }
-            return route;
+            //reverse letters
+            char[] charArray = route.ToCharArray();
+            Array.Reverse(charArray);  
+            route = new string(charArray).Substring(1); //Substring to get rid of comma
+            //ShowRouteBitmap(route, routeSegments);
+            if (route.Length != 0) return route;
+            return "";
         }
 
+        //private void ShowRouteBitmap(String route,List<Segment> routeSegments)
+        //{
+        //    for(int i=0; i<route.Length-2; i+=2)
+        //    {
+        //        routeSegments[routeSegments.Count-i-1].setBitmap(route[i], route[i + 2]);
+        //    }
+        //}
 
+        ///ADD TO BITMAPS XS/XN/XE/XW PLAYER FEET AND CONSIDER MAKING 2'ND FUNCTION TO SET ROUTE BITMAPS JUST WITH READY "route" NOT ALL THIS PREVIOUS ITP
 
     }
 }

@@ -33,6 +33,8 @@ namespace OtchlanMapGenerator
         int dx = 0;
         int dy = 0;
         int newID=1; // start from 1 becouse there is always starting element 
+        Boolean findWayBitmapsActive = false;
+        char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
 
         public Form1()
         {
@@ -79,6 +81,7 @@ namespace OtchlanMapGenerator
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments(char from) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
+            playerOrientation = from;
             SegList.playerSeg.setPlayerBitmap(from);
             this.Invalidate();
         }
@@ -153,6 +156,12 @@ namespace OtchlanMapGenerator
             segmentPanel.Enabled = true;
             SetDefaultButtonsStyle();
 
+            if (findWayBitmapsActive)
+            {
+                findWayBitmapsActive = false;
+                foreach (Segment seg in SegList.segments) seg.setBitmap('x', 'x'); //clear route showing 
+            }
+
             textboxName.Text = s.description;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
@@ -162,14 +171,19 @@ namespace OtchlanMapGenerator
             if (s.exits.e4 == Dir.west) SetButtonStyle(s, button_set_w, "W");
 
             infoLabel.Text = "ID: " + s.id + " Dist: " +s.distance +" | "+ s.exits.neighbourID1 + "N " + s.exits.neighbourID2 + "S " + s.exits.neighbourID3 + "E " + s.exits.neighbourID4 + "W";
-
+            
         }
         private void SegmentDoubleClicked(Segment s)
         {
             SegmentClicked(s);
             infoLabel.Text = "";
+
             infoLabel.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen)) + " ";
+            DisplaySegments(playerOrientation);
+            
             foreach (Segment seg in SegList.segments) infoLabel.Text += seg.distance + " ";
+            
+            findWayBitmapsActive = true;
         }
         private void SetButtonStyle(Segment s, Button b, string x)
         {
