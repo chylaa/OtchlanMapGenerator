@@ -7,7 +7,7 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 2)//TODO | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
 ---------|------------------------------------------------------------------------------------------------------------]
-3)//TODO | Add recognition if string from keyboard input is proper Direction Command and not end of different one 
+3)\\DONE | Add recognition if string from keyboard input is proper Direction Command and not end of different one 
 		 | (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
 ---------|------------------------------------------------------------------------------------------------------------]
 4)//TODO | All stuff with correcting specific segment's (checked by click) atributes by user.
@@ -16,7 +16,7 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 6)\\DONE | FIX BUG WITH CREATING DISTANCES MAP 
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//TODO | 
+7)//TODO | Automatic copy route to clipboard
 ---------|------------------------------------------------------------------------------------------------------------]
 8)//TODO | 
 ---------|------------------------------------------------------------------------------------------------------------]

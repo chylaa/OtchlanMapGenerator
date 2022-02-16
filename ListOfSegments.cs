@@ -239,7 +239,7 @@ namespace OtchlanMapGenerator
             }
         }
 
-        void ClearDistances()
+        void ClearDistances() //method sets distance to -1 in all segments before new distance map is created 
         {
             foreach (Segment s in this.segments) s.distance = -1;
         }
@@ -273,22 +273,19 @@ namespace OtchlanMapGenerator
         public string FindWay(Segment segFrom, Segment segDest)
         {
             String route="";
-            //List<Segment> routeSegments = new List<Segment>();
-            char previousDir='x'; // 'x' to establish this is start position 
+            char previousDir='x'; // 'x' to establish this is start position (end position really but loop of findig route starts from end) 
 
-            ClearDistances();
+            ClearDistances(); 
             UpdateDistanceMap(segFrom, 0, -1, 0, segDest.id);
 
             Segment temp = segDest;
             int distance= segDest.distance;
 
-
             while(distance>0)   //letters in String route are swapped to get proper sequence ( loop executes from the destination segment - not to it).
             {               
                 temp = findSegmentByID(segDest.exits.neighbourID1); //n
                 if (temp!=null && temp.distance == (distance - 1))
-                {
-                    //routeSegments.Add(temp);
+                {                  
                     if (previousDir == 'x') segDest.setBitmap(previousDir, 'n');
                     segDest.setBitmap(previousDir, 'n');
                     distance--;
@@ -300,7 +297,6 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourID2); //s
                 if (temp != null && temp.distance == (distance - 1))
                 {
-                    //routeSegments.Add(temp);
                     if (previousDir == 'x') segDest.setBitmap(previousDir, 's');
                     segDest.setBitmap(previousDir, 's');
                     distance--;
@@ -311,8 +307,7 @@ namespace OtchlanMapGenerator
                 }
                 temp = findSegmentByID(segDest.exits.neighbourID3); //e
                 if (temp != null && temp.distance == (distance - 1))
-                {
-                   // routeSegments.Add(temp);
+                { 
                     if (previousDir == 'x') segDest.setBitmap(previousDir, 'e');
                     segDest.setBitmap(previousDir, 'e');
                     distance--;
@@ -324,7 +319,6 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourID4); //w
                 if (temp != null && temp.distance == (distance - 1))
                 {
-                   // routeSegments.Add(temp);
                     if (previousDir == 'x') segDest.setBitmap(previousDir, 'w');
                     segDest.setBitmap(previousDir, 'w');
                     distance--;
@@ -339,20 +333,10 @@ namespace OtchlanMapGenerator
             char[] charArray = route.ToCharArray();
             Array.Reverse(charArray);  
             route = new string(charArray).Substring(1); //Substring to get rid of comma
-            //ShowRouteBitmap(route, routeSegments);
             if (route.Length != 0) return route;
             return "";
         }
 
-        //private void ShowRouteBitmap(String route,List<Segment> routeSegments)
-        //{
-        //    for(int i=0; i<route.Length-2; i+=2)
-        //    {
-        //        routeSegments[routeSegments.Count-i-1].setBitmap(route[i], route[i + 2]);
-        //    }
-        //}
-
-        ///ADD TO BITMAPS XS/XN/XE/XW PLAYER FEET AND CONSIDER MAKING 2'ND FUNCTION TO SET ROUTE BITMAPS JUST WITH READY "route" NOT ALL THIS PREVIOUS ITP
 
     }
 }

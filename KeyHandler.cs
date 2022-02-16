@@ -24,36 +24,100 @@ namespace OtchlanMapGenerator
 
     class KeyHandler
     {
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        public String keysSinceEnter = "";
+        char directionKeyword;
 
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        private int key;
-        private IntPtr hWnd;
-        private int id;
-
-        public KeyHandler(Keys key, Form form)
+        public void addCharToSequence(char keyChar)
         {
-            this.key = (int)key;
-            this.hWnd = form.Handle;
-            id = this.GetHashCode();
+            this.keysSinceEnter += keyChar;
+            this.keysSinceEnter=this.keysSinceEnter.ToLower();
+        }
+        public void clearKeysSequence() //clears string (using after adding new map segment)
+        {
+            this.keysSinceEnter = "";
         }
 
-        public override int GetHashCode()
+        public string chceckKeySequence()
         {
-            return key ^ hWnd.ToInt32();
+            //this.deleteDuplicats();
+            if(this.keysSinceEnter.Contains('\r'))//if (this.keysSinceEnter.Length >= 2)
+            {
+                //below return is enough for this "if" statment if user use only n/s/e/w letters for moving - rest will handle entering "south", "sou", "nort" etc.
+                //return this.keysSinceEnter.Substring(this.keysSinceEnter.Length - 2); //return last 2 characters
+                if (keywordDetected())
+                {
+                    return (directionKeyword + "\r");
+                }
+                else
+                {
+                    this.clearKeysSequence(); //clear if oher command was entered
+                }
+            }
+            return this.keysSinceEnter;
         }
 
-        public bool Register()
+        private Boolean keywordDetected()
         {
-            return RegisterHotKey(hWnd, id, 0, key);
+
+            int strLength = this.keysSinceEnter.Length-1;// -1 to not include potential ENTER
+            int compatibility = 0;
+
+
+            char first = this.keysSinceEnter[0];
+            String keyword = choseKeyword(first);
+            if (keyword.Length == 0 || strLength > keyword.Length) return false;
+
+            for(int i=0; i<strLength;i++) // 
+            {
+                if (this.keysSinceEnter[i].Equals(keyword[i])) compatibility++;
+            }
+            if (compatibility == strLength && this.keysSinceEnter[strLength] == '\r')
+            {
+                this.clearKeysSequence();
+                directionKeyword = first;
+                return true;
+            }
+            return false;
+        }
+        //whole method not nessesary even wrong because it causes for egzample "sssssss" as "s"
+        private void deleteDuplicats() //eesseweseesw
+        {
+            //string chars = "";
+            //int howManyDiferentChars = 0;
+
+            //for(int i=0; i<this.keysSinceEnter.Length;i++)
+            //{
+            //    if (!chars.Contains(this.keysSinceEnter[i]))
+            //    {
+            //        chars += this.keysSinceEnter[i];
+            //        howManyDiferentChars++;
+            //    }
+
+            //}
+
+            //this.keysSinceEnter = this.keysSinceEnter.Substring(this.keysSinceEnter.Length-howManyDiferentChars);
+            //==============================================================================
+            char last;
+            string newKeySequence = "";
+
+            for (int i = 1; i < this.keysSinceEnter.Length; i++)
+            {
+                last = this.keysSinceEnter[i - 1];
+                if (last == this.keysSinceEnter[i]) continue;
+                newKeySequence += last;
+            }
+            newKeySequence += this.keysSinceEnter[this.keysSinceEnter.Length - 1];
+            this.keysSinceEnter = newKeySequence;
         }
 
-        public bool Unregiser()
+        private string choseKeyword(char first)
         {
-            return UnregisterHotKey(hWnd, id);
+            if (first == 'n') return "north";
+            if (first == 's') return "south";
+            if (first == 'e') return "east";
+            if (first == 'w') return "west";
+            return "";
         }
+            
     }
 }
