@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace OtchlanMapGenerator
 {
@@ -88,41 +89,41 @@ namespace OtchlanMapGenerator
         {
             if (previousDir == 'x' && Direction == 'x' )
             {
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBruk.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukEast.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukEastWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorth.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthEast.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthEastWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouth.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthEast.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthEastWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthSouthWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukNorthWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouth.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthEast.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthEastWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukSouthWest.bmp");
-                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBruk.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukEast.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukEastWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorth.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthEast.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthEastWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthSouth.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthSouthEast.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthSouthEastWest.bmp"); //Path.Combine(Environment.CurrentDirectory, @"Images\", "MiastoBrukNorthSouthEastWest.bmp"));
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthSouthWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukNorthWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukSouth.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.not))) this.bitmap = new Bitmap(@"Images\MiastoBrukSouthEast.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.east, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukSouthEastWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukSouthWest.bmp");
+                if (this.exits.Equals(new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west))) this.bitmap = new Bitmap(@"Images\MiastoBrukWest.bmp");
             }
             else //consider (instead of all if's) autocompletion of the file path by pasting variables previousDir and Direction e.g "..\Route"+previousDir+""+Direction
             {
-                if (previousDir == 'x' && Direction == 'n') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteXNorth.bmp");
-                if (previousDir == 'x' && Direction == 's') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteXSouth.bmp");
-                if (previousDir == 'x' && Direction == 'e') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteXEast.bmp");
-                if (previousDir == 'x' && Direction == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteXWest.bmp");
+                if (previousDir == 'x' && Direction == 'n') this.bitmap = new Bitmap(@"Images\RouteXNorth.bmp");
+                if (previousDir == 'x' && Direction == 's') this.bitmap = new Bitmap(@"Images\RouteXSouth.bmp");
+                if (previousDir == 'x' && Direction == 'e') this.bitmap = new Bitmap(@"Images\RouteXEast.bmp");
+                if (previousDir == 'x' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteXWest.bmp");
 
-               // if ((previousDir == 'n' && Direction == 's') || (previousDir == 'n' && Direction == 'n') || (previousDir == 's' && Direction == 's')) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteNorthSouth.bmp");
-               // if ((previousDir == 'e' && Direction == 'w') || (previousDir == 'w' && Direction == 'w') || (previousDir == 'e' && Direction == 'e')) this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteEastWest.bmp");
+               // if ((previousDir == 'n' && Direction == 's') || (previousDir == 'n' && Direction == 'n') || (previousDir == 's' && Direction == 's')) this.bitmap = new Bitmap(@"Images\RouteNorthSouth.bmp");
+               // if ((previousDir == 'e' && Direction == 'w') || (previousDir == 'w' && Direction == 'w') || (previousDir == 'e' && Direction == 'e')) this.bitmap = new Bitmap(@"Images\RouteEastWest.bmp");
 
                 for (int i = 0; i < 2; i++)
                 {
-                    if (previousDir == 'n' && Direction == 's') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteNorthSouth.bmp");
-                    if (previousDir == 'e' && Direction == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteEastWest.bmp");
-                    if (previousDir == 'n' && Direction == 'e') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteNorthEast.bmp");
-                    if (previousDir == 'n' && Direction == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteNorthWest.bmp");
-                    if (previousDir == 's' && Direction == 'e') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteSouthEast.bmp");
-                    if (previousDir == 's' && Direction == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\RouteSouthWest.bmp");
+                    if (previousDir == 'n' && Direction == 's') this.bitmap = new Bitmap(@"Images\RouteNorthSouth.bmp");
+                    if (previousDir == 'e' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteEastWest.bmp");
+                    if (previousDir == 'n' && Direction == 'e') this.bitmap = new Bitmap(@"Images\RouteNorthEast.bmp");
+                    if (previousDir == 'n' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteNorthWest.bmp");
+                    if (previousDir == 's' && Direction == 'e') this.bitmap = new Bitmap(@"Images\RouteSouthEast.bmp");
+                    if (previousDir == 's' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteSouthWest.bmp");
                     //swap and check again
                     char buffer = previousDir; 
                     previousDir = Direction;
@@ -133,10 +134,10 @@ namespace OtchlanMapGenerator
         public void setPlayerBitmap(char from)
         {
             if (from == 'x') return;
-            if (from == 'n') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerNorth.bmp");
-            if (from == 's') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerSouth.bmp");
-            if (from == 'e') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerEast.bmp");
-            if (from == 'w') this.bitmap = new Bitmap(@"C:\Users\Dell\Desktop\CDI\OtchlanMapGenerator\MiastoBrukPlayerWest.bmp");
+            if (from == 'n') this.bitmap = new Bitmap(@"Images\MiastoBrukPlayerNorth.bmp");
+            if (from == 's') this.bitmap = new Bitmap(@"Images\MiastoBrukPlayerSouth.bmp");
+            if (from == 'e') this.bitmap = new Bitmap(@"Images\MiastoBrukPlayerEast.bmp");
+            if (from == 'w') this.bitmap = new Bitmap(@"Images\MiastoBrukPlayerWest.bmp");
 
 
             //this.bitmap = new Bitmap(this.bitmap, BitmapSize);
