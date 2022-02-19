@@ -24,6 +24,9 @@ namespace OtchlanMapGenerator
 
     class KeyHandler
     {
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
         public String keysSinceEnter = "";
         char directionKeyword;
 
@@ -117,6 +120,29 @@ namespace OtchlanMapGenerator
             if (first == 'e') return "east";
             if (first == 'w') return "west";
             return "";
+        }
+
+        public char keyboardScan()
+        {
+            short keyState;
+            bool unprocessedPress;
+
+            for (int i = 64; i < 91; i++) //loop from a to z in ASCII
+            {
+                keyState = GetAsyncKeyState(i); 
+                unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;  //Check if the LSB is set. If so, then the key was pressed since the last call to GetAsyncKeyState
+
+                if (unprocessedPress)
+                {
+                    return (char)(i);
+                }
+            }
+            keyState = GetAsyncKeyState(Constants.VK_ENTER);
+            unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
+            
+            if(unprocessedPress) return ('\r');
+
+            return '0'; // no essential keys were pressed
         }
             
     }

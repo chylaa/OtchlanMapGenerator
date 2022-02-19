@@ -25,8 +25,7 @@ namespace OtchlanMapGenerator
         Text texts;
         KeyHandler keyHandler = new KeyHandler();
         
-        [DllImport("user32.dll")]
-        private static extern short GetAsyncKeyState(int vKey);
+
 
         int timesKeyPressed = 0;
         String keyBuffer="";
@@ -240,33 +239,15 @@ namespace OtchlanMapGenerator
             
         }
 
-        //=====================Handling adding new Segments========================
-        private void Form1_KeyPress(KeyPressEventArgs e)
+        //===================Handling adding new Segments and keyboard read========================
+        private void Form1_KeyPress(KeyPressEventArgs e)  
         {
             int Added = -1;
             char lastDir = 'x';
             
-
             keyHandler.addCharToSequence(e.KeyChar); //must be before chceckKeyState()!
-            
-            
-            keyBuffer=keyHandler.chceckKeySequence();
-            
-            //if (keyBuffer.Length > 2) keyBuffer = keyBuffer.Substring(keyBuffer.Last() - 2);
-            ////!Poblem with commands -> must add recognition - is it only "w\r" or maybe "ekw\r" ??
-            ////!Maybe second buffer "prevKeys" which monitores whats before - could be added in begining of HandleHotkey() and get m.WParam()
-            //if(keyBuffer.Length==2 && keyBuffer[0].Equals(keyBuffer[1])) //protection from gettin keys too fast
-            //{
-            //    if (keyBuffer[0] == '\r' || keyBuffer[0] == 'n' || keyBuffer[0] == 's' || keyBuffer[0] == 'e' || keyBuffer[0] == 'w')
-            //    {
-            //        keyBuffer = keyBuffer[1].ToString();
-            //        timesKeyPressed = 1;
-            //    }        
-            //}
-            
-
-            //keyBuffer += e.KeyChar;
-            //timesKeyPressed++;
+                   
+            keyBuffer=keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
             //charsSinceEnter += keyBuffer;   //just control
             segmentPanel.Text += keyHandler.keysSinceEnter; //-||-
@@ -317,100 +298,11 @@ namespace OtchlanMapGenerator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //MUST ADD RECOGNITION OF ALL LETERS :C
-            //maybe use loop from min keyCode to maxKeyCode to scan whole keyboard (like that? : keyCode=x -> keyState = GetAsyncKeyState(keyCode) -> ... ->keyCode++) 
-            // look GetKeyboardState function
-            //yup -> smth like this: https://guidedhacking.com/threads/howto-scan-if-any-key-was-pressed.3867/
-            //ALSO ALWAYS LAST CHARS ARE 1:1 WRITED SEQUENCE!!!! 
+            char KeyCode = keyHandler.keyboardScan();
+            if(KeyCode != '0') Form1_KeyPress(new KeyPressEventArgs(KeyCode));
 
-            //short keyState_r = GetAsyncKeyState(Constants.VK_ENTER);
-            //short keyState_n = GetAsyncKeyState(Constants.VK_NORTH);
-            //short keyState_s = GetAsyncKeyState(Constants.VK_SOUTH);
-            //short keyState_e = GetAsyncKeyState(Constants.VK_EAST);
-            //short keyState_w = GetAsyncKeyState(Constants.VK_WEST);
-
-            ////Check if the MSB is set. If so, then the key is pressed.
-            //bool R_IsPressed = ((keyState_r >> 15) & 0x0001) == 0x0001;
-            //bool N_IsPressed = ((keyState_n >> 15) & 0x0001) == 0x0001;
-            //bool S_IsPressed = ((keyState_s >> 15) & 0x0001) == 0x0001;
-            //bool E_IsPressed = ((keyState_e >> 15) & 0x0001) == 0x0001;
-            //bool W_IsPressed = ((keyState_w >> 15) & 0x0001) == 0x0001;
-
-            ////Check if the LSB is set. If so, then the key was pressed since
-            ////the last call to GetAsyncKeyState
-            //bool unprocessedPress_r = ((keyState_r >> 0) & 0x0001) == 0x0001;
-            //bool unprocessedPress_n = ((keyState_n >> 0) & 0x0001) == 0x0001;
-            //bool unprocessedPress_s = ((keyState_s >> 0) & 0x0001) == 0x0001;
-            //bool unprocessedPress_e = ((keyState_e >> 0) & 0x0001) == 0x0001;
-            //bool unprocessedPress_w = ((keyState_w >> 0) & 0x0001) == 0x0001;
-            
-            //Get this TO KeyHandler CLASS?
-            short keyState;
-            bool unprocessedPress;
-
-            for (int i = 64; i < 91; i++)
-            {
-                keyState = GetAsyncKeyState(i);
-                unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
-                if (unprocessedPress)
-                {
-                    Form1_KeyPress(new KeyPressEventArgs((char)(i)));
-                }
-            }
-            keyState = GetAsyncKeyState(Constants.VK_ENTER);
-            unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
-            if (unprocessedPress) Form1_KeyPress(new KeyPressEventArgs('\r'));
-            //HandleKeys(unprocessedPress_r || R_IsPressed,
-            //           unprocessedPress_n || N_IsPressed,
-            //           unprocessedPress_s || S_IsPressed,
-            //           unprocessedPress_e || E_IsPressed,
-            //           unprocessedPress_w || W_IsPressed);
-            //HandleKeys(R_IsPressed, N_IsPressed, S_IsPressed, E_IsPressed, W_IsPressed);
-            //HandleKeys(unprocessedPress_r, unprocessedPress_n, unprocessedPress_s, unprocessedPress_e, unprocessedPress_w);
-            //if (R_IsPressed) //|| unprosesedPress??
-            //{
-            //    //TODO Execute client code...
-            //}
-
-            //if (unprocessedPress_r)
-            //{
-            //    //TODO Execute client code...
-            //}
         }
 
-
-        //private int HandleKeys(bool pressedR, bool pressedN, bool pressedS, bool pressedE, bool pressedW)
-        //{
-        //    if (!(pressedR || pressedN || pressedS || pressedE || pressedW)) return 0;
-
-        //    if(pressedR)
-        //    {
-        //        Form1_KeyPress(new KeyPressEventArgs('\r'));
-        //        return 1;
-        //    }
-        //    if (pressedN)
-        //    {
-        //        Form1_KeyPress(new KeyPressEventArgs('n'));
-        //        return 1;
-        //    }
-        //    if (pressedS)
-        //    {
-        //        Form1_KeyPress(new KeyPressEventArgs('s'));
-        //        return 1;
-        //    }
-        //    if (pressedE)
-        //    {
-        //        Form1_KeyPress(new KeyPressEventArgs('e'));
-        //        return 1;
-        //    }
-        //    if (pressedW)
-        //    {
-        //        Form1_KeyPress(new KeyPressEventArgs('w'));
-        //        return 1;
-        //    }
-        //    return 0;
-
-        //}
 
 
     }
