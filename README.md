@@ -1,7 +1,9 @@
 # OtchlanMapGenerator
-Generator mapy do polskiej gry tekstowej Otchłań (https://otchlan.pl/).
+Map generator for the Polish text-game Otchłań (https://otchlan.pl/).
 
-Projekt tworzony całościowo z użyciem Windows Forms C# ma w załozeniu umożliwiać użytkownikowi sprawniejsze poruszanie się po świecie gry,
-dzięki automatyczie generującej się mapie o nieograniczonym rozmiarze, zapewniając dodatkowo funkcje wyznaczania najkrótszej trasy do wybranej lokalizacji.  
+Project is created entirely with Windows Forms C# - it's premise is to make user's ability to navigate in the game world more efficient,
+thanks to automatically generated map of unlimited size and providing the function of determining the shortest route to the selected location.
 
-[Projekt w fazie rozwoju]
+[Project in progress]
+
+
