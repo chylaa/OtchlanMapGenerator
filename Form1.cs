@@ -48,6 +48,7 @@ namespace OtchlanMapGenerator
             //textboxName.Enabled = false;
             setTexts(Language.EN);
             SegList = new ListOfSegments(texts);
+            
             segmentPanel.Enabled = false;
 
             if (SegList.segments.Count() > 0)
@@ -55,6 +56,8 @@ namespace OtchlanMapGenerator
                 SegmentClicked((SegList.segments.First()));
                 SegList.playerSeg = SegList.segments.First();
             }
+
+            SegList.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
         }
         //================================Language things============================================
         private void setTexts(Language ln)
@@ -79,21 +82,7 @@ namespace OtchlanMapGenerator
         {
             setTexts(Language.PL);
         }
-        //=================Handling painting bitmaps on form======================================
-        private void DisplaySegments(char from) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
-        {
-            playerOrientation = from;
-            SegList.playerSeg.setPlayerBitmap(from);
-            this.Invalidate();
-        }
 
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
-            foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
-            
-        }
         //===================================Buttons Handling=======================================================
         private void correctButton_Click(object sender, EventArgs e)
         {
@@ -112,14 +101,16 @@ namespace OtchlanMapGenerator
             SegList.segments.Remove(SegList.findSegment(chosen));
             chosen.assignValues(SegList.playerSeg);
             correctButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
-            DisplaySegments('x');
+            DisplaySegments('x',false);
            
         }
 
 
             //=================Handling clicking on segments to display info and select=================================================
-            private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
+            DisplaySegments('x', false); //Double click return viev to player segment
+
             if (e.Button != MouseButtons.Left) return;
 
             //DisplaySegments();
@@ -139,6 +130,7 @@ namespace OtchlanMapGenerator
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+
             foreach (Segment segment in SegList.segments)
             {
                 if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
@@ -181,7 +173,7 @@ namespace OtchlanMapGenerator
             infoLabel.Text = "";
 
             routeTextBox.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen));
-            DisplaySegments(playerOrientation);
+            DisplaySegments(playerOrientation,false);
             
             findWayBitmapsActive = true;
         }
@@ -213,6 +205,30 @@ namespace OtchlanMapGenerator
 
         }
 
+        //=================Handling painting bitmaps on form======================================
+        private void DisplaySegments(char from, Boolean scrollUsed) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
+        {
+            playerOrientation = from;
+            SegList.playerSeg.setPlayerBitmap(from);
+            if (scrollUsed == false)
+            {
+                SegList.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
+                hScrollBar1.Value = hScrollBar1.Maximum / 2;
+                vScrollBar1.Value = vScrollBar1.Maximum / 2;
+            }
+            this.Invalidate();
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
+            foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
+
+        }
+        private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
+        {
+            DisplaySegments('x',false);
+        }
 
         //==================Handling ScrollBars and MouseWheel=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -221,7 +237,7 @@ namespace OtchlanMapGenerator
             
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,dx,e.OldValue);
-            DisplaySegments('x');
+            DisplaySegments('x',true);
         }
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -229,14 +245,14 @@ namespace OtchlanMapGenerator
             dx = e.NewValue;
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy,e.OldValue,dy);
-            DisplaySegments('x');
+            DisplaySegments('x',true);
         }
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
             SegList.ChangeSegmentSizes(e.Delta);
-            DisplaySegments('x');
+            DisplaySegments('x',false);
             
         }
 
@@ -268,7 +284,7 @@ namespace OtchlanMapGenerator
             }
             routeTextBox.Visible = false; //hide routeTextBox if player moved
             SegmentClicked(SegList.playerSeg);
-            DisplaySegments(lastDir);
+            DisplaySegments(lastDir,false);
             segmentPanel.Text = "";
 
         }
@@ -319,6 +335,7 @@ namespace OtchlanMapGenerator
             }
             
         }
+
     }
     
 }

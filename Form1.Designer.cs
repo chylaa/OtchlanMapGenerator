@@ -95,8 +95,7 @@ namespace OtchlanMapGenerator
             // 
             // languageGroupBox
             // 
-            this.languageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.languageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.languageGroupBox.Controls.Add(this.PLradioButton1);
             this.languageGroupBox.Controls.Add(this.ENradioButton);
             this.languageGroupBox.Location = new System.Drawing.Point(3, 433);
@@ -216,7 +215,9 @@ namespace OtchlanMapGenerator
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.vScrollBar1.LargeChange = 25;
             this.vScrollBar1.Location = new System.Drawing.Point(703, 1);
+            this.vScrollBar1.Maximum = 1000;
             this.vScrollBar1.Name = "vScrollBar1";
             this.vScrollBar1.Size = new System.Drawing.Size(17, 482);
             this.vScrollBar1.TabIndex = 2;
@@ -226,7 +227,9 @@ namespace OtchlanMapGenerator
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBar1.LargeChange = 25;
             this.hScrollBar1.Location = new System.Drawing.Point(0, 487);
+            this.hScrollBar1.Maximum = 1000;
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(704, 17);
             this.hScrollBar1.TabIndex = 3;
@@ -240,8 +243,7 @@ namespace OtchlanMapGenerator
             // 
             // keyInputCheckBox
             // 
-            this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.keyInputCheckBox.AutoSize = true;
             this.keyInputCheckBox.Checked = true;
             this.keyInputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -267,6 +269,7 @@ namespace OtchlanMapGenerator
             this.Name = "Form1";
             this.Text = "Otchłań Map Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDoubleClick);

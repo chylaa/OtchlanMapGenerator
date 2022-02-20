@@ -14,8 +14,8 @@ namespace OtchlanMapGenerator
         public Segment playerSeg;
         public List<Segment> segments;
         public int baseBitmapSize = 50;
-        const int padding = 10;
-        const int ScrollSpeed = 5;
+        int padding;
+        int ScrollSpeed = 15;
         public ListOfSegments(Text texts)
         {
             segments = new List<Segment>();
@@ -64,10 +64,10 @@ namespace OtchlanMapGenerator
             
             if (keyBuffer.Equals("n\r"))
             {
-                if (playerSeg.BMPlocation.Y - baseBitmapSize < 0)
-                {
-                    CorrectSegmentsLocationOnAdd(0, baseBitmapSize);                  
-                }
+                //if (playerSeg.BMPlocation.Y - baseBitmapSize < 0) //not nessesary when camera follows player segment
+                //{
+                //    CorrectSegmentsLocationOnMap(0, baseBitmapSize);                  
+                //}
                 return AddSegment(newID, 0, -1 * baseBitmapSize, new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not));
             }
             if (keyBuffer.Equals("s\r"))
@@ -81,10 +81,10 @@ namespace OtchlanMapGenerator
             }
             if (keyBuffer.Equals("w\r"))
             {
-                if (playerSeg.BMPlocation.X - baseBitmapSize < 0)
-                {                 
-                    CorrectSegmentsLocationOnAdd(baseBitmapSize, 0);
-                }
+                //if (playerSeg.BMPlocation.X - baseBitmapSize < 0) //not nessesary when camera follows player segment
+                //{                 
+                //    CorrectSegmentsLocationOnMap(baseBitmapSize, 0);
+                //}
                 return AddSegment(newID, -1 * baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not));
 
             }
@@ -121,16 +121,23 @@ namespace OtchlanMapGenerator
             return 0;
         }
 
-        public void CorrectSegmentsLocationOnAdd(int xShift, int yShift)
+        public void CorrectSegmentsLocationOnMap(int xShift, int yShift)
         {
-            //UpdatePlayerSegLocation(playerSeg);
-            
-            
+            //UpdatePlayerSegLocation(playerSeg);     
             foreach (Segment s in segments)
             {
                 s.BMPlocation.X += xShift;
                 s.BMPlocation.Y += yShift;
             }
+        }
+
+        public void centerCameraOnPlayerSegment(Size formSize, Size sidePanelSize)
+        {
+            int xShift = ((formSize.Width / 2) - sidePanelSize.Width/2 - playerSeg.BMPlocation.X - this.baseBitmapSize/2);
+            int yShift = ((formSize.Height / 2) - playerSeg.BMPlocation.Y - this.baseBitmapSize);
+
+            CorrectSegmentsLocationOnMap(xShift, yShift);
+
         }
 
         //void UpdatePlayerSegLocation(Segment chosen)
@@ -331,11 +338,13 @@ namespace OtchlanMapGenerator
             }
             //reverse letters
             char[] charArray = route.ToCharArray();
-            Array.Reverse(charArray);  
+            Array.Reverse(charArray);
+            if(route.Length==0) return "";
             route = new string(charArray).Substring(1); //Substring to get rid of comma
-            if (route.Length != 0) return route;
-            return "";
+            return route;
+            
         }
+
 
 
     }
