@@ -32,6 +32,7 @@ namespace OtchlanMapGenerator
             this.components = new System.ComponentModel.Container();
             this.correctButton = new System.Windows.Forms.Button();
             this.segmentPanel = new System.Windows.Forms.GroupBox();
+            this.routeTextBox = new System.Windows.Forms.TextBox();
             this.languageGroupBox = new System.Windows.Forms.GroupBox();
             this.PLradioButton1 = new System.Windows.Forms.RadioButton();
             this.ENradioButton = new System.Windows.Forms.RadioButton();
@@ -46,7 +47,7 @@ namespace OtchlanMapGenerator
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.routeTextBox = new System.Windows.Forms.TextBox();
+            this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -83,8 +84,19 @@ namespace OtchlanMapGenerator
             this.segmentPanel.TabStop = false;
             this.segmentPanel.Text = "Segment Panel";
             // 
+            // routeTextBox
+            // 
+            this.routeTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.routeTextBox.Location = new System.Drawing.Point(12, 385);
+            this.routeTextBox.Name = "routeTextBox";
+            this.routeTextBox.Size = new System.Drawing.Size(166, 20);
+            this.routeTextBox.TabIndex = 10;
+            this.routeTextBox.Visible = false;
+            // 
             // languageGroupBox
             // 
+            this.languageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.languageGroupBox.Controls.Add(this.PLradioButton1);
             this.languageGroupBox.Controls.Add(this.ENradioButton);
             this.languageGroupBox.Location = new System.Drawing.Point(3, 433);
@@ -226,14 +238,20 @@ namespace OtchlanMapGenerator
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // routeTextBox
+            // keyInputCheckBox
             // 
-            this.routeTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.routeTextBox.Location = new System.Drawing.Point(12, 385);
-            this.routeTextBox.Name = "routeTextBox";
-            this.routeTextBox.Size = new System.Drawing.Size(166, 20);
-            this.routeTextBox.TabIndex = 10;
-            this.routeTextBox.Visible = false;
+            this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.keyInputCheckBox.AutoSize = true;
+            this.keyInputCheckBox.Checked = true;
+            this.keyInputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.keyInputCheckBox.Location = new System.Drawing.Point(12, 455);
+            this.keyInputCheckBox.Name = "keyInputCheckBox";
+            this.keyInputCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.keyInputCheckBox.TabIndex = 4;
+            this.keyInputCheckBox.Text = "Disable key input";
+            this.keyInputCheckBox.UseVisualStyleBackColor = true;
+            this.keyInputCheckBox.CheckedChanged += new System.EventHandler(this.keyInputCheckBox_CheckedChanged);
             // 
             // Form1
             // 
@@ -241,6 +259,7 @@ namespace OtchlanMapGenerator
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(717, 504);
+            this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.segmentPanel);
@@ -257,6 +276,7 @@ namespace OtchlanMapGenerator
             this.languageGroupBox.ResumeLayout(false);
             this.languageGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -280,6 +300,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.RadioButton PLradioButton1;
         private System.Windows.Forms.RadioButton ENradioButton;
         private System.Windows.Forms.TextBox routeTextBox;
+        private System.Windows.Forms.CheckBox keyInputCheckBox;
     }
 }
 

@@ -34,6 +34,7 @@ namespace OtchlanMapGenerator
         int dy = 0;
         int newID=1; // start from 1 becouse there is always starting element 
         Boolean findWayBitmapsActive = false;
+        Boolean keyInputAcive = true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
 
         public Form1()
@@ -244,8 +245,8 @@ namespace OtchlanMapGenerator
         {
             int Added = -1;
             char lastDir = 'x';
-            
-            keyHandler.addCharToSequence(e.KeyChar); //must be before chceckKeyState()!
+
+            if (keyHandler.addCharToSequence(e.KeyChar) == false) return; //must be before chceckKeyState()!
                    
             keyBuffer=keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
@@ -298,13 +299,26 @@ namespace OtchlanMapGenerator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (keyInputAcive == false) return;
             char KeyCode = keyHandler.keyboardScan();
             if(KeyCode != '0') Form1_KeyPress(new KeyPressEventArgs(KeyCode));
 
         }
 
-
-
+        private void keyInputCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(keyInputCheckBox.Checked == true)
+            {
+                keyInputAcive = true;
+                keyInputCheckBox.Text = "Disable keys input";
+            }
+            else
+            {
+                keyInputAcive = false;
+                keyInputCheckBox.Text = "Enable keys input";
+            }
+            
+        }
     }
     
 }

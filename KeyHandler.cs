@@ -16,6 +16,7 @@ namespace OtchlanMapGenerator
 
         //HEX
         public const int VK_ENTER = 0xD; //This is the enter key.
+        public const int VK_BACKSPACE = 0x8; //This is the backspace key.
         public const int VK_NORTH = 0x4E; //This is the n key.
         public const int VK_SOUTH = 0x53; //This is the s key.
         public const int VK_EAST = 0x45; //This is the e key.
@@ -30,10 +31,17 @@ namespace OtchlanMapGenerator
         public String keysSinceEnter = "";
         char directionKeyword;
 
-        public void addCharToSequence(char keyChar)
+        public Boolean addCharToSequence(char keyChar) //returns false if Char not added (was Backspace)
         {
+            if(keyChar == Constants.VK_BACKSPACE && this.keysSinceEnter.Length>0)
+            {
+                this.keysSinceEnter = this.keysSinceEnter.Substring(0, this.keysSinceEnter.Length - 1);
+                return false;
+            }
+
             this.keysSinceEnter += keyChar;
             this.keysSinceEnter=this.keysSinceEnter.ToLower();
+            return true;
         }
         public void clearKeysSequence() //clears string (using after adding new map segment)
         {
@@ -82,7 +90,7 @@ namespace OtchlanMapGenerator
             }
             return false;
         }
-        //whole method not nessesary even wrong because it causes for egzample "sssssss" as "s"
+        //whole method not nessesary even wrong because it causes for example "sssssss" as "s"
         private void deleteDuplicats() //eesseweseesw
         {
             //string chars = "";
@@ -139,8 +147,11 @@ namespace OtchlanMapGenerator
             }
             keyState = GetAsyncKeyState(Constants.VK_ENTER);
             unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
-            
             if(unprocessedPress) return ('\r');
+
+            keyState = GetAsyncKeyState(Constants.VK_BACKSPACE);
+            unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
+            if (unprocessedPress) return (char)(Constants.VK_BACKSPACE);
 
             return '0'; // no essential keys were pressed
         }
