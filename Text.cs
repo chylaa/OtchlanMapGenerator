@@ -23,6 +23,7 @@ namespace OtchlanMapGenerator
         public string text_FormName;
 
         public string msg_StartLocation;
+        public string msg_DefaultName;
         public string msg_LanguageChange;
         public string msg_OnExit;
 
@@ -47,6 +48,7 @@ namespace OtchlanMapGenerator
                 this.text_languageGroupBox = "Select language";
                 
                 this.msg_StartLocation = "Start Location";
+                this.msg_DefaultName = "Default Name";
 
             }
             if(language == Language.PL)
@@ -62,6 +64,7 @@ namespace OtchlanMapGenerator
                 this.text_languageGroupBox = "Wybierz język";
 
                 this.msg_StartLocation = "Lokacja startowa";
+                this.msg_DefaultName = "Nazwa domyślna";
             }
         }
     }

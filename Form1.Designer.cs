@@ -48,6 +48,7 @@ namespace OtchlanMapGenerator
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -255,12 +256,22 @@ namespace OtchlanMapGenerator
             this.keyInputCheckBox.UseVisualStyleBackColor = true;
             this.keyInputCheckBox.CheckedChanged += new System.EventHandler(this.keyInputCheckBox_CheckedChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 221);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(717, 504);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
@@ -304,6 +315,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.RadioButton ENradioButton;
         private System.Windows.Forms.TextBox routeTextBox;
         private System.Windows.Forms.CheckBox keyInputCheckBox;
+        private System.Windows.Forms.Label label1;
     }
 }
 

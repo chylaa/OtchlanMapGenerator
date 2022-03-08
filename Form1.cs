@@ -24,8 +24,10 @@ namespace OtchlanMapGenerator
         ToolTip tip = new ToolTip();
         Text texts;
         KeyHandler keyHandler = new KeyHandler();
-        
 
+        ScreenRead screenRead = new ScreenRead();
+        ReadResult readResult = new ReadResult();
+        Boolean previousSegmentAdded = true;
 
         int timesKeyPressed = 0;
         String keyBuffer="";
@@ -86,7 +88,8 @@ namespace OtchlanMapGenerator
         //===================================Buttons Handling=======================================================
         private void correctButton_Click(object sender, EventArgs e)
         {
-            chosen.description = textboxName.Text;
+
+            chosen.name = textboxName.Text;
             chosen.assignValues(SegList.findSegment(chosen));
             //updateDescription()
             //updateBitmap()
@@ -155,7 +158,7 @@ namespace OtchlanMapGenerator
                 foreach (Segment seg in SegList.segments) seg.setBitmap('x', 'x'); //clear route showing 
             }
 
-            textboxName.Text = s.description;
+            textboxName.Text = s.name;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
             if (s.exits.e1 == Dir.north) SetButtonStyle(s, button_set_n, "N");
@@ -269,25 +272,36 @@ namespace OtchlanMapGenerator
             //charsSinceEnter += keyBuffer;   //just control
             segmentPanel.Text += keyHandler.keysSinceEnter; //-||-
 
-            Added = SegList.CheckKeyBuffer(newID, keyBuffer);
+            Added = SegList.CheckKeyBuffer(newID, keyBuffer); // here adding happens
             if (Added == -1) return;
 
             lastDir = keyBuffer[0];
+
+            if (previousSegmentAdded)
+            {
+                SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
+                //label1.Text = SegList.findSegment(SegList.previousSegment).decription; //
+                previousSegmentAdded = false;
+            }
 
             if (Added == 1)  //new segment added                             
             {
                 newID++;
                 keyHandler.clearKeysSequence();
+                previousSegmentAdded = true;
+                    
                 //timesKeyPressed = 0;
                 //SegList.playerSeg = SegList.segments.Last();
                 //SegList.ResetBitmapSizes();
             }
+
             routeTextBox.Visible = false; //hide routeTextBox if player moved
             SegmentClicked(SegList.playerSeg);
             DisplaySegments(lastDir,false);
             segmentPanel.Text = "";
 
         }
+
         //private void HandleHotkey(Message m)  //problem - this method "takes" all keyboard action for itself
         //{
         //    //message.wParam with the GetHashCode of the KeyHandler

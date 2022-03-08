@@ -16,10 +16,13 @@ namespace OtchlanMapGenerator
         public int baseBitmapSize = 50;
         int padding;
         int ScrollSpeed = 15;
+
+        Text texts;
         public ListOfSegments(Text texts)
         {
+            this.texts = texts;
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.north, Dir.south, Dir.east, Dir.west, texts.msg_StartLocation));
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.north, Dir.south, Dir.east, Dir.west, texts.msg_DefaultName));
             //segments.Add(new Segment(1, new Point(padding, padding+BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_2"));
             //segments.Add(new Segment(2, new Point(padding, padding + 2*BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_3"));
             //segments.Add(new Segment(3, new Point(padding+BitmapSize, padding + 2*BitmapSize), Dir.not, Dir.not, Dir.east, Dir.west, "Location_4"));
@@ -94,7 +97,7 @@ namespace OtchlanMapGenerator
         ///Returns "1" if segment added, "0" if segment not added.
         private int AddSegment(int newID, int xShift, int yShift, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
         {
-            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.e1, e.e2, e.e3, e.e4, "Default name");
+            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.e1, e.e2, e.e3, e.e4, texts.msg_DefaultName);
             this.previousSegment = this.playerSeg;
 
             Dir previousSegmentDirection = e.getExistingExit();

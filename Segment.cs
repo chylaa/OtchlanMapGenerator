@@ -57,7 +57,7 @@ namespace OtchlanMapGenerator
 
     }
 
-    enum Dir {not,north,south,west,east};
+    public enum Dir {not,north,south,west,east};
     class Segment
     {
         public int id;
@@ -66,7 +66,8 @@ namespace OtchlanMapGenerator
         public Bitmap bitmap;
         //public Size BitmapSize= new Size(50,50);
         public Point BMPlocation;
-        public String description;
+        public String name;
+        public String decription;
         //public List<Dir> exits;
         public ExitPoints exits;
 
@@ -79,13 +80,14 @@ namespace OtchlanMapGenerator
             this.id = id;
             this.exits = new ExitPoints(exit1, exit2, exit3, exit4);
             setBitmap('x','x');
-            this.description = name;
+            this.name = name;
             this.BMPlocation = location;
+            this.decription = "";
 
             this.distance = -1;
         }
         //params char previusDir/Direction - if == 'x' then sets normal bitmap, otherwise set adequate "route" bitmap. 
-        public void setBitmap(char previousDir, char Direction)//use this in constructor, if i decide to List<Segment> - then List.add(new Segment(location, description,exits)) and inside setBitmap checks whith bitmap set 
+        public void setBitmap(char previousDir, char Direction)
         {
             if (previousDir == 'x' && Direction == 'x' )
             {
@@ -161,7 +163,7 @@ namespace OtchlanMapGenerator
 
         public void assignValues(Segment s)
         {
-            this.description = s.description; 
+            this.name = s.name; 
             this.id = s.id;
             this.BMPlocation = s.BMPlocation;
             this.distance = s.distance;
@@ -174,5 +176,22 @@ namespace OtchlanMapGenerator
                 this.exits.e4 = s.exits.e4;
             }
         }
+
+        public void setSegmentInfo(ReadResult readResult)
+        {
+
+            if (!(this.name.Equals(new Text(Language.EN).msg_DefaultName) || this.name.Equals(new Text(Language.PL).msg_DefaultName))) return;
+
+            this.name = readResult.locationName;
+            this.decription = readResult.locationDescription;
+            this.exits.e1 = readResult.exit_n;
+            this.exits.e2 = readResult.exit_s;
+            this.exits.e3 = readResult.exit_e;
+            this.exits.e4 = readResult.exit_w;
+
+            this.setBitmap('x', 'x');
+
+        }
+
     }
 }
