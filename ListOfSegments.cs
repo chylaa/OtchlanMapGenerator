@@ -213,15 +213,15 @@ namespace OtchlanMapGenerator
             return null;
         }
 
-       public void ChangeSegmentSizes(int delta) //params: int delta from -120 to 120 
+       public void ChangeSegmentSizes(double delta) //params: int delta from -120 to 120 
         {
-            float dt = (float)(delta / 100);
+            double dt = (delta / 100);
 
             if (dt > 0)
             {
                 foreach (Segment s in this.segments)
                 {
-                    s.bitmap = new Bitmap(s.bitmap, new Size((int)(s.bitmap.Width * dt), (int)(s.bitmap.Height * dt)));
+                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width * dt), (int)(s.bitmap.Height * dt)));
                     s.BMPlocation.X = (int)(dt*s.BMPlocation.X);
                     s.BMPlocation.Y = (int)(dt*s.BMPlocation.Y);
                     //remember about new BMPlocation!
@@ -232,8 +232,7 @@ namespace OtchlanMapGenerator
                 dt *= -1; //make it positive :)
                 foreach (Segment s in this.segments)
                 {
-                    s.bitmap = new Bitmap(s.bitmap, new Size((int)(s.bitmap.Width / dt), (int)(s.bitmap.Height / dt)));
-
+                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width / dt), (int)(s.bitmap.Height / dt)));
                     s.BMPlocation.X = (int)(dt / s.BMPlocation.X);
                     s.BMPlocation.Y = (int)(dt / s.BMPlocation.Y);
                     //remember about new BMPlocation!

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -262,6 +263,7 @@ namespace OtchlanMapGenerator
         //===================Handling adding new Segments and keyboard read========================
         private void Form1_KeyPress(KeyPressEventArgs e)  
         {
+
             int Added = -1;
             char lastDir = 'x';
 
@@ -278,8 +280,9 @@ namespace OtchlanMapGenerator
             lastDir = keyBuffer[0];
 
             if (previousSegmentAdded)
-            {
+            {              
                 SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
+                
                 //label1.Text = SegList.findSegment(SegList.previousSegment).decription; //
                 previousSegmentAdded = false;
             }

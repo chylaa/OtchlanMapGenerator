@@ -64,6 +64,7 @@ namespace OtchlanMapGenerator
         public int distance; //def distance from another, chosen segment.
         //int neighbour_id //todo - show route
         public Bitmap bitmap;
+        public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes method)
         //public Size BitmapSize= new Size(50,50);
         public Point BMPlocation;
         public String name;
@@ -80,6 +81,7 @@ namespace OtchlanMapGenerator
             this.id = id;
             this.exits = new ExitPoints(exit1, exit2, exit3, exit4);
             setBitmap('x','x');
+            setStandardBitmap();
             this.name = name;
             this.BMPlocation = location;
             this.decription = "";
@@ -132,6 +134,11 @@ namespace OtchlanMapGenerator
                     Direction = buffer;
                 }
             }
+        }
+
+        private void setStandardBitmap()
+        {
+            this.standardBitmap = new Bitmap(this.bitmap);
         }
         public void setPlayerBitmap(char from)
         {

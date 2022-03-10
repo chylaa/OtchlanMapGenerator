@@ -88,7 +88,7 @@ namespace OtchlanMapGenerator
 
 
                 //bitmap.Save("screen.jpg", ImageFormat.Jpeg);
-                bitmap.Dispose();
+                //bitmap.Dispose();
 
             }
             catch (Exception ex)

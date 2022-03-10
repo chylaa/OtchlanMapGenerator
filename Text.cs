@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OtchlanMapGenerator
 {
     enum Language {PL,EN};
-    class Text
+    class Text //Make static
     {
         public string text_correctButton;
         public string text_segmentPanel;
