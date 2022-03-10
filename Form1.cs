@@ -272,7 +272,7 @@ namespace OtchlanMapGenerator
             keyBuffer=keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
             //charsSinceEnter += keyBuffer;   //just control
-            segmentPanel.Text += keyHandler.keysSinceEnter; //-||-
+            segmentPanel.Text += keyHandler.keysSinceEnter; //just control
 
             Added = SegList.CheckKeyBuffer(newID, keyBuffer); // here adding happens
             if (Added == -1) return;
@@ -280,9 +280,15 @@ namespace OtchlanMapGenerator
             lastDir = keyBuffer[0];
 
             if (previousSegmentAdded)
-            {              
-                SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
+            {
+                //SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
                 
+                //Segment tempS = SegList.findSegment(SegList.previousSegment); // ??
+
+                void SetInfo() { SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
+                Thread thread = new Thread(SetInfo);
+                thread.Start();
+
                 //label1.Text = SegList.findSegment(SegList.previousSegment).decription; //
                 previousSegmentAdded = false;
             }

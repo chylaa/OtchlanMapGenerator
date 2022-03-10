@@ -64,7 +64,7 @@ namespace OtchlanMapGenerator
         public int distance; //def distance from another, chosen segment.
         //int neighbour_id //todo - show route
         public Bitmap bitmap;
-        public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes method)
+        public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes methond)
         //public Size BitmapSize= new Size(50,50);
         public Point BMPlocation;
         public String name;

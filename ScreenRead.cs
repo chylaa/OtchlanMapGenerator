@@ -132,7 +132,16 @@ namespace OtchlanMapGenerator
             this.getTextFromScreen();
 
             //LOCATION NAME
-            String locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 2);
+            String locName;
+            if (this.readedString.Contains("\r\n\r\n"))
+            {
+                locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 4);
+            }
+            else
+            {
+                locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 2);
+            }
+
             locName = locName.Substring(0, locName.IndexOf("\r"));
 
             //EXITS
