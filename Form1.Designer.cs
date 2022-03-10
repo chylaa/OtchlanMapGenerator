@@ -67,6 +67,7 @@ namespace OtchlanMapGenerator
             // 
             this.segmentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.segmentPanel.BackColor = System.Drawing.Color.RosyBrown;
             this.segmentPanel.Controls.Add(this.routeTextBox);
             this.segmentPanel.Controls.Add(this.languageGroupBox);
             this.segmentPanel.Controls.Add(this.infoLabel);
@@ -80,7 +81,7 @@ namespace OtchlanMapGenerator
             this.segmentPanel.Controls.Add(this.correctButton);
             this.segmentPanel.Location = new System.Drawing.Point(519, 1);
             this.segmentPanel.Name = "segmentPanel";
-            this.segmentPanel.Size = new System.Drawing.Size(201, 482);
+            this.segmentPanel.Size = new System.Drawing.Size(201, 491);
             this.segmentPanel.TabIndex = 1;
             this.segmentPanel.TabStop = false;
             this.segmentPanel.Text = "Segment Panel";
@@ -99,7 +100,7 @@ namespace OtchlanMapGenerator
             this.languageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.languageGroupBox.Controls.Add(this.PLradioButton1);
             this.languageGroupBox.Controls.Add(this.ENradioButton);
-            this.languageGroupBox.Location = new System.Drawing.Point(3, 433);
+            this.languageGroupBox.Location = new System.Drawing.Point(3, 442);
             this.languageGroupBox.Name = "languageGroupBox";
             this.languageGroupBox.Size = new System.Drawing.Size(184, 49);
             this.languageGroupBox.TabIndex = 9;
@@ -232,7 +233,7 @@ namespace OtchlanMapGenerator
             this.hScrollBar1.Location = new System.Drawing.Point(0, 487);
             this.hScrollBar1.Maximum = 1000;
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(704, 17);
+            this.hScrollBar1.Size = new System.Drawing.Size(717, 17);
             this.hScrollBar1.TabIndex = 3;
             this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
             // 
@@ -270,6 +271,7 @@ namespace OtchlanMapGenerator
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(717, 504);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.keyInputCheckBox);

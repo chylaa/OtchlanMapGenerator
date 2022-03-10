@@ -31,7 +31,7 @@
 0)\\DONE | Mapping the route between selected segments (selected and the player's segment?) and giving user 
 		 | appropriate command string to paste into the game.
 ---------|------------------------------------------------------------------------------------------------------------]
-1)\\KINDA| Geting all nessesary data (like exits, locations names, maybe descriptions) automatically from the game. 
+1)\\DONE | Geting all nessesary data (like exits, locations names, maybe descriptions) automatically from the game. 
 ---------|------------------------------------------------------------------------------------------------------------]
 2)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
 ---------|------------------------------------------------------------------------------------------------------------]

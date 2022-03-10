@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-
 
 namespace OtchlanMapGenerator
 {
@@ -282,14 +274,12 @@ namespace OtchlanMapGenerator
             if (previousSegmentAdded)
             {
                 //SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
-                
-                //Segment tempS = SegList.findSegment(SegList.previousSegment); // ??
 
                 void SetInfo() { SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
                 Thread thread = new Thread(SetInfo);
                 thread.Start();
 
-                //label1.Text = SegList.findSegment(SegList.previousSegment).decription; //
+                //label1.Text = SegList.findSegment(SegList.previousSegment).decription; // just control
                 previousSegmentAdded = false;
             }
 
