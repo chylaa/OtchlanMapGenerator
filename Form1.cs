@@ -94,7 +94,8 @@ namespace OtchlanMapGenerator
         {
             if (SegList.segments.Count <= 1 || chosen.id==SegList.playerSeg.id) return;
             
-            SegList.segments.Remove(SegList.findSegment(chosen));
+            SegList.DeleteSegment(chosen);
+
             chosen.assignValues(SegList.playerSeg);
             correctButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments('x',true);

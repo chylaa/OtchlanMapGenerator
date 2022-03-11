@@ -14,14 +14,13 @@ namespace OtchlanMapGenerator
         public int baseBitmapSize = 50;
         int padding;
         int ScrollSpeed = 15;
-        int TimesSizeChanged=0;
 
         Text texts;
         public ListOfSegments(Text texts)
         {
             this.texts = texts;
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.north, Dir.south, Dir.east, Dir.west, texts.msg_DefaultName));
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, texts.msg_DefaultName));
             //segments.Add(new Segment(1, new Point(padding, padding+BitmapSize), Dir.north, Dir.south, Dir.not, Dir.not, "Location_2"));
             //segments.Add(new Segment(2, new Point(padding, padding + 2*BitmapSize), Dir.north, Dir.south, Dir.east, Dir.not, "Location_3"));
             //segments.Add(new Segment(3, new Point(padding+BitmapSize, padding + 2*BitmapSize), Dir.not, Dir.not, Dir.east, Dir.west, "Location_4"));
@@ -60,6 +59,7 @@ namespace OtchlanMapGenerator
             }
 
         }
+
         //Returns "1" if segment added, "0" if segment not added, "-1" if keyBuffer was never equal 
         public int CheckKeyBuffer(int newID, String keyBuffer)
         {
@@ -185,6 +185,35 @@ namespace OtchlanMapGenerator
             s.setBitmap('x','x');
             s.exits.setNeighbours(oldNeighID);
             return 1;
+        }
+        public void DeleteSegment(Segment toDelete)
+        {
+            int delSegID = toDelete.id;
+            foreach (Segment s in segments)
+            {
+                if (s.exits.neighbourID1 == delSegID)
+                {
+                    s.exits.neighbourID1 = -1;
+                    s.exits.e1 = Dir.not;
+                }
+                if (s.exits.neighbourID2 == delSegID)
+                {
+                    s.exits.neighbourID2 = -1;
+                    s.exits.e2 = Dir.not;
+                }
+                if (s.exits.neighbourID3 == delSegID)
+                {
+                    s.exits.neighbourID3 = -1;
+                    s.exits.e3 = Dir.not;
+                }
+                if (s.exits.neighbourID4 == delSegID)
+                {
+                    s.exits.neighbourID4 = -1;
+                    s.exits.e4 = Dir.not;
+                }
+                s.setBitmap('x','x');
+            }
+            this.segments.Remove(this.findSegment(toDelete));
         }
 
 

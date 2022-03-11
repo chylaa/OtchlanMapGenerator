@@ -3,7 +3,7 @@
 
 0)\\DONE | Adding neighbours IDs to each segment.													
 ---------|------------------------------------------------------------------------------------------------------------]
-1)//TODO | Erase neighbours exit and ID reffering to deleted segment.
+1)\\DONE | Erase neighbours exit and ID reffering to deleted segment.
 ---------|------------------------------------------------------------------------------------------------------------]
 2)//DONE | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
 ---------|------------------------------------------------------------------------------------------------------------]
