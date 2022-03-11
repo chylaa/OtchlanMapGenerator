@@ -52,6 +52,7 @@ namespace OtchlanMapGenerator
 
     }
 
+
     public enum Dir {not,north,south,west,east};
     class Segment
     {
@@ -182,7 +183,7 @@ namespace OtchlanMapGenerator
         public void setSegmentInfo(ReadResult readResult)
         {
 
-            if (!(this.name.Equals(new Text(Language.EN).msg_DefaultName) || this.name.Equals(new Text(Language.PL).msg_DefaultName))) return;
+            if (readResult.invalid || !(this.name.Equals(new Text(Language.EN).msg_DefaultName) || this.name.Equals(new Text(Language.PL).msg_DefaultName))) return;
 
             this.name = readResult.locationName;
             this.decription = readResult.locationDescription;

@@ -18,9 +18,9 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 7)//TODO | Automatic copy route to clipboard
 ---------|------------------------------------------------------------------------------------------------------------]
-8)//TODO | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
+8)\\DONE | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
 ---------|------------------------------------------------------------------------------------------------------------]
-9)//TODO | IMPORTANT: Ensure correct loading of map data despite delays (using list of threads??)
+9)//TODO | Bug: Zooming in/out when more than one element exist cause Segments to move away of eachother
 ---------|------------------------------------------------------------------------------------------------------------]
 
 

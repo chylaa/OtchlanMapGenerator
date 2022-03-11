@@ -5,6 +5,7 @@ using System.Drawing;
 
 namespace OtchlanMapGenerator
 {
+    
     class ListOfSegments
     {
         public Segment previousSegment;
@@ -13,6 +14,7 @@ namespace OtchlanMapGenerator
         public int baseBitmapSize = 50;
         int padding;
         int ScrollSpeed = 15;
+        int TimesSizeChanged=0;
 
         Text texts;
         public ListOfSegments(Text texts)
@@ -219,20 +221,18 @@ namespace OtchlanMapGenerator
                 foreach (Segment s in this.segments)
                 {
                     s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width * dt), (int)(s.bitmap.Height * dt)));
-                    s.BMPlocation.X = (int)(dt*s.BMPlocation.X);
-                    s.BMPlocation.Y = (int)(dt*s.BMPlocation.Y);
-                    //remember about new BMPlocation!
+                    s.BMPlocation.X = (int)((dt*s.BMPlocation.X)); //
+                    s.BMPlocation.Y = (int)((dt*s.BMPlocation.Y)); //use s.correctSegmentLocationOnMap ?                   
                 }
-            }                                                           //Generally somwhere there int is overfloing :ccc !!!!!!!!!!
+            }                                                           
             if(dt<0)
             {
                 dt *= -1; //make it positive :)
                 foreach (Segment s in this.segments)
                 {
                     s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width / dt), (int)(s.bitmap.Height / dt)));
-                    s.BMPlocation.X = (int)(dt / s.BMPlocation.X);
-                    s.BMPlocation.Y = (int)(dt / s.BMPlocation.Y);
-                    //remember about new BMPlocation!
+                    s.BMPlocation.X = (int)((s.BMPlocation.X / dt));
+                    s.BMPlocation.Y = (int)((s.BMPlocation.Y / dt));
                 }
             }
 

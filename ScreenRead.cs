@@ -8,14 +8,16 @@ using IronOcr;
 
 namespace OtchlanMapGenerator
 {
+
     public struct ReadResult
     {
-       public String locationName;
-       public String locationDescription;
-       public Dir exit_n;
-       public Dir exit_s;
-       public Dir exit_e;
-       public Dir exit_w;
+        public String locationName;
+        public String locationDescription;
+        public Dir exit_n;
+        public Dir exit_s;
+        public Dir exit_e;
+        public Dir exit_w;
+        public Boolean invalid; // to inform if Reasult was readed properly
     }
 
     class ScreenRead
@@ -52,7 +54,7 @@ namespace OtchlanMapGenerator
             //this.ssPath = "Capture.jpg";
         }
 
-        Boolean CaptureScreen()
+        Boolean CaptureScreen() //returns false if program has problem with capturing screen of game process
         {
             if (Process.GetProcessesByName("otchlan_starter").Length == 0)
             {
@@ -95,9 +97,9 @@ namespace OtchlanMapGenerator
 
             return true;
         }
-        void getTextFromScreen()
+        Boolean getTextFromScreen() // //returns false if program has problem with capturing screen of game process 
         {
-            if(!this.CaptureScreen()) return;
+            if(!this.CaptureScreen()) return false;
 
             var result = this.ironTesseract.Read(this.bitmap);
             this.readedString = result.Text;
@@ -114,7 +116,7 @@ namespace OtchlanMapGenerator
             this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray())-1); //
             this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
 
-            //return result.Text;
+            return true;
         }
 
         public ReadResult getLocationInfo()
@@ -125,7 +127,11 @@ namespace OtchlanMapGenerator
             readRersult.exit_e = Dir.not;
             readRersult.exit_w = Dir.not;
 
-            this.getTextFromScreen();
+            if (!this.getTextFromScreen())
+            {
+                readRersult.invalid = true;
+                return readRersult;
+            }
 
             //LOCATION NAME
             String locName;
@@ -156,6 +162,7 @@ namespace OtchlanMapGenerator
             if (locExits.Contains("east")) readRersult.exit_e = Dir.east;
             if (locExits.Contains("west")) readRersult.exit_w = Dir.west;
 
+            readRersult.invalid = false;
             return readRersult;
 
         }
