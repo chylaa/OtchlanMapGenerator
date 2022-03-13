@@ -10,7 +10,7 @@ thanks to automatically generated map of unlimited size and providing the functi
 
 Player moves in game by entering any substring of words "north" / "south" / "east" / "west"
 Application detects that substring and automatically creates a map of visited locations in real time.
-Reading names, exit directions and descriptions is done via OCR, which takes more time, so location data is updated in the background with some delay.
+Reading names, exit directions and descriptions is done via OCR, which takes more time, so location data is updated in the background with some small delay.
 
 At the moment, application displays information about the location after a single click on the segment, allows correcting the names and descriptions after pressing the "Show details" button, which also displays description of selected location and (after double-clicking) displaying route from player's position to selected location (with appropriate sequence of commands that can be pasted into the game).
 Two languages are available and ability to block keyboard input (recommended when leaving the game and application windows).
