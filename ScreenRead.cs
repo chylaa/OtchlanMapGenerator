@@ -52,6 +52,7 @@ namespace OtchlanMapGenerator
             this.ironTesseract.AddSecondaryLanguage(OcrLanguage.EnglishFast);
 
             this.readedString = "";
+            
             //this.ssPath = "Capture.jpg";
         }
 
@@ -59,7 +60,7 @@ namespace OtchlanMapGenerator
         {
             if (Process.GetProcessesByName("otchlan_starter").Length == 0)
             {
-                MessageBox.Show("Game process not detected!");
+                MessageBox.Show(Texts.msg_GameProcessNotFound);
                 return false;
             }
 
@@ -114,8 +115,15 @@ namespace OtchlanMapGenerator
             // DESCRIPTION \n
             //
             //
-            this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray())-1); //
-            if(!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
+            try
+            {
+                this.readedString = this.readedString.Substring(0, this.readedString.LastIndexOfAny("<".ToCharArray()) - 1); //
+                if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
+            }catch(Exception e)
+            {
+                MessageBox.Show(Texts.msg_ReadError);
+                return false;
+            }
 
             this.FirstDeploy = false;
             return true;

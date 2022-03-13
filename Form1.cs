@@ -13,7 +13,6 @@ namespace OtchlanMapGenerator
         ListOfSegments SegList;
         Segment chosen = new Segment();
         ToolTip tip = new ToolTip();
-        Text texts;
         Language activeLanguage = Language.EN;
         KeyHandler keyHandler = new KeyHandler();
 
@@ -28,6 +27,7 @@ namespace OtchlanMapGenerator
         int dx = 0;
         int dy = 0;
         int newID = 1; // start from 1 becouse there is always starting element 
+        int descBoxHeight = 24;
         Boolean flag_findWayBitmapsActive = false;
         Boolean flag_keyInputAcive = true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
@@ -41,8 +41,9 @@ namespace OtchlanMapGenerator
         {
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
+            Texts.setLanguage(activeLanguage);
             setTexts();
-            SegList = new ListOfSegments(texts);
+            SegList = new ListOfSegments();
 
             textboxName.Enabled = false;
             segmentPanel.Enabled = false;
@@ -58,28 +59,31 @@ namespace OtchlanMapGenerator
         //================================Language things============================================
         private void setTexts()
         {
-            texts = new Text(activeLanguage);
 
-            this.Text = texts.text_FormName;
-            detailButton.Text = texts.text_detailButton;
-            segmentPanel.Text = texts.text_segmentPanel;
-            textboxName.Text = texts.text_textboxName;
-            exitsLabel.Text = texts.text_exitsLabel;
-            deleteButton.Text = texts.text_deleteButton;
-            infoLabel.Text = texts.text_infoLabel;
-            languageGroupBox.Text = texts.text_languageGroupBox;
-            descriptionTextBox.Text = texts.text_descriptionTextBox;
+            this.Text = Texts.text_FormName;
+            detailButton.Text = Texts.text_detailButton;
+            segmentPanel.Text = Texts.text_segmentPanel;
+            textboxName.Text = Texts.text_textboxName;
+            exitsLabel.Text = Texts.text_exitsLabel;
+            deleteButton.Text = Texts.text_deleteButton;
+            infoLabel.Text = Texts.text_infoLabel;
+            languageGroupBox.Text = Texts.text_languageGroupBox;
+            descriptionTextBox.Text = Texts.text_descriptionTextBox;
         }
         private void ENradioButton_CheckedChanged(object sender, EventArgs e)
         {
             activeLanguage = Language.EN;
+            Texts.setLanguage(activeLanguage);
             setTexts();
+            //return activeLanguage;
         }
 
         private void PLradioButton1_CheckedChanged(object sender, EventArgs e)
         {
             activeLanguage = Language.PL;
+            Texts.setLanguage(activeLanguage);
             setTexts();
+            //return activeLanguage;
         }
 
         //===================================Buttons Handling=======================================================
@@ -213,10 +217,15 @@ namespace OtchlanMapGenerator
 
             flag_keyInputAcive = true; 
         }
-
+        //correcting size of descriptionTextBox when multiple lines
         private void descriptionTextBox_TextChanged(object sender, EventArgs e)
         {
-            //size change
+            String desc = descriptionTextBox.Text;
+            int newLineCount = 1;
+            foreach (char c in desc) if (c == '\n') newLineCount++;
+            int adjustment = (descBoxHeight/3) * (newLineCount - 1);
+            int ySize = (descBoxHeight * newLineCount) - adjustment - (newLineCount - 1)*1;
+            descriptionTextBox.Height = ySize;
         }
         private void textboxName_TextChanged(object sender, EventArgs e)
         {

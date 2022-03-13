@@ -14,13 +14,10 @@ namespace OtchlanMapGenerator
         public int baseBitmapSize = 50;
         int padding;
         int ScrollSpeed = 15;
-
-        Text texts;
-        public ListOfSegments(Text texts)
+        public ListOfSegments()
         {
-            this.texts = texts;
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, texts.msg_DefaultName)); //add base segment
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, Texts.msg_DefaultName)); //add base segment
 
         }
 
@@ -84,7 +81,7 @@ namespace OtchlanMapGenerator
         ///Returns "1" if segment added, "0" if segment not added.
         private int AddSegment(int newID, int xShift, int yShift, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
         {
-            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.eN, e.eS, e.eE, e.eW, texts.msg_DefaultName);
+            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.eN, e.eS, e.eE, e.eW, Texts.msg_DefaultName);
             this.previousSegment = this.playerSeg;
 
             Dir previousSegmentDirection = e.getExistingExit();
