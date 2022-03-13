@@ -3,7 +3,7 @@
 
 Map generator for the Polish text-game Otchłań (https://otchlan.pl/).
 
-Project is created entirely with Windows Forms C# - it's premise is to make user's ability to navigate in the game world easy and more efficient,
+Project is being created entirely with Windows Forms C# - it's premise is to make user's ability to navigate in the game world easy and more efficient,
 thanks to automatically generated map of unlimited size and providing the function of determining the shortest route to the selected location.
 
 ## :Brief description:
