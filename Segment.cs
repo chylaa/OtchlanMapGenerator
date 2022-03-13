@@ -5,48 +5,48 @@ namespace OtchlanMapGenerator
 {
     class ExitPoints
     {
-        public Dir e1,e2,e3,e4; //north, south, east, west
-        public int neighbourID1, neighbourID2, neighbourID3, neighbourID4; // -1 if dont exist
+        public Dir eN,eS,eE,eW; //north, south, east, west
+        public int neighbourIDn, neighbourIDs, neighbourIDe, neighbourIDw; // -1 if dont exist
         public ExitPoints(Dir a, Dir b, Dir c, Dir d)
         {
-            this.e1 = a;
-            this.e2 = b;
-            this.e3 = c;
-            this.e4 = d;
-            this.neighbourID1 = -1;
-            this.neighbourID2 = -1;
-            this.neighbourID3 = -1;
-            this.neighbourID4 = -1;
+            this.eN = a;
+            this.eS = b;
+            this.eE = c;
+            this.eW = d;
+            this.neighbourIDn = -1;
+            this.neighbourIDs = -1;
+            this.neighbourIDe = -1;
+            this.neighbourIDw = -1;
         }
 
         public virtual bool Equals(ExitPoints other)
         {
-            if (this.e1 == other.e1 && this.e2 == other.e2 && this.e3 == other.e3 && this.e4 == other.e4) return true;
+            if (this.eN == other.eN && this.eS == other.eS && this.eE == other.eE && this.eW == other.eW) return true;
             return false;
         }
         public Dir getExistingExit() //returns first !not direction from exits (nessesary for settin neighbourID) 
         {
-            if (this.e1 == Dir.north) return this.e1;
-            if (this.e2 == Dir.south) return this.e2;
-            if (this.e3 == Dir.east) return this.e3;
-            if (this.e4 == Dir.west) return this.e4;
+            if (this.eN == Dir.north) return this.eN;
+            if (this.eS == Dir.south) return this.eS;
+            if (this.eE == Dir.east) return this.eE;
+            if (this.eW == Dir.west) return this.eW;
             return Dir.not;
         }
         public Dir getOppositeDir()
         {
-            if (this.e1 == Dir.north) return Dir.south;
-            if (this.e2 == Dir.south) return Dir.north;
-            if (this.e3 == Dir.east) return Dir.west;
-            if (this.e4 == Dir.west) return Dir.east;
+            if (this.eN == Dir.north) return Dir.south;
+            if (this.eS == Dir.south) return Dir.north;
+            if (this.eE == Dir.east) return Dir.west;
+            if (this.eW == Dir.west) return Dir.east;
             return Dir.not;
         }
         public void setNeighbours(int[] tabOf4)
         {
             //if (tabOf4.Length != 4) return;
-            this.neighbourID1 = tabOf4[0];
-            this.neighbourID2 = tabOf4[1];
-            this.neighbourID3 = tabOf4[2];
-            this.neighbourID4 = tabOf4[3];
+            this.neighbourIDn = tabOf4[0];
+            this.neighbourIDs = tabOf4[1];
+            this.neighbourIDe = tabOf4[2];
+            this.neighbourIDw = tabOf4[3];
         }
 
 
@@ -156,10 +156,10 @@ namespace OtchlanMapGenerator
         public void setNeighbourID(int segmentID,Dir neighbourLocation) //int segmentID = ID of neighbour's of this segment | Dir neighbourLocation - witch way from this segment is his neighbour
         {
             //if (neighbourLocation == Dir.not) return; //Error situation
-            if (neighbourLocation == Dir.north) this.exits.neighbourID1 = segmentID;
-            if (neighbourLocation == Dir.south) this.exits.neighbourID2 = segmentID;
-            if (neighbourLocation == Dir.east) this.exits.neighbourID3 = segmentID;
-            if (neighbourLocation == Dir.west) this.exits.neighbourID4 = segmentID;
+            if (neighbourLocation == Dir.north) this.exits.neighbourIDn = segmentID;
+            if (neighbourLocation == Dir.south) this.exits.neighbourIDs = segmentID;
+            if (neighbourLocation == Dir.east) this.exits.neighbourIDe = segmentID;
+            if (neighbourLocation == Dir.west) this.exits.neighbourIDw = segmentID;
 
         }
 
@@ -168,15 +168,16 @@ namespace OtchlanMapGenerator
         {
             this.name = s.name; 
             this.id = s.id;
-            this.BMPlocation = s.BMPlocation;
+            //this.BMPlocation = s.BMPlocation; //breaks map due to input old values, ignoring constant changes in BMPlocations
             this.distance = s.distance;
+            this.decription = s.decription;
 
-            if (this.exits!=null)
+            if (this.exits!=null && s.exits!=null)
             {
-                this.exits.e1 = s.exits.e1;
-                this.exits.e2 = s.exits.e2;
-                this.exits.e3 = s.exits.e3;
-                this.exits.e4 = s.exits.e4;
+                this.exits.eN = s.exits.eN;
+                this.exits.eS = s.exits.eS;
+                this.exits.eE = s.exits.eE;
+                this.exits.eW = s.exits.eW;
             }
         }
 
@@ -187,10 +188,10 @@ namespace OtchlanMapGenerator
 
             this.name = readResult.locationName;
             this.decription = readResult.locationDescription;
-            this.exits.e1 = readResult.exit_n;
-            this.exits.e2 = readResult.exit_s;
-            this.exits.e3 = readResult.exit_e;
-            this.exits.e4 = readResult.exit_w;
+            this.exits.eN = readResult.exit_n;
+            this.exits.eS = readResult.exit_s;
+            this.exits.eE = readResult.exit_e;
+            this.exits.eW = readResult.exit_w;
 
             this.setBitmap('x', 'x');
 

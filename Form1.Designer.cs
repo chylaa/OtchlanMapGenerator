@@ -30,7 +30,7 @@ namespace OtchlanMapGenerator
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.correctButton = new System.Windows.Forms.Button();
+            this.detailButton = new System.Windows.Forms.Button();
             this.segmentPanel = new System.Windows.Forms.GroupBox();
             this.routeTextBox = new System.Windows.Forms.TextBox();
             this.languageGroupBox = new System.Windows.Forms.GroupBox();
@@ -48,20 +48,20 @@ namespace OtchlanMapGenerator
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // correctButton
+            // detailButton
             // 
-            this.correctButton.Location = new System.Drawing.Point(39, 250);
-            this.correctButton.Name = "correctButton";
-            this.correctButton.Size = new System.Drawing.Size(105, 52);
-            this.correctButton.TabIndex = 0;
-            this.correctButton.Text = "Correct";
-            this.correctButton.UseVisualStyleBackColor = true;
-            this.correctButton.Click += new System.EventHandler(this.correctButton_Click);
+            this.detailButton.Location = new System.Drawing.Point(39, 250);
+            this.detailButton.Name = "detailButton";
+            this.detailButton.Size = new System.Drawing.Size(105, 52);
+            this.detailButton.TabIndex = 1;
+            this.detailButton.Text = "Show details";
+            this.detailButton.UseVisualStyleBackColor = true;
+            this.detailButton.Click += new System.EventHandler(this.detailButton_Click);
             // 
             // segmentPanel
             // 
@@ -78,8 +78,8 @@ namespace OtchlanMapGenerator
             this.segmentPanel.Controls.Add(this.button_set_e);
             this.segmentPanel.Controls.Add(this.button_set_n);
             this.segmentPanel.Controls.Add(this.textboxName);
-            this.segmentPanel.Controls.Add(this.correctButton);
-            this.segmentPanel.Location = new System.Drawing.Point(519, 1);
+            this.segmentPanel.Controls.Add(this.detailButton);
+            this.segmentPanel.Location = new System.Drawing.Point(519, 0);
             this.segmentPanel.Name = "segmentPanel";
             this.segmentPanel.Size = new System.Drawing.Size(201, 491);
             this.segmentPanel.TabIndex = 1;
@@ -196,22 +196,25 @@ namespace OtchlanMapGenerator
             this.button_set_n.Location = new System.Drawing.Point(72, 79);
             this.button_set_n.Name = "button_set_n";
             this.button_set_n.Size = new System.Drawing.Size(40, 40);
-            this.button_set_n.TabIndex = 2;
+            this.button_set_n.TabIndex = 0;
             this.button_set_n.Text = "n";
             this.button_set_n.UseVisualStyleBackColor = true;
             // 
             // textboxName
             // 
+            this.textboxName.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.textboxName.Enabled = false;
             this.textboxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.3F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textboxName.Location = new System.Drawing.Point(12, 29);
             this.textboxName.Name = "textboxName";
-            this.textboxName.ReadOnly = true;
             this.textboxName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textboxName.Size = new System.Drawing.Size(166, 20);
             this.textboxName.TabIndex = 1;
             this.textboxName.Text = "Location name";
             this.textboxName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textboxName.TextChanged += new System.EventHandler(this.textboxName_TextChanged);
+            this.textboxName.MouseEnter += new System.EventHandler(this.disableKeyInput);
+            this.textboxName.MouseLeave += new System.EventHandler(this.enableKeyInput);
             // 
             // vScrollBar1
             // 
@@ -247,8 +250,6 @@ namespace OtchlanMapGenerator
             // 
             this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.keyInputCheckBox.AutoSize = true;
-            this.keyInputCheckBox.Checked = true;
-            this.keyInputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.keyInputCheckBox.Location = new System.Drawing.Point(12, 455);
             this.keyInputCheckBox.Name = "keyInputCheckBox";
             this.keyInputCheckBox.Size = new System.Drawing.Size(107, 17);
@@ -257,14 +258,24 @@ namespace OtchlanMapGenerator
             this.keyInputCheckBox.UseVisualStyleBackColor = true;
             this.keyInputCheckBox.CheckedChanged += new System.EventHandler(this.keyInputCheckBox_CheckedChanged);
             // 
-            // label1
+            // descriptionTextBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 221);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.descriptionTextBox.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.descriptionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.descriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.descriptionTextBox.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.descriptionTextBox.Location = new System.Drawing.Point(12, 5);
+            this.descriptionTextBox.Multiline = true;
+            this.descriptionTextBox.Name = "descriptionTextBox";
+            this.descriptionTextBox.Size = new System.Drawing.Size(493, 24);
+            this.descriptionTextBox.TabIndex = 6;
+            this.descriptionTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.descriptionTextBox.Visible = false;
+            this.descriptionTextBox.TextChanged += new System.EventHandler(this.descriptionTextBox_TextChanged);
+            this.descriptionTextBox.MouseEnter += new System.EventHandler(this.disableKeyInput);
+            this.descriptionTextBox.MouseLeave += new System.EventHandler(this.enableKeyInput);
             // 
             // Form1
             // 
@@ -273,7 +284,7 @@ namespace OtchlanMapGenerator
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(717, 504);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
@@ -299,7 +310,7 @@ namespace OtchlanMapGenerator
 
         #endregion
 
-        private System.Windows.Forms.Button correctButton;
+        private System.Windows.Forms.Button detailButton;
         private System.Windows.Forms.GroupBox segmentPanel;
         private System.Windows.Forms.TextBox textboxName;
         private System.Windows.Forms.Button button_set_w;
@@ -317,7 +328,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.RadioButton ENradioButton;
         private System.Windows.Forms.TextBox routeTextBox;
         private System.Windows.Forms.CheckBox keyInputCheckBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox descriptionTextBox;
     }
 }
 

@@ -5,7 +5,7 @@ namespace OtchlanMapGenerator
     enum Language {PL,EN};
     class Text //Make static
     {
-        public string text_correctButton;
+        public string text_detailButton;
         public string text_segmentPanel;
         public string text_textboxName;
         public string text_button_set_w = "w";
@@ -17,6 +17,7 @@ namespace OtchlanMapGenerator
         public string text_infoLabel;
         public string text_languageGroupBox;
         public string text_FormName;
+        public string text_descriptionTextBox;
 
         public string msg_StartLocation;
         public string msg_DefaultName;
@@ -35,13 +36,14 @@ namespace OtchlanMapGenerator
             {
                 this.text_FormName = "Otchłań Map Generator";
 
-                this.text_correctButton = "Correct";
+                this.text_detailButton = "Show Details";
                 this.text_segmentPanel = "Segment Panel";
                 this.text_textboxName = "Location Name";
                 this.text_exitsLabel = "Exits";
                 this.text_deleteButton = "Delete";
                 this.text_infoLabel = "temp Segment info";
                 this.text_languageGroupBox = "Select language";
+                this.text_descriptionTextBox = "Description";
                 
                 this.msg_StartLocation = "Start Location";
                 this.msg_DefaultName = "Default Name";
@@ -51,13 +53,14 @@ namespace OtchlanMapGenerator
             {
                 this.text_FormName = "Otchłań - Generator mapy";
 
-                this.text_correctButton = "Popraw";
+                this.text_detailButton = "Szczegóły";
                 this.text_segmentPanel = "Informacje o Segmencie";
                 this.text_textboxName = "Nazwa lokacji";
                 this.text_exitsLabel = "Wyjścia";
                 this.text_deleteButton = "Usuń";
                 this.text_infoLabel = "temp Segment info";
                 this.text_languageGroupBox = "Wybierz język";
+                this.text_descriptionTextBox = "Opis lokacji";
 
                 this.msg_StartLocation = "Lokacja startowa";
                 this.msg_DefaultName = "Nazwa domyślna";

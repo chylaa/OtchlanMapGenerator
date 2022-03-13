@@ -42,6 +42,7 @@ namespace OtchlanMapGenerator
         //String ssPath;
         Bitmap bitmap;
         String readedString;
+        Boolean FirstDeploy = true;
 
         public ScreenRead()
         {
@@ -114,8 +115,9 @@ namespace OtchlanMapGenerator
             //
             //
             this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray())-1); //
-            this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
+            if(!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
 
+            this.FirstDeploy = false;
             return true;
         }
 
@@ -153,6 +155,12 @@ namespace OtchlanMapGenerator
 
             //DECRIPTION
             locDesc = locDesc.Substring(locDesc.IndexOf("\r"));
+            locDesc=locDesc.Replace("\r\n\r\n", "");
+            locDesc=locDesc.Replace("\n\r\n\r", "");
+            locDesc=locDesc.Replace("\r\n\r", "");
+            locDesc=locDesc.Replace("\n\r\n", "");
+            //for (int i = 0; i < 4; i++) if (locDesc[i] == '\r' || locDesc[i] == '\n') locDesc=locDesc.Substring(i+1);
+            //for (int i = locDesc.Length; i > locDesc.Length - 4; i--) if (locDesc[i] == '\r' || locDesc[i] == '\n') locDesc = locDesc.Substring(0,i-1);
 
             readRersult.locationName = locName;
             readRersult.locationDescription = locDesc;

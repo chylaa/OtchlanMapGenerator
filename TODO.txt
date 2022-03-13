@@ -5,23 +5,28 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 1)\\DONE | Erase neighbours exit and ID reffering to deleted segment.
 ---------|------------------------------------------------------------------------------------------------------------]
-2)//DONE | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
+2)\\DONE | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
 ---------|------------------------------------------------------------------------------------------------------------]
 3)\\DONE | Add recognition if string from keyboard input is proper Direction Command and not end of different one 
 		 | (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
 ---------|------------------------------------------------------------------------------------------------------------]
-4)//TODO | All stuff with correcting specific segment's (checked by click) atributes by user.
+4)\\DONE | "Camera" following player segment
 ---------|------------------------------------------------------------------------------------------------------------]
-5)\\DONE | "Camera" following player segment
+5)\\DONE | FIX BUG WITH CREATING DISTANCES MAP 
 ---------|------------------------------------------------------------------------------------------------------------]
-6)\\DONE | FIX BUG WITH CREATING DISTANCES MAP 
+6)\\DONE | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//TODO | Automatic copy route to clipboard
+7)//TODO | Bug: Zooming in/out when more than one element exist cause Segments to move away of eachother
 ---------|------------------------------------------------------------------------------------------------------------]
-8)\\DONE | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
+8)\\DONE | All stuff with correcting specific segment's (checked by click) atributes by user.
 ---------|------------------------------------------------------------------------------------------------------------]
-9)//TODO | Bug: Zooming in/out when more than one element exist cause Segments to move away of eachother
+9)//TODO | Correct player position by right-click on segment
 ---------|------------------------------------------------------------------------------------------------------------]
+10)/TODO | Automatically copy route to clipboard
+---------|------------------------------------------------------------------------------------------------------------]
+11)/TODO | Handle problems with "disappearing" of location's atributes when player use for e.g EQ (make ss in reserve?) 
+---------|------------------------------------------------------------------------------------------------------------]
+
 
 
 
