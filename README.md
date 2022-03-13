@@ -8,7 +8,7 @@ thanks to automatically generated map of unlimited size and providing the functi
 
 ## :Brief description:
 
-Each square represents a single location. Its appearance reflects the possible exit directions. Player moves in game by entering any substring of words "north" / "south" / "east" / "west"
+Each square represents a single location. Its appearance reflects possible exit directions. Player moves in game by entering any substring of words "north" / "south" / "east" / "west"
 Application detects that substring and automatically creates a map of visited locations in real time.
 Reading names, exit directions and descriptions is done via OCR, which takes more time, so location data is updated in the background with some small delay.
 
