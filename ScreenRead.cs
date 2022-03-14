@@ -142,6 +142,11 @@ namespace OtchlanMapGenerator
                 readRersult.invalid = true;
                 return readRersult;
             }
+            if (!this.readedString.Contains(":"))
+            {
+                readRersult.invalid = true;
+                return readRersult;
+            }
 
             //LOCATION NAME
             String locName;
@@ -157,6 +162,7 @@ namespace OtchlanMapGenerator
             locName = locName.Substring(0, locName.IndexOf("\r"));
 
             //EXITS
+            
             String locExits = this.readedString.Substring(this.readedString.IndexOf(":"));
             String locDesc = locExits;
             locExits = locExits.Substring(0, locExits.IndexOf("\n")); 
