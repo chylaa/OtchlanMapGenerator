@@ -23,6 +23,8 @@ namespace OtchlanMapGenerator
         int timesKeyPressed = 0;
         String keyBuffer = "";
 
+        Rectangle outlineSelect;
+        Boolean flagDrawOutline = false;
 
         int dx = 0;
         int dy = 0;
@@ -122,9 +124,12 @@ namespace OtchlanMapGenerator
                     if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
                     {
                         SegmentClicked(segment);
+                        return;
                     }
                 }
             }
+            HideOutlineSelected();
+            DisplaySegments('x', false);
         }
 
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -157,6 +162,8 @@ namespace OtchlanMapGenerator
                 routeTextBox.Text = "";
                 foreach (Segment seg in SegList.segments) seg.setBitmap('x', 'x'); //clear route showing 
             }
+
+            DrawOutlineForSelected(s);
 
             textboxName.Text = s.name;
             descriptionTextBox.Text = s.decription;
@@ -251,12 +258,27 @@ namespace OtchlanMapGenerator
         {
             //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
             foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
-
+            if (flagDrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
         }
         private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
         {
             DisplaySegments('x', true);
         }
+
+        private void DrawOutlineForSelected(Segment selected)
+        {
+            if (SegList.playerSeg == null) return;
+            if (selected.id == SegList.playerSeg.id){
+                HideOutlineSelected(); 
+            }else{
+                outlineSelect = new Rectangle(selected.BMPlocation, selected.bitmap.Size);
+
+            }           
+            flagDrawOutline = true;
+            DisplaySegments('x', false);
+        }
+
+        private void HideOutlineSelected() { outlineSelect = new Rectangle(); }
 
         //==================Handling ScrollBars and MouseWheel=================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
