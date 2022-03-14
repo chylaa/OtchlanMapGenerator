@@ -16,17 +16,17 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 6)\\DONE | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//TODO | Bug: Zooming in/out when more than one element exist cause Segments to move away of eachother
+7)//TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
 8)\\DONE | All stuff with correcting specific segment's (checked by click) atributes by user.
 ---------|------------------------------------------------------------------------------------------------------------]
-9)//TODO | Correct player position by right-click on segment
+9)\\TODO | Correct player position by right-click on segment 
 ---------|------------------------------------------------------------------------------------------------------------]
-10)/TODO | Automatically copy route to clipboard
+10)/TODO | Automatically copy route to clipboard + exits correction
 ---------|------------------------------------------------------------------------------------------------------------]
 11)/TODO | Handle problems with "disappearing" of location's atributes when player use for e.g EQ (make ss in reserve?) 
 ---------|------------------------------------------------------------------------------------------------------------]
-12)/TODO | Hilight selected segment + exits correction
+12)\DONE | Hilight selected segment 
 ---------|------------------------------------------------------------------------------------------------------------]
 
 
@@ -44,7 +44,7 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 3)//IDEA | Saving all data of generated map to file/database - possibility of opening different maps? (!)
 ---------|------------------------------------------------------------------------------------------------------------]
-4)//IDEA | Add the ability to correct player's position by the user (Based on the selected segment)
+4)//DONE | Add the ability to correct player's position by the user (Based on the selected segment)
 ---------|------------------------------------------------------------------------------------------------------------]
 5)//IDEA | Undo function?
 ---------|------------------------------------------------------------------------------------------------------------]

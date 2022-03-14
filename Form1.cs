@@ -102,9 +102,10 @@ namespace OtchlanMapGenerator
 
             SegList.DeleteSegment(chosen);
 
+            HideOutlineSelected();
             chosen.assignValues(SegList.playerSeg);
             button_set_n.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
-            DisplaySegments('x', true);
+            DisplaySegments(playerOrientation, true);
 
         }
 
@@ -113,7 +114,6 @@ namespace OtchlanMapGenerator
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             descriptionTextBox.Visible = false;
-            if (e.Button != MouseButtons.Left) return;
 
             //DisplaySegments();
             foreach (Segment segment in SegList.segments)
@@ -123,13 +123,14 @@ namespace OtchlanMapGenerator
                 {
                     if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
                     {
+                        if (e.Button == MouseButtons.Right) setPlayerAtSegment(segment); 
                         SegmentClicked(segment);
                         return;
                     }
                 }
             }
             HideOutlineSelected();
-            DisplaySegments('x', false);
+            DisplaySegments(playerOrientation, false);
         }
 
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -147,7 +148,7 @@ namespace OtchlanMapGenerator
                     }
                 }
             }
-            DisplaySegments('x', true); //Double click on background return viev to player segment
+            DisplaySegments(playerOrientation, true); //Double click on background return viev to player segment
         }
 
         private void SegmentClicked(Segment s)
@@ -164,7 +165,7 @@ namespace OtchlanMapGenerator
             }
 
             DrawOutlineForSelected(s);
-
+            
             textboxName.Text = s.name;
             descriptionTextBox.Text = s.decription;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
@@ -210,7 +211,7 @@ namespace OtchlanMapGenerator
             button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             button_set_w.BackColor = Control.DefaultBackColor;
         }
-        //======================Atribute changes=======================
+        //--------------Atribute changes-----------------
 
         private void disableKeyInput(object sender, EventArgs e) { flag_keyInputAcive = false; }
         private void enableKeyInput(object sender, EventArgs e)
@@ -238,6 +239,14 @@ namespace OtchlanMapGenerator
         {
 
         }
+        private void setPlayerAtSegment(Segment clickedSegment)
+        {
+            Segment newPlayerSeg = SegList.findSegment(clickedSegment);
+            newPlayerSeg.bitmap = SegList.playerSeg.bitmap;
+            SegList.playerSeg.setBitmap('x', 'x'); //sets normal bitmap
+            SegList.playerSeg = newPlayerSeg;
+            DisplaySegments(playerOrientation,true);
+        }
 
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments(char from, Boolean centerOnPlayer) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
@@ -259,23 +268,25 @@ namespace OtchlanMapGenerator
             //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
             foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
             if (flagDrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
+            flagDrawOutline = false;
         }
         private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
         {
-            DisplaySegments('x', true);
+            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DisplaySegments(playerOrientation, true);
         }
 
         private void DrawOutlineForSelected(Segment selected)
         {
-            if (SegList.playerSeg == null) return;
+            if (SegList.playerSeg == null || selected==null) return;
             if (selected.id == SegList.playerSeg.id){
                 HideOutlineSelected(); 
             }else{
                 outlineSelect = new Rectangle(selected.BMPlocation, selected.bitmap.Size);
 
-            }           
+            }
             flagDrawOutline = true;
-            DisplaySegments('x', false);
+            DisplaySegments(playerOrientation, false);
         }
 
         private void HideOutlineSelected() { outlineSelect = new Rectangle(); }
@@ -287,7 +298,9 @@ namespace OtchlanMapGenerator
 
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy, dx, e.OldValue);
-            DisplaySegments('x', false);
+
+            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DisplaySegments(playerOrientation, false);
         }
 
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -295,13 +308,17 @@ namespace OtchlanMapGenerator
             dx = e.NewValue;
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegList.UpdateSegmentsLocationScroll(dx, dy, e.OldValue, dy);
-            DisplaySegments('x', false);
+
+            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DisplaySegments(playerOrientation, false);
         }
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
             SegList.ChangeSegmentSizes(e.Delta);
+
+            //DrawOutlineForSelected(SegList.findSegment(chosen));
             DisplaySegments('x', false);
 
         }
@@ -353,6 +370,7 @@ namespace OtchlanMapGenerator
             routeTextBox.Visible = false; //hide routeTextBox if player moved
             SegmentClicked(SegList.playerSeg);
             DisplaySegments(lastDir, true);
+            playerOrientation = lastDir;
             segmentPanel.Text = "";
 
         }
