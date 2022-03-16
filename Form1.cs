@@ -423,6 +423,30 @@ namespace OtchlanMapGenerator
             }
 
         }
-
+        //For testing save&load
+        private void SaveLoad_CheckedChanged(object sender, EventArgs e)
+        {
+            if (SaveLoad.Checked)
+            {
+                if (MapSave.SaveMapToFile(@"Saves\Mapa.omg", SegList))
+                {
+                    SaveLoad.Text = "Load";
+                    return;
+                }
+                return;
+            }
+            else
+            {
+                SegList = MapSave.ReadMapFromFile(@"Saves\Mapa.omg");
+                if (SegList == null)
+                {
+                    return;
+                }
+                SaveLoad.Text = "Save";
+                
+            }
+            DisplaySegments(playerOrientation,true);
+            
+        }
     }
 }

@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="KeyHandler.cs" />
     <Compile Include="ListOfSegments.cs" />
+    <Compile Include="MapSave.cs" />
     <Compile Include="ProccesReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace OtchlanMapGenerator
 {
-    
+    [Serializable]
     class ListOfSegments
     {
         public Segment previousSegment;

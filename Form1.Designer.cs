@@ -49,6 +49,7 @@ namespace OtchlanMapGenerator
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
+            this.SaveLoad = new System.Windows.Forms.CheckBox();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -277,6 +278,17 @@ namespace OtchlanMapGenerator
             this.descriptionTextBox.MouseEnter += new System.EventHandler(this.disableKeyInput);
             this.descriptionTextBox.MouseLeave += new System.EventHandler(this.enableKeyInput);
             // 
+            // SaveLoad
+            // 
+            this.SaveLoad.AutoSize = true;
+            this.SaveLoad.Location = new System.Drawing.Point(318, 391);
+            this.SaveLoad.Name = "SaveLoad";
+            this.SaveLoad.Size = new System.Drawing.Size(51, 17);
+            this.SaveLoad.TabIndex = 7;
+            this.SaveLoad.Text = "Save";
+            this.SaveLoad.UseVisualStyleBackColor = true;
+            this.SaveLoad.CheckedChanged += new System.EventHandler(this.SaveLoad_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +296,7 @@ namespace OtchlanMapGenerator
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(717, 504);
+            this.Controls.Add(this.SaveLoad);
             this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
@@ -329,6 +342,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.TextBox routeTextBox;
         private System.Windows.Forms.CheckBox keyInputCheckBox;
         private System.Windows.Forms.TextBox descriptionTextBox;
+        private System.Windows.Forms.CheckBox SaveLoad;
     }
 }
 

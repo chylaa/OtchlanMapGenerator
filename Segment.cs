@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace OtchlanMapGenerator
 {
+    [Serializable]
     class ExitPoints
     {
         public Dir eN,eS,eE,eW; //north, south, east, west
@@ -54,11 +55,11 @@ namespace OtchlanMapGenerator
 
 
     public enum Dir {not,north,south,west,east};
+    [Serializable]
     class Segment
     {
         public int id;
         public int distance; //def distance from another, chosen segment.
-        //int neighbour_id //todo - show route
         public Bitmap bitmap;
         public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes methond)
         //public Size BitmapSize= new Size(50,50);
