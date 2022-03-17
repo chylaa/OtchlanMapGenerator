@@ -9,8 +9,9 @@ namespace OtchlanMapGenerator
 
     public partial class Form1 : Form
     {
+        
         //Segment segment = new Segment();
-        ListOfSegments SegList;
+        Map SegMap;
         Segment chosen = new Segment();
         ToolTip tip = new ToolTip();
         Language activeLanguage = Language.EN;
@@ -41,22 +42,31 @@ namespace OtchlanMapGenerator
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            this.openFileDialog.Filter = Texts.mapFileExtentionPattern;
+            this.openFileDialog.InitialDirectory = @"Saves\";
+            this.openFileDialog.DefaultExt = Texts.mapFileExtention;
+            this.saveFileDialog.Filter = Texts.mapFileExtentionPattern;
+            this.saveFileDialog.InitialDirectory = @"Saves\";
+            this.saveFileDialog.DefaultExt = Texts.mapFileExtention;
+
+            
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
             Texts.setLanguage(activeLanguage);
             setTexts();
-            SegList = new ListOfSegments();
+            SegMap = new Map();
 
             textboxName.Enabled = false;
             segmentPanel.Enabled = false;
 
-            if (SegList.segments.Count() > 0)
+            if (SegMap.segments.Count() > 0)
             {
-                SegmentClicked((SegList.segments.First()));
-                SegList.playerSeg = SegList.segments.First();
+                SegmentClicked((SegMap.segments.First()));
+                SegMap.playerSeg = SegMap.segments.First();
             }
 
-            SegList.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
+            SegMap.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
         }
         //================================Language things============================================
         private void setTexts()
@@ -98,12 +108,12 @@ namespace OtchlanMapGenerator
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (SegList.segments.Count <= 1 || chosen.id == SegList.playerSeg.id) return;
+            if (SegMap.segments.Count <= 1 || chosen.id == SegMap.playerSeg.id) return;
 
-            SegList.DeleteSegment(chosen);
+            SegMap.DeleteSegment(chosen);
 
             HideOutlineSelected();
-            chosen.assignValues(SegList.playerSeg);
+            chosen.assignValues(SegMap.playerSeg);
             button_set_n.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments(playerOrientation, true);
 
@@ -116,7 +126,7 @@ namespace OtchlanMapGenerator
             descriptionTextBox.Visible = false;
 
             //DisplaySegments();
-            foreach (Segment segment in SegList.segments)
+            foreach (Segment segment in SegMap.segments)
             {
                 // if (segment.bitmap == null) return;              
                 if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
@@ -137,7 +147,7 @@ namespace OtchlanMapGenerator
         {
             if (e.Button != MouseButtons.Left) return;
 
-            foreach (Segment segment in SegList.segments)
+            foreach (Segment segment in SegMap.segments)
             {
                 if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
                 {
@@ -161,7 +171,7 @@ namespace OtchlanMapGenerator
             {
                 flag_findWayBitmapsActive = false;
                 routeTextBox.Text = "";
-                foreach (Segment seg in SegList.segments) seg.setBitmap('x', 'x'); //clear route showing 
+                foreach (Segment seg in SegMap.segments) seg.setBitmap('x', 'x'); //clear route showing 
             }
 
             DrawOutlineForSelected(s);
@@ -184,7 +194,7 @@ namespace OtchlanMapGenerator
             SegmentClicked(s);
             infoLabel.Text = "";
 
-            routeTextBox.Text = SegList.FindWay(SegList.playerSeg, SegList.findSegment(chosen));
+            routeTextBox.Text = SegMap.FindWay(SegMap.playerSeg, SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, false);
 
             flag_findWayBitmapsActive = true;
@@ -221,7 +231,7 @@ namespace OtchlanMapGenerator
 
             chosen.name = textboxName.Text;
             chosen.decription = descriptionTextBox.Text;
-            SegList.findSegment(chosen).assignValues(chosen);
+            SegMap.findSegment(chosen).assignValues(chosen);
 
             flag_keyInputAcive = true; 
         }
@@ -241,10 +251,10 @@ namespace OtchlanMapGenerator
         }
         private void setPlayerAtSegment(Segment clickedSegment)
         {
-            Segment newPlayerSeg = SegList.findSegment(clickedSegment);
-            newPlayerSeg.bitmap = SegList.playerSeg.bitmap;
-            SegList.playerSeg.setBitmap('x', 'x'); //sets normal bitmap
-            SegList.playerSeg = newPlayerSeg;
+            Segment newPlayerSeg = SegMap.findSegment(clickedSegment);
+            newPlayerSeg.bitmap = SegMap.playerSeg.bitmap;
+            SegMap.playerSeg.setBitmap('x', 'x'); //sets normal bitmap
+            SegMap.playerSeg = newPlayerSeg;
             DisplaySegments(playerOrientation,true);
         }
 
@@ -253,10 +263,10 @@ namespace OtchlanMapGenerator
         {
             descriptionTextBox.Visible = false;
             playerOrientation = from;
-            SegList.playerSeg.setPlayerBitmap(from);
+            SegMap.playerSeg.setPlayerBitmap(from);
             if (centerOnPlayer)
             {
-                SegList.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
+                SegMap.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
                 hScrollBar1.Value = hScrollBar1.Maximum / 2;
                 vScrollBar1.Value = vScrollBar1.Maximum / 2;
             }
@@ -266,20 +276,20 @@ namespace OtchlanMapGenerator
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
-            foreach (Segment segment in SegList.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
+            foreach (Segment segment in SegMap.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
             if (flagDrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
             flagDrawOutline = false;
         }
         private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
         {
-            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DrawOutlineForSelected(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, true);
         }
 
         private void DrawOutlineForSelected(Segment selected)
         {
-            if (SegList.playerSeg == null || selected==null) return;
-            if (selected.id == SegList.playerSeg.id){
+            if (SegMap.playerSeg == null || selected==null) return;
+            if (selected.id == SegMap.playerSeg.id){
                 HideOutlineSelected(); 
             }else{
                 outlineSelect = new Rectangle(selected.BMPlocation, selected.bitmap.Size);
@@ -297,9 +307,9 @@ namespace OtchlanMapGenerator
             dy = e.NewValue;
 
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
-            SegList.UpdateSegmentsLocationScroll(dx, dy, dx, e.OldValue);
+            SegMap.UpdateSegmentsLocationScroll(dx, dy, dx, e.OldValue);
 
-            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DrawOutlineForSelected(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, false);
         }
 
@@ -307,16 +317,16 @@ namespace OtchlanMapGenerator
         {
             dx = e.NewValue;
             segmentPanel.Text = "dx: " + dx + " dy: " + dy;
-            SegList.UpdateSegmentsLocationScroll(dx, dy, e.OldValue, dy);
+            SegMap.UpdateSegmentsLocationScroll(dx, dy, e.OldValue, dy);
 
-            DrawOutlineForSelected(SegList.findSegment(chosen));
+            DrawOutlineForSelected(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, false);
         }
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
-            SegList.ChangeSegmentSizes(e.Delta);
+            SegMap.ChangeSegmentSizes(e.Delta);
 
             //DrawOutlineForSelected(SegList.findSegment(chosen));
             DisplaySegments('x', false);
@@ -339,7 +349,7 @@ namespace OtchlanMapGenerator
             //charsSinceEnter += keyBuffer;   //just control
             segmentPanel.Text += keyHandler.keysSinceEnter; //just control
 
-            Added = SegList.CheckKeyBuffer(newID, keyBuffer); // here adding happens
+            Added = SegMap.CheckKeyBuffer(newID, keyBuffer); // here adding happens
             if (Added == -1) return;
 
             lastDir = keyBuffer[0];
@@ -348,7 +358,7 @@ namespace OtchlanMapGenerator
             {
                 //SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
 
-                void SetInfo() { SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
+                void SetInfo() { SegMap.findSegment(SegMap.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
                 Thread thread = new Thread(SetInfo);
                 thread.Start();
 
@@ -368,7 +378,7 @@ namespace OtchlanMapGenerator
             }
 
             routeTextBox.Visible = false; //hide routeTextBox if player moved
-            SegmentClicked(SegList.playerSeg);
+            SegmentClicked(SegMap.playerSeg);
             DisplaySegments(lastDir, true);
             playerOrientation = lastDir;
             segmentPanel.Text = "";
@@ -428,7 +438,7 @@ namespace OtchlanMapGenerator
         {
             if (SaveLoad.Checked)
             {
-                if (MapSave.SaveMapToFile(@"Saves\Mapa.omg", SegList))
+                if (MapSave.SaveMapToFile(@"Saves\Mapa.omg", SegMap))
                 {
                     SaveLoad.Text = "Load";
                     return;
@@ -437,8 +447,8 @@ namespace OtchlanMapGenerator
             }
             else
             {
-                SegList = MapSave.ReadMapFromFile(@"Saves\Mapa.omg");
-                if (SegList == null)
+                SegMap = MapSave.LoadMapFromFile(@"Saves\Mapa.omg");
+                if (SegMap == null)
                 {
                     return;
                 }
@@ -448,5 +458,70 @@ namespace OtchlanMapGenerator
             DisplaySegments(playerOrientation,true);
             
         }
+
+        //============================Menu===================================
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flag_keyInputAcive = false;
+            openFileDialog.ShowDialog();
+            flag_keyInputAcive = true;
+        }
+
+        private void openFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Map tempMap = MapSave.LoadMapFromFile(openFileDialog.FileName);
+            if (tempMap == null)
+            {
+                MessageBox.Show("Error reading the file.");
+                flag_keyInputAcive = true;
+                return;
+            }
+            SegMap = MapSave.LoadMapFromFile(openFileDialog.FileName);
+            SegMap.MapFilePath = openFileDialog.FileName;
+            SegMap.MapFileName = openFileDialog.SafeFileName;
+            this.Text = Texts.text_FormName + " - " + openFileDialog.SafeFileName; //set form name to open file name
+
+            DisplaySegments(playerOrientation, true);
+        }
+
+
+
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flag_keyInputAcive = false;
+            saveFileDialog.ShowDialog();           
+            flag_keyInputAcive = true;
+        }
+        private void saveFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SegMap.MapFilePath = saveFileDialog.FileName;
+            SegMap.MapFileName = SegMap.MapFilePath.Substring(SegMap.MapFilePath.LastIndexOf("\\")+1);
+            if (MapSave.SaveMapToFile(SegMap.MapFilePath,SegMap))
+            {
+                flag_keyInputAcive = true;
+                this.Text = Texts.text_FormName + " - " + SegMap.MapFileName;
+                return;
+            }
+            else
+            {
+                flag_keyInputAcive = true;
+                MessageBox.Show("Error saving the file.");
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flag_keyInputAcive = false;
+            if (SegMap.MapFilePath.Length > 0)
+            {
+                MapSave.SaveMapToFile(SegMap.MapFilePath, SegMap);
+            }
+            else
+            {
+                SaveAsToolStripMenuItem_Click(sender, e);
+            }
+            flag_keyInputAcive = true;
+        }
+
     }
 }

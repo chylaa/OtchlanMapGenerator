@@ -5,6 +5,9 @@ namespace OtchlanMapGenerator
     enum Language {PL,EN};
     static class Texts //Make static
     {
+        public static string mapFileExtentionPattern;
+        public static string mapFileExtention = ".omg";
+
         public static string text_detailButton;
         public static string text_segmentPanel;
         public static string text_textboxName;
@@ -18,6 +21,16 @@ namespace OtchlanMapGenerator
         public static string text_languageGroupBox;
         public static string text_FormName;
         public static string text_descriptionTextBox;
+
+        public static string text_menuMap;
+        public static string text_menuViev;
+        public static string text_menuHelp;
+        public static string text_menuMapOpenFile;
+        public static string text_menuMapNewFile;
+        public static string text_menuMapSaveFile;
+        public static string text_menuMapSaveFileAs;
+        public static string text_menuVievColors;
+        public static string text_menuHelpUsage;
 
         public static string msg_StartLocation;
         public static string msg_DefaultName;
@@ -44,7 +57,19 @@ namespace OtchlanMapGenerator
                 msg_GameProcessNotFound = "Game process not detected!";
                 msg_StartLocation = "Start Location";
                 msg_DefaultName = "Default Name";
-                msg_ReadError = "Error: Automatic read failed. Correct location info on your own, using \"" + text_detailButton + "\""; 
+                msg_ReadError = "Error: Automatic read failed. Correct location info on your own, using \"" + text_detailButton + "\"";
+
+                text_menuMap = "Map";
+                text_menuViev = "Viev";
+                text_menuHelp = "Help";
+                text_menuMapOpenFile = "Open";
+                text_menuMapNewFile = "New";
+                text_menuMapSaveFile = "Save";
+                text_menuMapSaveFileAs = "Save As";
+                text_menuVievColors = "Colors";
+                text_menuHelpUsage = "Usage";
+
+                mapFileExtentionPattern = "(Map files (*.omg))|*.omg";
 
             }
             if(language == Language.PL)
@@ -64,6 +89,19 @@ namespace OtchlanMapGenerator
                 msg_StartLocation = "Lokacja startowa";
                 msg_DefaultName = "Nazwa domyślna";
                 msg_ReadError = "Error: Niepowodzenie automatycznego odczytu. Wprowadź informcje o lokacji samodzielnie, używając przycisku \"" + text_detailButton + "\"";
+
+
+                text_menuMap = "Mapa";
+                text_menuViev = "Widok";
+                text_menuHelp = "Pomoc";
+                text_menuMapOpenFile = "Otwórz";
+                text_menuMapNewFile = "Nowa mapa";
+                text_menuMapSaveFile = "Zapisz mapę";
+                text_menuMapSaveFileAs = "Zapisz jako";
+                text_menuVievColors = "Motyw";
+                text_menuHelpUsage = "Instrukcja";
+
+                mapFileExtentionPattern = "(Pliki mapy (*.omg))|*.omg";
             }
         }
     }

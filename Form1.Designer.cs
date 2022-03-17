@@ -30,6 +30,7 @@ namespace OtchlanMapGenerator
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.detailButton = new System.Windows.Forms.Button();
             this.segmentPanel = new System.Windows.Forms.GroupBox();
             this.routeTextBox = new System.Windows.Forms.TextBox();
@@ -38,20 +39,34 @@ namespace OtchlanMapGenerator
             this.ENradioButton = new System.Windows.Forms.RadioButton();
             this.infoLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.exitsLabel = new System.Windows.Forms.Label();
             this.button_set_w = new System.Windows.Forms.Button();
             this.button_set_s = new System.Windows.Forms.Button();
             this.button_set_e = new System.Windows.Forms.Button();
             this.button_set_n = new System.Windows.Forms.Button();
             this.textboxName = new System.Windows.Forms.TextBox();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.SaveLoad = new System.Windows.Forms.CheckBox();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.mapFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vievToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // detailButton
@@ -73,6 +88,7 @@ namespace OtchlanMapGenerator
             this.segmentPanel.Controls.Add(this.languageGroupBox);
             this.segmentPanel.Controls.Add(this.infoLabel);
             this.segmentPanel.Controls.Add(this.deleteButton);
+            this.segmentPanel.Controls.Add(this.vScrollBar1);
             this.segmentPanel.Controls.Add(this.exitsLabel);
             this.segmentPanel.Controls.Add(this.button_set_w);
             this.segmentPanel.Controls.Add(this.button_set_s);
@@ -80,9 +96,9 @@ namespace OtchlanMapGenerator
             this.segmentPanel.Controls.Add(this.button_set_n);
             this.segmentPanel.Controls.Add(this.textboxName);
             this.segmentPanel.Controls.Add(this.detailButton);
-            this.segmentPanel.Location = new System.Drawing.Point(519, 0);
+            this.segmentPanel.Location = new System.Drawing.Point(519, 24);
             this.segmentPanel.Name = "segmentPanel";
-            this.segmentPanel.Size = new System.Drawing.Size(201, 491);
+            this.segmentPanel.Size = new System.Drawing.Size(201, 526);
             this.segmentPanel.TabIndex = 1;
             this.segmentPanel.TabStop = false;
             this.segmentPanel.Text = "Segment Panel";
@@ -101,9 +117,9 @@ namespace OtchlanMapGenerator
             this.languageGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.languageGroupBox.Controls.Add(this.PLradioButton1);
             this.languageGroupBox.Controls.Add(this.ENradioButton);
-            this.languageGroupBox.Location = new System.Drawing.Point(3, 442);
+            this.languageGroupBox.Location = new System.Drawing.Point(0, 434);
             this.languageGroupBox.Name = "languageGroupBox";
-            this.languageGroupBox.Size = new System.Drawing.Size(184, 49);
+            this.languageGroupBox.Size = new System.Drawing.Size(178, 69);
             this.languageGroupBox.TabIndex = 9;
             this.languageGroupBox.TabStop = false;
             this.languageGroupBox.Text = "Select language";
@@ -154,6 +170,18 @@ namespace OtchlanMapGenerator
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.vScrollBar1.LargeChange = 25;
+            this.vScrollBar1.Location = new System.Drawing.Point(181, -2);
+            this.vScrollBar1.Maximum = 1000;
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 500);
+            this.vScrollBar1.TabIndex = 2;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
             // exitsLabel
             // 
@@ -217,24 +245,12 @@ namespace OtchlanMapGenerator
             this.textboxName.MouseEnter += new System.EventHandler(this.disableKeyInput);
             this.textboxName.MouseLeave += new System.EventHandler(this.enableKeyInput);
             // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.vScrollBar1.LargeChange = 25;
-            this.vScrollBar1.Location = new System.Drawing.Point(703, 1);
-            this.vScrollBar1.Maximum = 1000;
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 482);
-            this.vScrollBar1.TabIndex = 2;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
-            // 
             // hScrollBar1
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hScrollBar1.LargeChange = 25;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 487);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 522);
             this.hScrollBar1.Maximum = 1000;
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(717, 17);
@@ -251,7 +267,7 @@ namespace OtchlanMapGenerator
             // 
             this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.keyInputCheckBox.AutoSize = true;
-            this.keyInputCheckBox.Location = new System.Drawing.Point(12, 455);
+            this.keyInputCheckBox.Location = new System.Drawing.Point(12, 490);
             this.keyInputCheckBox.Name = "keyInputCheckBox";
             this.keyInputCheckBox.Size = new System.Drawing.Size(107, 17);
             this.keyInputCheckBox.TabIndex = 4;
@@ -267,7 +283,7 @@ namespace OtchlanMapGenerator
             this.descriptionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.descriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.descriptionTextBox.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.descriptionTextBox.Location = new System.Drawing.Point(0, 0);
+            this.descriptionTextBox.Location = new System.Drawing.Point(0, 24);
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.Size = new System.Drawing.Size(519, 24);
@@ -289,20 +305,123 @@ namespace OtchlanMapGenerator
             this.SaveLoad.UseVisualStyleBackColor = true;
             this.SaveLoad.CheckedChanged += new System.EventHandler(this.SaveLoad_CheckedChanged);
             // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mapFileToolStripMenuItem,
+            this.vievToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(717, 24);
+            this.menuStrip.TabIndex = 8;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // mapFileToolStripMenuItem
+            // 
+            this.mapFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.toolStripSeparator,
+            this.saveToolStripMenuItem,
+            this.SaveAsToolStripMenuItem,
+            this.newToolStripMenuItem});
+            this.mapFileToolStripMenuItem.Name = "mapFileToolStripMenuItem";
+            this.mapFileToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.mapFileToolStripMenuItem.Text = "&Map";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // SaveAsToolStripMenuItem
+            // 
+            this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.SaveAsToolStripMenuItem.Text = "&Save As";
+            this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
+            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            // 
+            // vievToolStripMenuItem
+            // 
+            this.vievToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorsToolStripMenuItem});
+            this.vievToolStripMenuItem.Name = "vievToolStripMenuItem";
+            this.vievToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.vievToolStripMenuItem.Text = "&Viev";
+            // 
+            // colorsToolStripMenuItem
+            // 
+            this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.colorsToolStripMenuItem.Text = "&Colors";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.usageToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // usageToolStripMenuItem
+            // 
+            this.usageToolStripMenuItem.Name = "usageToolStripMenuItem";
+            this.usageToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+            this.usageToolStripMenuItem.Text = "&Usage";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.RestoreDirectory = true;
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.Brown;
-            this.ClientSize = new System.Drawing.Size(717, 504);
+            this.ClientSize = new System.Drawing.Size(717, 539);
             this.Controls.Add(this.SaveLoad);
             this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
-            this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.segmentPanel);
+            this.Controls.Add(this.menuStrip);
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip;
             this.Name = "Form1";
             this.Text = "Otchłań Map Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -315,6 +434,8 @@ namespace OtchlanMapGenerator
             this.segmentPanel.PerformLayout();
             this.languageGroupBox.ResumeLayout(false);
             this.languageGroupBox.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,6 +464,19 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.CheckBox keyInputCheckBox;
         private System.Windows.Forms.TextBox descriptionTextBox;
         private System.Windows.Forms.CheckBox SaveLoad;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem mapFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vievToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem usageToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 

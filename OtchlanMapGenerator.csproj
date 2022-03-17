@@ -61,7 +61,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyHandler.cs" />
-    <Compile Include="ListOfSegments.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="MapSave.cs" />
     <Compile Include="ProccesReader.cs" />
     <Compile Include="Program.cs" />

@@ -29,35 +29,33 @@ namespace OtchlanMapGenerator
 {
     static class MapSave
     {
-        public static Boolean SaveMapToFile(string filename, ListOfSegments SegList)
+        public static Boolean SaveMapToFile(string filename, Map SegMap)
         {
-            byte[] SegmentListData = ObjectToByteArray(SegList);
-            if (SegmentListData == null) return false;
+            byte[] MapData = ObjectToByteArray(SegMap);
+            if (MapData == null) return false;
 
             try
             {
-                File.WriteAllBytes(filename, SegmentListData);
+                File.WriteAllBytes(filename, MapData);
 
             }catch(Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Error saving the data.");
                 return false;
             }
 
             return true;
         }
 
-        public static ListOfSegments ReadMapFromFile(string filename)
+        public static Map LoadMapFromFile(string filename)
         {
-            ListOfSegments ReadedSegList = new ListOfSegments();
+            Map ReadedSegList = new Map();
             try
             {
-                byte[] ListOfSegmentsdataArray = File.ReadAllBytes(filename);
-                ReadedSegList = (ListOfSegments)ByteArrayToObject(ListOfSegmentsdataArray);
+                byte[] MapDataArray = File.ReadAllBytes(filename);
+                ReadedSegList = (Map)ByteArrayToObject(MapDataArray);
             }
             catch(Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Error reading the data.");
                 return null;
             }
             return ReadedSegList;
