@@ -60,6 +60,12 @@ namespace OtchlanMapGenerator
             textboxName.Enabled = false;
             segmentPanel.Enabled = false;
 
+            initializeMap();
+        }
+
+        private void initializeMap()
+        {
+            newID = 1;
             if (SegMap.segments.Count() > 0)
             {
                 SegmentClicked((SegMap.segments.First()));
@@ -412,9 +418,9 @@ namespace OtchlanMapGenerator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
             char KeyCode = keyHandler.keyboardScan(); //must be above keyInputActive flag check, to not read unprocesed keys
             if (flag_keyInputAcive == false) return;
+            if (ModifierKeys.HasFlag(Keys.Control)) return; //ignore key input with ctrl for e.g ctrl+s, ctrl+o ect.
             if (KeyCode != '0') Form1_KeyPress(new KeyPressEventArgs(KeyCode));
 
         }
@@ -523,5 +529,12 @@ namespace OtchlanMapGenerator
             flag_keyInputAcive = true;
         }
 
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SegMap = new Map();
+            initializeMap();
+            DisplaySegments(playerOrientation, true);
+
+        }
     }
 }
