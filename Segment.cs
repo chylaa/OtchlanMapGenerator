@@ -185,7 +185,7 @@ namespace OtchlanMapGenerator
         public void setSegmentInfo(ReadResult readResult)
         {
 
-            if (readResult.invalid || !(this.name.Equals(Texts.msg_DefaultName))) return;
+            if (readResult.invalid || !(this.name.Equals(Texts.text_DefaultName))) return;
 
             this.name = readResult.locationName;
             this.decription = readResult.locationDescription;

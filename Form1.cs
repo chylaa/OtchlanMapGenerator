@@ -27,6 +27,9 @@ namespace OtchlanMapGenerator
         Rectangle outlineSelect;
         Boolean flagDrawOutline = false;
 
+        Color deflautMainColor = Color.Brown;
+        Color deflautPanelColor = Color.RosyBrown;
+
         int dx = 0;
         int dy = 0;
         int newID = 1; // start from 1 becouse there is always starting element 
@@ -72,6 +75,9 @@ namespace OtchlanMapGenerator
                 SegMap.playerSeg = SegMap.segments.First();
             }
 
+            SegMap.MainMapColor = deflautMainColor;
+            SegMap.PanelMapColor = deflautPanelColor;
+
             SegMap.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
         }
         //================================Language things============================================
@@ -87,6 +93,20 @@ namespace OtchlanMapGenerator
             infoLabel.Text = Texts.text_infoLabel;
             languageGroupBox.Text = Texts.text_languageGroupBox;
             descriptionTextBox.Text = Texts.text_descriptionTextBox;
+
+
+            mapFileToolStripMenuItem.Text = Texts.text_menuMap;
+            newToolStripMenuItem.Text = Texts.text_menuMapNewFile;
+            SaveAsToolStripMenuItem.Text = Texts.text_menuMapSaveFileAs;
+            saveToolStripMenuItem.Text = Texts.text_menuMapSaveFile;
+            openToolStripMenuItem.Text = Texts.text_menuMapOpenFile;
+            vievToolStripMenuItem.Text = Texts.text_menuViev;
+            colorsToolStripMenuItem.Text = Texts.text_menuVievColors;
+            panelColorToolStripMenuItem.Text = Texts.text_menuVievColorsPanelColor;
+            mainColorToolStripMenuItem.Text = Texts.text_menuVievColorsMainColor;
+            helpToolStripMenuItem.Text = Texts.text_menuHelp;
+            usageToolStripMenuItem.Text = Texts.text_menuHelpUsage;
+
         }
         private void ENradioButton_CheckedChanged(object sender, EventArgs e)
         {
@@ -245,11 +265,14 @@ namespace OtchlanMapGenerator
         private void descriptionTextBox_TextChanged(object sender, EventArgs e)
         {
             String desc = descriptionTextBox.Text;
-            int newLineCount = 1;
+            int newLineCount = 1; // \n
+            int newLineCount2 = 1; // \r
             foreach (char c in desc) if (c == '\n') newLineCount++;
+            foreach (char c in desc) if (c == '\r') newLineCount2++;
+            newLineCount = Math.Max(newLineCount, newLineCount2);
             int adjustment = (descBoxHeight/3) * (newLineCount - 1);
             int ySize = (descBoxHeight * newLineCount) - adjustment - (newLineCount - 1)*1;
-            descriptionTextBox.Height = ySize;
+            descriptionTextBox.Height = ySize + 6; // + 6 just in case :) 
         }
         private void textboxName_TextChanged(object sender, EventArgs e)
         {
@@ -430,39 +453,14 @@ namespace OtchlanMapGenerator
             if (keyInputCheckBox.Checked == true)
             {
                 flag_keyInputAcive = false;
-                keyInputCheckBox.Text = "Enable keys input";
+                keyInputCheckBox.Text = Texts.text_enableKeyInput;
             }
             else
             {
                 flag_keyInputAcive = true;
-                keyInputCheckBox.Text = "Disable keys input";
+                keyInputCheckBox.Text = Texts.text_disableKeyInput;
             }
 
-        }
-        //For testing save&load
-        private void SaveLoad_CheckedChanged(object sender, EventArgs e)
-        {
-            if (SaveLoad.Checked)
-            {
-                if (MapSave.SaveMapToFile(@"Saves\Mapa.omg", SegMap))
-                {
-                    SaveLoad.Text = "Load";
-                    return;
-                }
-                return;
-            }
-            else
-            {
-                SegMap = MapSave.LoadMapFromFile(@"Saves\Mapa.omg");
-                if (SegMap == null)
-                {
-                    return;
-                }
-                SaveLoad.Text = "Save";
-                
-            }
-            DisplaySegments(playerOrientation,true);
-            
         }
 
         //============================Menu===================================
@@ -478,7 +476,7 @@ namespace OtchlanMapGenerator
             Map tempMap = MapSave.LoadMapFromFile(openFileDialog.FileName);
             if (tempMap == null)
             {
-                MessageBox.Show("Error reading the file.");
+                MessageBox.Show(Texts.msg_FileReadError);
                 flag_keyInputAcive = true;
                 return;
             }
@@ -486,6 +484,10 @@ namespace OtchlanMapGenerator
             SegMap.MapFilePath = openFileDialog.FileName;
             SegMap.MapFileName = openFileDialog.SafeFileName;
             this.Text = Texts.text_FormName + " - " + openFileDialog.SafeFileName; //set form name to open file name
+
+            this.BackColor = SegMap.MainMapColor;
+            segmentPanel.BackColor = SegMap.PanelMapColor;
+            descriptionTextBox.BackColor = SegMap.PanelMapColor;
 
             DisplaySegments(playerOrientation, true);
         }
@@ -511,7 +513,7 @@ namespace OtchlanMapGenerator
             else
             {
                 flag_keyInputAcive = true;
-                MessageBox.Show("Error saving the file.");
+                MessageBox.Show(Texts.msg_FileSaveError);
             }
         }
 
@@ -535,6 +537,42 @@ namespace OtchlanMapGenerator
             initializeMap();
             DisplaySegments(playerOrientation, true);
 
+        }
+
+        private void mainColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                colorDialog.SolidColorOnly = true;
+                colorDialog.ShowDialog();
+
+                this.BackColor = colorDialog.Color;
+                SegMap.MainMapColor = colorDialog.Color; 
+
+            }
+        }
+
+        private void panelColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                colorDialog.SolidColorOnly = true;
+                colorDialog.ShowDialog();
+
+                segmentPanel.BackColor = colorDialog.Color;
+                descriptionTextBox.BackColor = colorDialog.Color;
+                SegMap.PanelMapColor = colorDialog.Color;
+
+            }
+        }
+
+        private void resetColorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = deflautMainColor;
+            segmentPanel.BackColor = deflautPanelColor;
+            descriptionTextBox.BackColor = deflautPanelColor;
+            SegMap.MainMapColor = deflautMainColor;
+            SegMap.PanelMapColor = deflautPanelColor;
         }
     }
 }

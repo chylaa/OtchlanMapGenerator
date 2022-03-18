@@ -50,7 +50,6 @@ namespace OtchlanMapGenerator
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
-            this.SaveLoad = new System.Windows.Forms.CheckBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.mapFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,10 +59,14 @@ namespace OtchlanMapGenerator
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vievToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.resetColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -286,6 +289,7 @@ namespace OtchlanMapGenerator
             this.descriptionTextBox.Location = new System.Drawing.Point(0, 24);
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
+            this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.descriptionTextBox.Size = new System.Drawing.Size(519, 24);
             this.descriptionTextBox.TabIndex = 6;
             this.descriptionTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -293,17 +297,6 @@ namespace OtchlanMapGenerator
             this.descriptionTextBox.TextChanged += new System.EventHandler(this.descriptionTextBox_TextChanged);
             this.descriptionTextBox.MouseEnter += new System.EventHandler(this.disableKeyInput);
             this.descriptionTextBox.MouseLeave += new System.EventHandler(this.enableKeyInput);
-            // 
-            // SaveLoad
-            // 
-            this.SaveLoad.AutoSize = true;
-            this.SaveLoad.Location = new System.Drawing.Point(318, 391);
-            this.SaveLoad.Name = "SaveLoad";
-            this.SaveLoad.Size = new System.Drawing.Size(51, 17);
-            this.SaveLoad.TabIndex = 7;
-            this.SaveLoad.Text = "Save";
-            this.SaveLoad.UseVisualStyleBackColor = true;
-            this.SaveLoad.CheckedChanged += new System.EventHandler(this.SaveLoad_CheckedChanged);
             // 
             // menuStrip
             // 
@@ -342,7 +335,7 @@ namespace OtchlanMapGenerator
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -350,14 +343,14 @@ namespace OtchlanMapGenerator
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // SaveAsToolStripMenuItem
             // 
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.SaveAsToolStripMenuItem.Text = "&Save As";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
@@ -367,7 +360,7 @@ namespace OtchlanMapGenerator
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -381,9 +374,28 @@ namespace OtchlanMapGenerator
             // 
             // colorsToolStripMenuItem
             // 
+            this.colorsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainColorToolStripMenuItem,
+            this.panelColorToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.resetColorsToolStripMenuItem});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.colorsToolStripMenuItem.Text = "&Colors";
+            // 
+            // mainColorToolStripMenuItem
+            // 
+            this.mainColorToolStripMenuItem.Name = "mainColorToolStripMenuItem";
+            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mainColorToolStripMenuItem.Text = "Main Color";
+            this.mainColorToolStripMenuItem.Click += new System.EventHandler(this.mainColorToolStripMenuItem_Click);
+            // 
+            // panelColorToolStripMenuItem
+            // 
+            this.panelColorToolStripMenuItem.Name = "panelColorToolStripMenuItem";
+            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.panelColorToolStripMenuItem.Text = "Panel Color";
+            this.panelColorToolStripMenuItem.Click += new System.EventHandler(this.panelColorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -408,6 +420,18 @@ namespace OtchlanMapGenerator
             // 
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
             // 
+            // resetColorsToolStripMenuItem
+            // 
+            this.resetColorsToolStripMenuItem.Name = "resetColorsToolStripMenuItem";
+            this.resetColorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetColorsToolStripMenuItem.Text = "Reset Colors";
+            this.resetColorsToolStripMenuItem.Click += new System.EventHandler(this.resetColorsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -415,7 +439,6 @@ namespace OtchlanMapGenerator
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.Brown;
             this.ClientSize = new System.Drawing.Size(717, 539);
-            this.Controls.Add(this.SaveLoad);
             this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.keyInputCheckBox);
             this.Controls.Add(this.hScrollBar1);
@@ -464,7 +487,6 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.TextBox routeTextBox;
         private System.Windows.Forms.CheckBox keyInputCheckBox;
         private System.Windows.Forms.TextBox descriptionTextBox;
-        private System.Windows.Forms.CheckBox SaveLoad;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem mapFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -478,6 +500,10 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.ToolStripMenuItem usageToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem mainColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem panelColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetColorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
