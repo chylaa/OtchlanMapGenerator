@@ -5,19 +5,25 @@ using System.Drawing;
 
 namespace OtchlanMapGenerator
 {
-    
-    class ListOfSegments
+    [Serializable]
+    class Map
     {
+        public String MapFileName = "";
+        public String MapFilePath="";
+        public Color MainMapColor;
+        public Color PanelMapColor;
+
+        //==============================
         public Segment previousSegment;
         public Segment playerSeg;
         public List<Segment> segments;
         public int baseBitmapSize = 50;
         int padding;
         int ScrollSpeed = 15;
-        public ListOfSegments()
+        public Map()
         {
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, Texts.msg_DefaultName)); //add base segment
+            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, Texts.text_DefaultName)); //add base segment
 
         }
 
@@ -81,7 +87,7 @@ namespace OtchlanMapGenerator
         ///Returns "1" if segment added, "0" if segment not added.
         private int AddSegment(int newID, int xShift, int yShift, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
         {
-            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.eN, e.eS, e.eE, e.eW, Texts.msg_DefaultName);
+            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.eN, e.eS, e.eE, e.eW, Texts.text_DefaultName);
             this.previousSegment = this.playerSeg;
 
             Dir previousSegmentDirection = e.getExistingExit();

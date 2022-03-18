@@ -16,17 +16,19 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 6)\\DONE | Bug: When click/double click screen always focuses on player's segment insted for e.g showing route
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
+7)\\DONE | All stuff with correcting specific segment's (checked by click) atributes by user.
 ---------|------------------------------------------------------------------------------------------------------------]
-8)\\DONE | All stuff with correcting specific segment's (checked by click) atributes by user.
+8)\\DONE | Correct player position by right-click on segment 
 ---------|------------------------------------------------------------------------------------------------------------]
-9)\\TODO | Correct player position by right-click on segment 
+9)\\DONE | Hilight selected segment 
 ---------|------------------------------------------------------------------------------------------------------------]
-10)/TODO | Automatically copy route to clipboard + exits correction
+10)\DONE | Ctrl + key problem
 ---------|------------------------------------------------------------------------------------------------------------]
-11)/TODO | Handle problems with "disappearing" of location's atributes when player use for e.g EQ (make ss in reserve?) 
+11)/TODO | Automatically copy route to clipboard + exits correction
 ---------|------------------------------------------------------------------------------------------------------------]
-12)\DONE | Hilight selected segment 
+12)/TODO | Handle problems with "disappearing" of location's atributes when player use for e.g EQ (make ss in reserve?) 
+---------|------------------------------------------------------------------------------------------------------------]
+13)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
 
 
@@ -40,13 +42,17 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 1)\\DONE | Geting all nessesary data (like exits, locations names, maybe descriptions) automatically from the game. 
 ---------|------------------------------------------------------------------------------------------------------------]
-2)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
+2)\\DONE | Saving all data of generated map to file - possibility of opening different maps? (!)
 ---------|------------------------------------------------------------------------------------------------------------]
-3)//IDEA | Saving all data of generated map to file/database - possibility of opening different maps? (!)
+3)\\DONE | Add the ability to correct player's position by the user (Based on the selected segment)
 ---------|------------------------------------------------------------------------------------------------------------]
-4)//DONE | Add the ability to correct player's position by the user (Based on the selected segment)
+8)\\DONE | Give user ability to change colors - Open Dialog Colors
+---------|------------------------------------------------------------------------------------------------------------]
+4)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
 ---------|------------------------------------------------------------------------------------------------------------]
 5)//IDEA | Undo function?
 ---------|------------------------------------------------------------------------------------------------------------]
 6)//IDEA | Searching location by name
+---------|------------------------------------------------------------------------------------------------------------]
+7)//IDEA | Handle "up" and "down" commands - atribute <Segment> segArray in each Segment (?) 
 ---------|------------------------------------------------------------------------------------------------------------]
