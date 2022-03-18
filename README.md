@@ -15,7 +15,7 @@ Reading names, exit directions and descriptions is done via OCR, which takes mor
 At the moment, application displays information about the location after a single left-click on the segment, allows changing player position by right-clicking on segment and display description of selected location after pressing the "Show details" button, which also allows to correct names and descriptions. By selecting segment with double-click application displays route from player's position to selected location (with appropriate sequence of commands that can be pasted into the game).
 Two languages are available and ability to block keyboard input (recommended when leaving the game and application windows).
 
->Potential further possibilities of the application can be read in the [TODO.txt](TODO.txt) file
+>Potential further possibilities of the application can be read in the [TODO.txt](src/TODO.txt) file
 
 
 ## :Some usage images:
