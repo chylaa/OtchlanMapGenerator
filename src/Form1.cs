@@ -12,6 +12,7 @@ namespace OtchlanMapGenerator
         
         //Segment segment = new Segment();
         Map SegMap;
+
         Segment chosen = new Segment();
         ToolTip tip = new ToolTip();
         Language activeLanguage = Language.EN;
@@ -104,6 +105,7 @@ namespace OtchlanMapGenerator
             colorsToolStripMenuItem.Text = Texts.text_menuVievColors;
             panelColorToolStripMenuItem.Text = Texts.text_menuVievColorsPanelColor;
             mainColorToolStripMenuItem.Text = Texts.text_menuVievColorsMainColor;
+            resetColorsToolStripMenuItem.Text = Texts.text_menuVievColorsResetColors;
             helpToolStripMenuItem.Text = Texts.text_menuHelp;
             usageToolStripMenuItem.Text = Texts.text_menuHelpUsage;
 
@@ -290,6 +292,7 @@ namespace OtchlanMapGenerator
         //=================Handling painting bitmaps on form======================================
         private void DisplaySegments(char from, Boolean centerOnPlayer) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
+
             descriptionTextBox.Visible = false;
             playerOrientation = from;
             SegMap.playerSeg.setPlayerBitmap(from);

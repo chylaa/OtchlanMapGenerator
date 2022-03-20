@@ -36,6 +36,7 @@ namespace OtchlanMapGenerator
         public static string text_menuVievColors;
         public static string text_menuVievColorsMainColor;
         public static string text_menuVievColorsPanelColor;
+        public static string text_menuVievColorsResetColors;
         public static string text_menuHelpUsage;
 
         public static string msg_LanguageChange;
@@ -80,8 +81,9 @@ namespace OtchlanMapGenerator
                 text_menuVievColorsMainColor = "Main Color";
                 text_menuVievColorsPanelColor = "Panel Color";
                 text_menuHelpUsage = "Usage";
+                text_menuVievColorsResetColors = "Reset Colors";
 
-                mapFileExtentionPattern = "(Map files (*.omg))|*.omg";
+        mapFileExtentionPattern = "(Map files (*.omg))|*.omg";
 
             }
             if(language == Language.PL)
@@ -117,6 +119,7 @@ namespace OtchlanMapGenerator
                 text_menuVievColors = "Motyw";
                 text_menuVievColorsMainColor = "Kolor Główny";
                 text_menuVievColorsPanelColor = "Kolor Panelu";
+                text_menuVievColorsResetColors = "Przywróć domyślne";
                 text_menuHelpUsage = "Instrukcja";
 
                 mapFileExtentionPattern = "(Pliki mapy (*.omg))|*.omg";
