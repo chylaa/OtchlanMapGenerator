@@ -41,10 +41,10 @@ namespace OtchlanMapGenerator
             this.deleteButton = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.exitsLabel = new System.Windows.Forms.Label();
-            this.button_set_w = new System.Windows.Forms.Button();
-            this.button_set_s = new System.Windows.Forms.Button();
-            this.button_set_e = new System.Windows.Forms.Button();
-            this.button_set_n = new System.Windows.Forms.Button();
+            this.Button_set_w = new System.Windows.Forms.Button();
+            this.Button_set_s = new System.Windows.Forms.Button();
+            this.Button_set_e = new System.Windows.Forms.Button();
+            this.Button_set_n = new System.Windows.Forms.Button();
             this.textboxName = new System.Windows.Forms.TextBox();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -61,12 +61,12 @@ namespace OtchlanMapGenerator
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.resetColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.resetColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -93,10 +93,10 @@ namespace OtchlanMapGenerator
             this.segmentPanel.Controls.Add(this.deleteButton);
             this.segmentPanel.Controls.Add(this.vScrollBar1);
             this.segmentPanel.Controls.Add(this.exitsLabel);
-            this.segmentPanel.Controls.Add(this.button_set_w);
-            this.segmentPanel.Controls.Add(this.button_set_s);
-            this.segmentPanel.Controls.Add(this.button_set_e);
-            this.segmentPanel.Controls.Add(this.button_set_n);
+            this.segmentPanel.Controls.Add(this.Button_set_w);
+            this.segmentPanel.Controls.Add(this.Button_set_s);
+            this.segmentPanel.Controls.Add(this.Button_set_e);
+            this.segmentPanel.Controls.Add(this.Button_set_n);
             this.segmentPanel.Controls.Add(this.textboxName);
             this.segmentPanel.Controls.Add(this.detailButton);
             this.segmentPanel.Location = new System.Drawing.Point(519, 24);
@@ -195,42 +195,42 @@ namespace OtchlanMapGenerator
             this.exitsLabel.TabIndex = 6;
             this.exitsLabel.Text = " Exits";
             // 
-            // button_set_w
+            // Button_set_w
             // 
-            this.button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_set_w.Location = new System.Drawing.Point(26, 124);
-            this.button_set_w.Name = "button_set_w";
-            this.button_set_w.Size = new System.Drawing.Size(40, 40);
-            this.button_set_w.TabIndex = 5;
-            this.button_set_w.Text = "w";
-            this.button_set_w.UseVisualStyleBackColor = true;
+            this.Button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Button_set_w.Location = new System.Drawing.Point(26, 124);
+            this.Button_set_w.Name = "Button_set_w";
+            this.Button_set_w.Size = new System.Drawing.Size(40, 40);
+            this.Button_set_w.TabIndex = 5;
+            this.Button_set_w.Text = "w";
+            this.Button_set_w.UseVisualStyleBackColor = true;
             // 
-            // button_set_s
+            // Button_set_s
             // 
-            this.button_set_s.Location = new System.Drawing.Point(72, 172);
-            this.button_set_s.Name = "button_set_s";
-            this.button_set_s.Size = new System.Drawing.Size(40, 40);
-            this.button_set_s.TabIndex = 4;
-            this.button_set_s.Text = "s";
-            this.button_set_s.UseVisualStyleBackColor = true;
+            this.Button_set_s.Location = new System.Drawing.Point(72, 172);
+            this.Button_set_s.Name = "Button_set_s";
+            this.Button_set_s.Size = new System.Drawing.Size(40, 40);
+            this.Button_set_s.TabIndex = 4;
+            this.Button_set_s.Text = "s";
+            this.Button_set_s.UseVisualStyleBackColor = true;
             // 
-            // button_set_e
+            // Button_set_e
             // 
-            this.button_set_e.Location = new System.Drawing.Point(117, 124);
-            this.button_set_e.Name = "button_set_e";
-            this.button_set_e.Size = new System.Drawing.Size(40, 40);
-            this.button_set_e.TabIndex = 3;
-            this.button_set_e.Text = "e";
-            this.button_set_e.UseVisualStyleBackColor = true;
+            this.Button_set_e.Location = new System.Drawing.Point(117, 124);
+            this.Button_set_e.Name = "Button_set_e";
+            this.Button_set_e.Size = new System.Drawing.Size(40, 40);
+            this.Button_set_e.TabIndex = 3;
+            this.Button_set_e.Text = "e";
+            this.Button_set_e.UseVisualStyleBackColor = true;
             // 
-            // button_set_n
+            // Button_set_n
             // 
-            this.button_set_n.Location = new System.Drawing.Point(72, 79);
-            this.button_set_n.Name = "button_set_n";
-            this.button_set_n.Size = new System.Drawing.Size(40, 40);
-            this.button_set_n.TabIndex = 0;
-            this.button_set_n.Text = "n";
-            this.button_set_n.UseVisualStyleBackColor = true;
+            this.Button_set_n.Location = new System.Drawing.Point(72, 79);
+            this.Button_set_n.Name = "Button_set_n";
+            this.Button_set_n.Size = new System.Drawing.Size(40, 40);
+            this.Button_set_n.TabIndex = 0;
+            this.Button_set_n.Text = "n";
+            this.Button_set_n.UseVisualStyleBackColor = true;
             // 
             // textboxName
             // 
@@ -270,6 +270,7 @@ namespace OtchlanMapGenerator
             // 
             this.keyInputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.keyInputCheckBox.AutoSize = true;
+            this.keyInputCheckBox.ForeColor = System.Drawing.Color.Black;
             this.keyInputCheckBox.Location = new System.Drawing.Point(12, 490);
             this.keyInputCheckBox.Name = "keyInputCheckBox";
             this.keyInputCheckBox.Size = new System.Drawing.Size(107, 17);
@@ -328,7 +329,7 @@ namespace OtchlanMapGenerator
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -380,22 +381,34 @@ namespace OtchlanMapGenerator
             this.toolStripSeparator1,
             this.resetColorsToolStripMenuItem});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.colorsToolStripMenuItem.Text = "&Colors";
             // 
             // mainColorToolStripMenuItem
             // 
             this.mainColorToolStripMenuItem.Name = "mainColorToolStripMenuItem";
-            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.mainColorToolStripMenuItem.Text = "Main Color";
             this.mainColorToolStripMenuItem.Click += new System.EventHandler(this.mainColorToolStripMenuItem_Click);
             // 
             // panelColorToolStripMenuItem
             // 
             this.panelColorToolStripMenuItem.Name = "panelColorToolStripMenuItem";
-            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.panelColorToolStripMenuItem.Text = "Panel Color";
             this.panelColorToolStripMenuItem.Click += new System.EventHandler(this.panelColorToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            // 
+            // resetColorsToolStripMenuItem
+            // 
+            this.resetColorsToolStripMenuItem.Name = "resetColorsToolStripMenuItem";
+            this.resetColorsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.resetColorsToolStripMenuItem.Text = "Reset Colors";
+            this.resetColorsToolStripMenuItem.Click += new System.EventHandler(this.resetColorsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -419,18 +432,6 @@ namespace OtchlanMapGenerator
             // saveFileDialog
             // 
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
-            // 
-            // resetColorsToolStripMenuItem
-            // 
-            this.resetColorsToolStripMenuItem.Name = "resetColorsToolStripMenuItem";
-            this.resetColorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.resetColorsToolStripMenuItem.Text = "Reset Colors";
-            this.resetColorsToolStripMenuItem.Click += new System.EventHandler(this.resetColorsToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // Form1
             // 
@@ -471,10 +472,10 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.Button detailButton;
         private System.Windows.Forms.GroupBox segmentPanel;
         private System.Windows.Forms.TextBox textboxName;
-        private System.Windows.Forms.Button button_set_w;
-        private System.Windows.Forms.Button button_set_s;
-        private System.Windows.Forms.Button button_set_e;
-        private System.Windows.Forms.Button button_set_n;
+        private System.Windows.Forms.Button Button_set_w;
+        private System.Windows.Forms.Button Button_set_s;
+        private System.Windows.Forms.Button Button_set_e;
+        private System.Windows.Forms.Button Button_set_n;
         private System.Windows.Forms.Label exitsLabel;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;

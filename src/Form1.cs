@@ -22,14 +22,14 @@ namespace OtchlanMapGenerator
         ReadResult readResult = new ReadResult();
         Boolean previousSegmentAdded = true;
 
-        int timesKeyPressed = 0;
         String keyBuffer = "";
 
         Rectangle outlineSelect;
         Boolean flagDrawOutline = false;
 
-        Color deflautMainColor = Color.Brown;
-        Color deflautPanelColor = Color.RosyBrown;
+        Color defaultMainColor = Color.Brown;
+        Color defaultPanelColor = Color.RosyBrown;
+        Color deflaultButtonsColor = Control.DefaultBackColor;
 
         int dx = 0;
         int dy = 0;
@@ -76,8 +76,8 @@ namespace OtchlanMapGenerator
                 SegMap.playerSeg = SegMap.segments.First();
             }
 
-            SegMap.MainMapColor = deflautMainColor;
-            SegMap.PanelMapColor = deflautPanelColor;
+            SegMap.MainMapColor = defaultMainColor;
+            SegMap.PanelMapColor = defaultPanelColor;
 
             SegMap.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
         }
@@ -142,7 +142,7 @@ namespace OtchlanMapGenerator
 
             HideOutlineSelected();
             chosen.assignValues(SegMap.playerSeg);
-            button_set_n.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
+            Button_set_n.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments(playerOrientation, true);
 
         }
@@ -192,7 +192,7 @@ namespace OtchlanMapGenerator
         private void SegmentClicked(Segment s)
         {
             segmentPanel.Enabled = true;
-            button_set_n.Focus(); //to keep focus away from delete and detail buttons
+            Button_set_n.Focus(); //to keep focus away from delete and detail buttons
             SetDefaultButtonsStyle();
 
             if (flag_findWayBitmapsActive)
@@ -208,10 +208,10 @@ namespace OtchlanMapGenerator
             descriptionTextBox.Text = s.decription;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
-            if (s.exits.eN == Dir.north) SetButtonStyle(s, button_set_n, "N");
-            if (s.exits.eS == Dir.south) SetButtonStyle(s, button_set_s, "S");
-            if (s.exits.eE == Dir.east) SetButtonStyle(s, button_set_e, "E");
-            if (s.exits.eW == Dir.west) SetButtonStyle(s, button_set_w, "W");
+            if (s.exits.eN == Dir.north) SetButtonStyle(s, Button_set_n, "N");
+            if (s.exits.eS == Dir.south) SetButtonStyle(s, Button_set_s, "S");
+            if (s.exits.eE == Dir.east) SetButtonStyle(s, Button_set_e, "E");
+            if (s.exits.eW == Dir.west) SetButtonStyle(s, Button_set_w, "W");
 
             infoLabel.Text = "ID: " + s.id + " Dist: " + s.distance + " | " + s.exits.neighbourIDn + "N " + s.exits.neighbourIDs + "S " + s.exits.neighbourIDe + "E " + s.exits.neighbourIDw + "W";
 
@@ -236,18 +236,18 @@ namespace OtchlanMapGenerator
 
         private void SetDefaultButtonsStyle()
         {
-            button_set_n.Text = "n";
-            button_set_n.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            button_set_n.BackColor = Control.DefaultBackColor;
-            button_set_s.Text = "s";
-            button_set_s.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            button_set_s.BackColor = Control.DefaultBackColor;
-            button_set_e.Text = "e";
-            button_set_e.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            button_set_e.BackColor = Control.DefaultBackColor;
-            button_set_w.Text = "w";
-            button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            button_set_w.BackColor = Control.DefaultBackColor;
+            Button_set_n.Text = "n";
+            Button_set_n.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            Button_set_n.BackColor = deflaultButtonsColor;
+            Button_set_s.Text = "s";
+            Button_set_s.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            Button_set_s.BackColor = deflaultButtonsColor;
+            Button_set_e.Text = "e";
+            Button_set_e.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            Button_set_e.BackColor = deflaultButtonsColor;
+            Button_set_w.Text = "w";
+            Button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            Button_set_w.BackColor = deflaultButtonsColor;
         }
         //--------------Atribute changes-----------------
 
@@ -255,7 +255,7 @@ namespace OtchlanMapGenerator
         private void enableKeyInput(object sender, EventArgs e)
         {
             textboxName.Enabled = false;
-            button_set_n.Focus();
+            Button_set_n.Focus();
 
             chosen.name = textboxName.Text;
             chosen.decription = descriptionTextBox.Text;
@@ -417,31 +417,6 @@ namespace OtchlanMapGenerator
 
         }
 
-        //private void HandleHotkey(Message m)  //problem - this method "takes" all keyboard action for itself
-        //{
-        //    //message.wParam with the GetHashCode of the KeyHandler
-        //    if (m.WParam.ToInt32() == ghk_n.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('n'));
-        //    if (m.WParam.ToInt32() == ghk_s.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('s'));
-        //    if (m.WParam.ToInt32() == ghk_e.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('e'));
-        //    if (m.WParam.ToInt32() == ghk_w.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('w'));
-        //    if (m.WParam.ToInt32() == ghk_r.GetHashCode()) Form1_KeyPress(new KeyPressEventArgs('\r'));
-        //}
-
-        //protected override void WndProc(ref Message m)
-        //{
-
-        //    if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
-        //        HandleHotkey(m);
-        //    base.WndProc(ref m);
-        //}
-
-        //private string mapKeyCode(string keyCode)
-        //{
-        //    keyCode=keyCode.ToLower();
-        //    if (keyCode == "return") keyCode = "\r";
-        //    return keyCode;
-        //}
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             char KeyCode = keyHandler.keyboardScan(); //must be above keyInputActive flag check, to not read unprocesed keys
@@ -550,8 +525,17 @@ namespace OtchlanMapGenerator
                 colorDialog.ShowDialog();
 
                 this.BackColor = colorDialog.Color;
-                SegMap.MainMapColor = colorDialog.Color; 
+                SegMap.MainMapColor = colorDialog.Color;
 
+                //determine if backgroud is too dark for black text
+                if ((colorDialog.Color.R * 0.299) + (colorDialog.Color.G*0.587) + (colorDialog.Color.B*0.114) < 64 ) 
+                {
+                    keyInputCheckBox.ForeColor = Color.White;
+
+                }else
+                {
+                    keyInputCheckBox.ForeColor = Color.Black;
+                }              
             }
         }
 
@@ -566,16 +550,43 @@ namespace OtchlanMapGenerator
                 descriptionTextBox.BackColor = colorDialog.Color;
                 SegMap.PanelMapColor = colorDialog.Color;
 
-            }
+                //determine if backgroud is too dark for black text
+                if ((colorDialog.Color.R * 0.299) + (colorDialog.Color.G * 0.587) + (colorDialog.Color.B * 0.114) < 64)
+                {
+                    segmentPanel.ForeColor = Color.White;
+                    languageGroupBox.ForeColor = Color.White;
+                    foreach(Control c in segmentPanel.Controls) 
+                    {
+                        if (c.Name.Contains("Button")) c.BackColor = Color.Black;
+                    }
+                    deflaultButtonsColor = Color.Black;
+                }
+                else
+                {
+                    segmentPanel.ForeColor = Color.Black;
+                    languageGroupBox.ForeColor = Color.Black;
+                    foreach (Control c in segmentPanel.Controls)
+                    {
+                        if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
+                    }
+                    deflaultButtonsColor = Control.DefaultBackColor;
+                }
+            }    
         }
 
         private void resetColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.BackColor = deflautMainColor;
-            segmentPanel.BackColor = deflautPanelColor;
-            descriptionTextBox.BackColor = deflautPanelColor;
-            SegMap.MainMapColor = deflautMainColor;
-            SegMap.PanelMapColor = deflautPanelColor;
+            this.BackColor = defaultMainColor;
+            segmentPanel.BackColor = defaultPanelColor;
+            descriptionTextBox.BackColor = defaultPanelColor;
+            SegMap.MainMapColor = defaultMainColor;
+            SegMap.PanelMapColor = defaultPanelColor;
+            
+            foreach (Control c in segmentPanel.Controls)
+            {
+                if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
+            }
+            deflaultButtonsColor = Control.DefaultBackColor;
         }
     }
 }
