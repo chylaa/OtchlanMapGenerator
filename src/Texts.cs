@@ -25,6 +25,7 @@ namespace OtchlanMapGenerator
         public static string text_descriptionTextBox;
         public static string text_disableKeyInput;
         public static string text_enableKeyInput;
+        public static string text_floorTextBox;
 
         public static string text_menuMap;
         public static string text_menuViev;
@@ -55,13 +56,14 @@ namespace OtchlanMapGenerator
                 text_detailButton = "Show Details";
                 text_segmentPanel = "Segment Panel";
                 text_textboxName = "Location Name";
-                text_exitsLabel = "Exits";
+                text_exitsLabel = "EXITS";
                 text_deleteButton = "Delete";
                 text_infoLabel = "temp Segment info";
                 text_languageGroupBox = "Select language";
                 text_descriptionTextBox = "Description";
                 text_enableKeyInput = "Enable Key Input";
                 text_disableKeyInput = "Disable Key Input";
+                text_floorTextBox = "FLOOR: ";
 
                 msg_GameProcessNotFound = "Game process not detected!";
                 text_StartLocation = "Start Location";
@@ -93,14 +95,14 @@ namespace OtchlanMapGenerator
                 text_detailButton = "Szczegóły";
                 text_segmentPanel = "Informacje o Segmencie";
                 text_textboxName = "Nazwa lokacji";
-                text_exitsLabel = "Wyjścia";
+                text_exitsLabel = "WYJŚCIA";
                 text_deleteButton = "Usuń";
                 text_infoLabel = "temp Segment info";
                 text_languageGroupBox = "Wybierz język";
                 text_descriptionTextBox = "Opis lokacji";
                 text_enableKeyInput = "Załącz odczyt klawiszy";
                 text_disableKeyInput = "Wyłącz odczyt klawiszy";
-
+                text_floorTextBox = "PIĘTRO: ";
 
                 msg_GameProcessNotFound = "Nie wykryto procesu gry";
                 text_StartLocation = "Lokacja startowa";

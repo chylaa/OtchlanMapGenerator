@@ -150,7 +150,7 @@ namespace OtchlanMapGenerator
 
             //LOCATION NAME
             String locName;
-            if (this.readedString.Contains("\r\n\r\n"))
+            if (this.readedString.Substring(0,5).Contains("\r\n\r\n"))
             {
                 locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 4);
             }
@@ -179,7 +179,7 @@ namespace OtchlanMapGenerator
             readRersult.locationName = locName;
             readRersult.locationDescription = locDesc;
 
-            if (locExits.Contains("north")) readRersult.exit_n = Dir.north;
+            if (locExits.Contains("north")) readRersult.exit_n = Dir.north; //: east west north south up \r
             if (locExits.Contains("south")) readRersult.exit_s = Dir.south;
             if (locExits.Contains("east")) readRersult.exit_e = Dir.east;
             if (locExits.Contains("west")) readRersult.exit_w = Dir.west;

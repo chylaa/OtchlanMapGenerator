@@ -62,7 +62,16 @@ namespace OtchlanMapGenerator
             }
             return this.keysSinceEnter;
         }
-
+        private string choseKeyword(char first) //List of potential keywords
+        {
+            if (first == 'n') return "north";
+            if (first == 's') return "south";
+            if (first == 'e') return "east";
+            if (first == 'w') return "west";
+            if (first == 'u') return "up";
+            if (first == 'd') return "down";
+            return "";
+        }
         private Boolean keywordDetected()
         {
 
@@ -87,44 +96,20 @@ namespace OtchlanMapGenerator
             return false;
         }
         //whole method not nessesary even wrong because it causes for example "sssssss" as "s"
-        private void deleteDuplicats() //eesseweseesw
-        {
-            //string chars = "";
-            //int howManyDiferentChars = 0;
+        //private void deleteDuplicats() //eesseweseesw
+        //{
+        //    char last;
+        //    string newKeySequence = "";
 
-            //for(int i=0; i<this.keysSinceEnter.Length;i++)
-            //{
-            //    if (!chars.Contains(this.keysSinceEnter[i]))
-            //    {
-            //        chars += this.keysSinceEnter[i];
-            //        howManyDiferentChars++;
-            //    }
-
-            //}
-
-            //this.keysSinceEnter = this.keysSinceEnter.Substring(this.keysSinceEnter.Length-howManyDiferentChars);
-            //==============================================================================
-            char last;
-            string newKeySequence = "";
-
-            for (int i = 1; i < this.keysSinceEnter.Length; i++)
-            {
-                last = this.keysSinceEnter[i - 1];
-                if (last == this.keysSinceEnter[i]) continue;
-                newKeySequence += last;
-            }
-            newKeySequence += this.keysSinceEnter[this.keysSinceEnter.Length - 1];
-            this.keysSinceEnter = newKeySequence;
-        }
-
-        private string choseKeyword(char first)
-        {
-            if (first == 'n') return "north";
-            if (first == 's') return "south";
-            if (first == 'e') return "east";
-            if (first == 'w') return "west";
-            return "";
-        }
+        //    for (int i = 1; i < this.keysSinceEnter.Length; i++)
+        //    {
+        //        last = this.keysSinceEnter[i - 1];
+        //        if (last == this.keysSinceEnter[i]) continue;
+        //        newKeySequence += last;
+        //    }
+        //    newKeySequence += this.keysSinceEnter[this.keysSinceEnter.Length - 1];
+        //    this.keysSinceEnter = newKeySequence;
+        //}
 
         public char keyboardScan()
         {

@@ -12,6 +12,7 @@ namespace OtchlanMapGenerator
         public String MapFilePath="";
         public Color MainMapColor;
         public Color PanelMapColor;
+        public Language activeLanguage = Language.EN;
 
         //==============================
         public Segment previousSegment;
@@ -23,7 +24,7 @@ namespace OtchlanMapGenerator
         public Map()
         {
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding), Dir.not, Dir.not, Dir.not, Dir.not, Texts.text_DefaultName)); //add base segment
+            segments.Add(new Segment(0, new Point(padding, padding),0, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Texts.text_DefaultName)); //add base segment
 
         }
 
@@ -52,7 +53,7 @@ namespace OtchlanMapGenerator
         }
 
         //Returns "1" if segment added, "0" if segment not added, "-1" if keyBuffer was never equal 
-        public int CheckKeyBuffer(int newID, String keyBuffer)
+        public int CheckKeyBuffer(int newID, String keyBuffer, int currentFloor)
         {
             
             if (keyBuffer.Equals("n\r"))
@@ -61,15 +62,15 @@ namespace OtchlanMapGenerator
                 //{
                 //    CorrectSegmentsLocationOnMap(0, baseBitmapSize);                  
                 //}
-                return AddSegment(newID, 0, -1 * baseBitmapSize, new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not));
+                return AddSegment(newID, 0, -1 * baseBitmapSize, new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not, Dir.not, Dir.not), currentFloor);
             }
             if (keyBuffer.Equals("s\r"))
             {
-                return AddSegment(newID, 0, baseBitmapSize, new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not));            
+                return AddSegment(newID, 0, baseBitmapSize, new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not),currentFloor);            
             }
             if (keyBuffer.Equals("e\r"))
             {
-               return AddSegment(newID, baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west));
+               return AddSegment(newID, baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west, Dir.not, Dir.not),currentFloor);
                
             }
             if (keyBuffer.Equals("w\r"))
@@ -78,25 +79,33 @@ namespace OtchlanMapGenerator
                 //{                 
                 //    CorrectSegmentsLocationOnMap(baseBitmapSize, 0);
                 //}
-                return AddSegment(newID, -1 * baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not));
+                return AddSegment(newID, -1 * baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not, Dir.not, Dir.not),currentFloor);
 
+            }
+            if(keyBuffer.Equals("u\r"))
+            {
+                return AddSegment(newID, 0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.down), currentFloor+1);
+            }
+            if (keyBuffer.Equals("d\r"))
+            {
+                return AddSegment(newID, 0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.up, Dir.not), currentFloor-1);
             }
             return -1; 
 
         }
         ///Returns "1" if segment added, "0" if segment not added.
-        private int AddSegment(int newID, int xShift, int yShift, ExitPoints e) //xShift yShift - shift of coordinates relative to the chosen segment
+        private int AddSegment(int newID, int xShift, int yShift, ExitPoints e, int floor) //xShift yShift - shift of coordinates relative to the chosen segment
         {
-            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift), e.eN, e.eS, e.eE, e.eW, Texts.text_DefaultName);
+            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift),floor, e.eN, e.eS, e.eE, e.eW, e.eU,e.eD, Texts.text_DefaultName);
             this.previousSegment = this.playerSeg;
 
             Dir previousSegmentDirection = e.getExistingExit();
             Dir newSegmentDirection = e.getOppositeDir();
             //if(UpdatePrevSegmentExits(findSegmentByLocation(s.BMPlocation), e)==1) return 0; 
             //if(findSegmentByLocation(s.BMPlocation) != null) return 0;
-            if (UpdateEnterdSegmentExits(findSegmentByLocation(s.BMPlocation), e) == 0) //handle adding new path when entering existing segment 
+            if (UpdateEnterdSegmentExits(findSegmentByLocation(s.BMPlocation, floor), e) == 0) //handle adding new path when entering existing segment 
             {     
-                segments.Add(s);
+                segments.Add(s); 
                 this.playerSeg = s;
                 //--------------------------------------------------------------------------------
                 UpdatePrevSegmentExits(this.previousSegment, e);
@@ -105,7 +114,7 @@ namespace OtchlanMapGenerator
                 //--------------------------------------------------------------------------------
                 return 1;
             }
-            this.playerSeg = findSegmentByLocation(s.BMPlocation);
+            this.playerSeg = findSegmentByLocation(s.BMPlocation, floor); //What in case of using "up" "down" ??? Better search by ID? //(WAS by Location)
             //----------------------------------------------------------------------------------------
             UpdatePrevSegmentExits(this.previousSegment,e); //when up 'if' returns 1 only update exit
             this.playerSeg.setNeighbourID(this.previousSegment.id, previousSegmentDirection);
@@ -143,17 +152,23 @@ namespace OtchlanMapGenerator
         {
             if (selected == null) return 0;
 
-            int[] oldNeighID = new int[] { selected.exits.neighbourIDn, selected.exits.neighbourIDs, selected.exits.neighbourIDe, selected.exits.neighbourIDw };
+            int[] oldNeighID = new int[] { selected.exits.neighbourIDn, selected.exits.neighbourIDs,
+                                           selected.exits.neighbourIDe, selected.exits.neighbourIDw, 
+                                           selected.exits.neighbourIDu, selected.exits.neighbourIDd };
 
             Dir OldN= selected.exits.eN;
             Dir OldS= selected.exits.eS;
             Dir OldE= selected.exits.eE;
             Dir OldW= selected.exits.eW;
+            Dir OldU = selected.exits.eU;
+            Dir OldD = selected.exits.eD;
 
-            if (e.eN==Dir.north) selected.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
-            if (e.eS == Dir.south) selected.exits = new ExitPoints(Dir.north, OldS, OldE, OldW);
-            if (e.eE == Dir.east) selected.exits = new ExitPoints(OldN, OldS, OldE, Dir.west);
-            if (e.eW == Dir.west) selected.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
+            if (e.eN==Dir.north) selected.exits = new ExitPoints(OldN, Dir.south, OldE, OldW, OldU,OldD);
+            if (e.eS == Dir.south) selected.exits = new ExitPoints(Dir.north, OldS, OldE, OldW, OldU, OldD);
+            if (e.eE == Dir.east) selected.exits = new ExitPoints(OldN, OldS, OldE, Dir.west, OldU, OldD);
+            if (e.eW == Dir.west) selected.exits = new ExitPoints(OldN, OldS, Dir.east, OldW, OldU, OldD);
+            if (e.eU == Dir.up) selected.exits = new ExitPoints(OldN, OldS, OldE, OldW, OldU, Dir.down);
+            if (e.eD == Dir.down) selected.exits = new ExitPoints(OldN, OldS, OldE, OldW, Dir.up, OldD);
             selected.setBitmap('x','x');
             selected.exits.setNeighbours(oldNeighID);
             return 1;
@@ -162,17 +177,22 @@ namespace OtchlanMapGenerator
         {
             if (s == null) return 0;
 
-            int[] oldNeighID = new int[] { s.exits.neighbourIDn, s.exits.neighbourIDs, s.exits.neighbourIDe, s.exits.neighbourIDw };
-
+            int[] oldNeighID = new int[] { s.exits.neighbourIDn, s.exits.neighbourIDs,
+                                           s.exits.neighbourIDe, s.exits.neighbourIDw,
+                                           s.exits.neighbourIDu, s.exits.neighbourIDd };
             Dir OldN = s.exits.eN;
             Dir OldS = s.exits.eS;
             Dir OldE = s.exits.eE;
             Dir OldW = s.exits.eW;
+            Dir OldU = s.exits.eU;
+            Dir OldD = s.exits.eD;
 
             if (e.eN == Dir.north) s.exits = new ExitPoints(Dir.north, OldS, OldE, OldW); 
             if (e.eS == Dir.south) s.exits = new ExitPoints(OldN, Dir.south, OldE, OldW);
             if (e.eE == Dir.east) s.exits = new ExitPoints(OldN, OldS, Dir.east, OldW);
-            if (e.eW == Dir.west) s.exits = new ExitPoints(OldN, OldS, OldE, Dir.west); 
+            if (e.eW == Dir.west) s.exits = new ExitPoints(OldN, OldS, OldE, Dir.west);
+            if (e.eU == Dir.up) s.exits = new ExitPoints(OldN, OldS, OldE, OldW, Dir.up, OldD);
+            if (e.eD == Dir.down) s.exits = new ExitPoints(OldN, OldS, OldE, OldW, OldU, Dir.down);
             s.setBitmap('x','x');
             s.exits.setNeighbours(oldNeighID);
             return 1;
@@ -202,6 +222,16 @@ namespace OtchlanMapGenerator
                     s.exits.neighbourIDw = -1;
                     s.exits.eW = Dir.not;
                 }
+                if (s.exits.neighbourIDu == delSegID)
+                {
+                    s.exits.neighbourIDu = -1;
+                    s.exits.eU = Dir.not;
+                }
+                if (s.exits.neighbourIDd == delSegID)
+                {
+                    s.exits.neighbourIDd = -1;
+                    s.exits.eD = Dir.not;
+                }
                 s.setBitmap('x','x');
             }
             this.segments.Remove(this.findSegment(toDelete));
@@ -216,11 +246,11 @@ namespace OtchlanMapGenerator
         //}
 
 
-        public Segment findSegmentByLocation(Point location)
+        public Segment findSegmentByLocation(Point location, int floor)
         {
             foreach (Segment s in segments)
             {
-                if (s.BMPlocation == location)
+                if (s.BMPlocation == location && s.floor==floor)
                 {
                     return s;
                 }
@@ -301,6 +331,8 @@ namespace OtchlanMapGenerator
             UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourIDs), thisSeg.exits.neighbourIDs, thisSeg.id, distance, destSegID);
             UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourIDe), thisSeg.exits.neighbourIDe, thisSeg.id, distance, destSegID);
             UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourIDw), thisSeg.exits.neighbourIDw, thisSeg.id, distance,destSegID);
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourIDu), thisSeg.exits.neighbourIDu, thisSeg.id, distance, destSegID);
+            UpdateDistanceMap(findSegmentByID(thisSeg.exits.neighbourIDd), thisSeg.exits.neighbourIDd, thisSeg.id, distance, destSegID);
         }
 
 
@@ -320,7 +352,6 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourIDn); //n
                 if (temp!=null && temp.distance == (distance - 1))
                 {                  
-                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'n');
                     segDest.setBitmap(previousDir, 'n');
                     distance--;
                     route += "s,";
@@ -331,7 +362,6 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourIDs); //s
                 if (temp != null && temp.distance == (distance - 1))
                 {
-                    if (previousDir == 'x') segDest.setBitmap(previousDir, 's');
                     segDest.setBitmap(previousDir, 's');
                     distance--;
                     route += "n,";
@@ -342,7 +372,6 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourIDe); //e
                 if (temp != null && temp.distance == (distance - 1))
                 { 
-                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'e');
                     segDest.setBitmap(previousDir, 'e');
                     distance--;
                     route += "w,";
@@ -353,11 +382,30 @@ namespace OtchlanMapGenerator
                 temp = findSegmentByID(segDest.exits.neighbourIDw); //w
                 if (temp != null && temp.distance == (distance - 1))
                 {
-                    if (previousDir == 'x') segDest.setBitmap(previousDir, 'w');
                     segDest.setBitmap(previousDir, 'w');
                     distance--;
                     route += "e,";
                     previousDir = 'e';
+                    segDest = temp;
+                    continue;
+                }
+                temp = findSegmentByID(segDest.exits.neighbourIDu); //u
+                if (temp != null && temp.distance == (distance - 1))
+                {
+                    segDest.setBitmap(previousDir, 'x');
+                    distance--;
+                    route += "d,";
+                    previousDir = 'x';
+                    segDest = temp;
+                    continue;
+                }
+                temp = findSegmentByID(segDest.exits.neighbourIDd); //d
+                if (temp != null && temp.distance == (distance - 1))
+                {
+                    segDest.setBitmap(previousDir, 'x');
+                    distance--;
+                    route += "u,";
+                    previousDir = 'x';
                     segDest = temp;
                     continue;
                 }

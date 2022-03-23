@@ -1,28 +1,33 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace OtchlanMapGenerator
 {
     [Serializable]
     class ExitPoints
     {
-        public Dir eN,eS,eE,eW; //north, south, east, west
-        public int neighbourIDn, neighbourIDs, neighbourIDe, neighbourIDw; // -1 if dont exist
-        public ExitPoints(Dir a, Dir b, Dir c, Dir d)
+        public Dir eN,eS,eE,eW,eU,eD; //north, south, east, west, up, down
+        public int neighbourIDn, neighbourIDs, neighbourIDe, neighbourIDw, neighbourIDu, neighbourIDd; // -1 if dont exist
+        public ExitPoints(Dir en, Dir es, Dir ee, Dir ew, [Optional]Dir eu, [Optional]Dir ed)
         {
-            this.eN = a;
-            this.eS = b;
-            this.eE = c;
-            this.eW = d;
+            this.eN = en;
+            this.eS = es;
+            this.eE = ee;
+            this.eW = ew;
+            this.eD = ed;
+            this.eU = eu;
             this.neighbourIDn = -1;
             this.neighbourIDs = -1;
             this.neighbourIDe = -1;
             this.neighbourIDw = -1;
+            this.neighbourIDu = -1;
+            this.neighbourIDd = -1;
         }
 
         public virtual bool Equals(ExitPoints other)
         {
-            if (this.eN == other.eN && this.eS == other.eS && this.eE == other.eE && this.eW == other.eW) return true;
+            if (this.eN == other.eN && this.eS == other.eS && this.eE == other.eE && this.eW == other.eW ) return true; //wihout && other.eU == this.eU && other.eD == this.eD bc I dont have more bitmaps :) 
             return false;
         }
         public Dir getExistingExit() //returns first !not direction from exits (nessesary for settin neighbourID) 
@@ -31,6 +36,8 @@ namespace OtchlanMapGenerator
             if (this.eS == Dir.south) return this.eS;
             if (this.eE == Dir.east) return this.eE;
             if (this.eW == Dir.west) return this.eW;
+            if (this.eU == Dir.up) return this.eU;
+            if (this.eD == Dir.down) return this.eD;
             return Dir.not;
         }
         public Dir getOppositeDir()
@@ -39,22 +46,24 @@ namespace OtchlanMapGenerator
             if (this.eS == Dir.south) return Dir.north;
             if (this.eE == Dir.east) return Dir.west;
             if (this.eW == Dir.west) return Dir.east;
+            if (this.eU == Dir.up) return Dir.down;
+            if (this.eD == Dir.down) return Dir.up;
             return Dir.not;
         }
-        public void setNeighbours(int[] tabOf4)
+        public void setNeighbours(int[] tabOf6)
         {
             //if (tabOf4.Length != 4) return;
-            this.neighbourIDn = tabOf4[0];
-            this.neighbourIDs = tabOf4[1];
-            this.neighbourIDe = tabOf4[2];
-            this.neighbourIDw = tabOf4[3];
+            this.neighbourIDn = tabOf6[0];
+            this.neighbourIDs = tabOf6[1];
+            this.neighbourIDe = tabOf6[2];
+            this.neighbourIDw = tabOf6[3];
+            this.neighbourIDu = tabOf6[4];
+            this.neighbourIDd = tabOf6[5];
         }
-
 
     }
 
-
-    public enum Dir {not,north,south,west,east};
+    public enum Dir {not,north,south,west,east, up, down};
     [Serializable]
     class Segment
     {
@@ -64,6 +73,7 @@ namespace OtchlanMapGenerator
         public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes methond)
         //public Size BitmapSize= new Size(50,50);
         public Point BMPlocation;
+        public int floor = 0; // 0 - base level, -1 basement, 1 - first floot  etc.
         public String name;
         public String decription;
         //public List<Dir> exits;
@@ -73,16 +83,16 @@ namespace OtchlanMapGenerator
         public Segment()
         {
         }
-        public Segment(int id, Point location, Dir exit1, Dir exit2, Dir exit3, Dir exit4, String name) //n_id 4 element array
+        public Segment(int id, Point location, int floor, Dir exit1, Dir exit2, Dir exit3, Dir exit4, [Optional] Dir exit5, [Optional] Dir exit6, String name) 
         {
             this.id = id;
-            this.exits = new ExitPoints(exit1, exit2, exit3, exit4);
+            this.exits = new ExitPoints(exit1, exit2, exit3, exit4,exit5,exit6);
             setBitmap('x','x');
             setStandardBitmap();
             this.name = name;
             this.BMPlocation = location;
             this.decription = "";
-
+            this.floor = floor;
             this.distance = -1;
         }
         //params char previusDir/Direction - if == 'x' then sets normal bitmap, otherwise set adequate "route" bitmap. 
@@ -109,10 +119,17 @@ namespace OtchlanMapGenerator
             }
             else //consider (instead of all if's) autocompletion of the file path by pasting variables previousDir and Direction e.g "..\Route"+previousDir+""+Direction
             {
-                if (previousDir == 'x' && Direction == 'n') this.bitmap = new Bitmap(@"Images\RouteXNorth.bmp");
-                if (previousDir == 'x' && Direction == 's') this.bitmap = new Bitmap(@"Images\RouteXSouth.bmp");
-                if (previousDir == 'x' && Direction == 'e') this.bitmap = new Bitmap(@"Images\RouteXEast.bmp");
-                if (previousDir == 'x' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteXWest.bmp");
+                for (int i = 0; i < 2; i++)
+                {
+                    if (previousDir == 'x' && Direction == 'n') this.bitmap = new Bitmap(@"Images\RouteXNorth.bmp");
+                    if (previousDir == 'x' && Direction == 's') this.bitmap = new Bitmap(@"Images\RouteXSouth.bmp");
+                    if (previousDir == 'x' && Direction == 'e') this.bitmap = new Bitmap(@"Images\RouteXEast.bmp");
+                    if (previousDir == 'x' && Direction == 'w') this.bitmap = new Bitmap(@"Images\RouteXWest.bmp");
+                    //swap and check again
+                    char buffer = previousDir;
+                    previousDir = Direction;
+                    Direction = buffer;
+                }
 
                // if ((previousDir == 'n' && Direction == 's') || (previousDir == 'n' && Direction == 'n') || (previousDir == 's' && Direction == 's')) this.bitmap = new Bitmap(@"Images\RouteNorthSouth.bmp");
                // if ((previousDir == 'e' && Direction == 'w') || (previousDir == 'w' && Direction == 'w') || (previousDir == 'e' && Direction == 'e')) this.bitmap = new Bitmap(@"Images\RouteEastWest.bmp");
@@ -161,6 +178,8 @@ namespace OtchlanMapGenerator
             if (neighbourLocation == Dir.south) this.exits.neighbourIDs = segmentID;
             if (neighbourLocation == Dir.east) this.exits.neighbourIDe = segmentID;
             if (neighbourLocation == Dir.west) this.exits.neighbourIDw = segmentID;
+            if (neighbourLocation == Dir.up) this.exits.neighbourIDu = segmentID;
+            if (neighbourLocation == Dir.down) this.exits.neighbourIDd = segmentID;
 
         }
 
@@ -179,6 +198,8 @@ namespace OtchlanMapGenerator
                 this.exits.eS = s.exits.eS;
                 this.exits.eE = s.exits.eE;
                 this.exits.eW = s.exits.eW;
+                this.exits.eU = s.exits.eU;
+                this.exits.eD = s.exits.eD;
             }
         }
 

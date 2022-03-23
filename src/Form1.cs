@@ -15,7 +15,6 @@ namespace OtchlanMapGenerator
 
         Segment chosen = new Segment();
         ToolTip tip = new ToolTip();
-        Language activeLanguage = Language.EN;
         KeyHandler keyHandler = new KeyHandler();
 
         ScreenRead screenRead = new ScreenRead();
@@ -38,6 +37,7 @@ namespace OtchlanMapGenerator
         Boolean flag_findWayBitmapsActive = false;
         Boolean flag_keyInputAcive = true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
+        int currentFloor; //Floor to display, by default - floor where player is located
 
         public Form1()
         {
@@ -46,29 +46,27 @@ namespace OtchlanMapGenerator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             this.openFileDialog.Filter = Texts.mapFileExtentionPattern;
             this.openFileDialog.InitialDirectory = @"Saves\";
             this.openFileDialog.DefaultExt = Texts.mapFileExtention;
             this.saveFileDialog.Filter = Texts.mapFileExtentionPattern;
             this.saveFileDialog.InitialDirectory = @"Saves\";
             this.saveFileDialog.DefaultExt = Texts.mapFileExtention;
-
-            
+        
+            SegMap = new Map();
+            initializeMap();
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
-            Texts.setLanguage(activeLanguage);
+            Texts.setLanguage(SegMap.activeLanguage);
             setTexts();
-            SegMap = new Map();
 
             textboxName.Enabled = false;
             segmentPanel.Enabled = false;
-
-            initializeMap();
         }
 
         private void initializeMap()
         {
+            currentFloor = 0;
             newID = 1;
             if (SegMap.segments.Count() > 0)
             {
@@ -94,7 +92,7 @@ namespace OtchlanMapGenerator
             infoLabel.Text = Texts.text_infoLabel;
             languageGroupBox.Text = Texts.text_languageGroupBox;
             descriptionTextBox.Text = Texts.text_descriptionTextBox;
-
+            floorTextBox.Text = Texts.text_floorTextBox + currentFloor;
 
             mapFileToolStripMenuItem.Text = Texts.text_menuMap;
             newToolStripMenuItem.Text = Texts.text_menuMapNewFile;
@@ -109,20 +107,25 @@ namespace OtchlanMapGenerator
             helpToolStripMenuItem.Text = Texts.text_menuHelp;
             usageToolStripMenuItem.Text = Texts.text_menuHelpUsage;
 
+
         }
         private void ENradioButton_CheckedChanged(object sender, EventArgs e)
         {
-            activeLanguage = Language.EN;
-            Texts.setLanguage(activeLanguage);
+            SegMap.activeLanguage = Language.EN;
+            Texts.setLanguage(SegMap.activeLanguage);
             setTexts();
+            keyInputCheckBox_CheckedChanged(sender, e); //to set proper text associated with checkbox
+            exitsLabel.Left = 72;
             //return activeLanguage;
         }
 
         private void PLradioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            activeLanguage = Language.PL;
-            Texts.setLanguage(activeLanguage);
+            SegMap.activeLanguage = Language.PL;
+            Texts.setLanguage(SegMap.activeLanguage);
             setTexts();
+            keyInputCheckBox_CheckedChanged(sender, e); //to set proper text associated with checkbox
+            exitsLabel.Left = 66;
             //return activeLanguage;
         }
 
@@ -142,13 +145,27 @@ namespace OtchlanMapGenerator
 
             HideOutlineSelected();
             chosen.assignValues(SegMap.playerSeg);
-            Button_set_n.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
+            nButton.Focus();  //to remove focus from delete button - otherwise each click on "enter" would invoke it.
             DisplaySegments(playerOrientation, true);
 
         }
 
+        private void floorButtonUP_Click(object sender, EventArgs e)
+        {
+            currentFloor++;
+            floorTextBox.Text = Texts.text_floorTextBox + currentFloor;
+            DisplaySegments('x', false);
+        }
 
-        //=================Handling clicking on segments to display info and select=================================================
+        private void floorButtonDown_Click(object sender, EventArgs e)
+        {
+            currentFloor--;
+            floorTextBox.Text = Texts.text_floorTextBox + currentFloor;
+            DisplaySegments('x',false);
+        }
+
+
+        //=================Handling clicking on segments to display info and select==================================
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             descriptionTextBox.Visible = false;
@@ -156,14 +173,17 @@ namespace OtchlanMapGenerator
             //DisplaySegments();
             foreach (Segment segment in SegMap.segments)
             {
-                // if (segment.bitmap == null) return;              
-                if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
+                // if (segment.bitmap == null) return;
+                if (segment.floor == currentFloor)
                 {
-                    if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
+                    if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
                     {
-                        if (e.Button == MouseButtons.Right) setPlayerAtSegment(segment); 
-                        SegmentClicked(segment);
-                        return;
+                        if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
+                        {
+                            if (e.Button == MouseButtons.Right) setPlayerAtSegment(segment);
+                            SegmentClicked(segment);
+                            return;
+                        }
                     }
                 }
             }
@@ -177,12 +197,15 @@ namespace OtchlanMapGenerator
 
             foreach (Segment segment in SegMap.segments)
             {
-                if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
+                if (segment.floor == currentFloor)
                 {
-                    if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
+                    if (e.Location.X > segment.BMPlocation.X && e.Location.X < segment.BMPlocation.X + segment.bitmap.Width)
                     {
-                        SegmentDoubleClicked(segment);
-                        return;
+                        if (e.Location.Y > segment.BMPlocation.Y && e.Location.Y < segment.BMPlocation.Y + segment.bitmap.Height)
+                        {
+                            SegmentDoubleClicked(segment);
+                            return;
+                        }
                     }
                 }
             }
@@ -192,7 +215,7 @@ namespace OtchlanMapGenerator
         private void SegmentClicked(Segment s)
         {
             segmentPanel.Enabled = true;
-            Button_set_n.Focus(); //to keep focus away from delete and detail buttons
+            nButton.Focus(); //to keep focus away from delete and detail buttons
             SetDefaultButtonsStyle();
 
             if (flag_findWayBitmapsActive)
@@ -208,12 +231,14 @@ namespace OtchlanMapGenerator
             descriptionTextBox.Text = s.decription;
             chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
 
-            if (s.exits.eN == Dir.north) SetButtonStyle(s, Button_set_n, "N");
-            if (s.exits.eS == Dir.south) SetButtonStyle(s, Button_set_s, "S");
-            if (s.exits.eE == Dir.east) SetButtonStyle(s, Button_set_e, "E");
-            if (s.exits.eW == Dir.west) SetButtonStyle(s, Button_set_w, "W");
+            if (s.exits.eN == Dir.north) SetButtonStyle(s, nButton, "N");
+            if (s.exits.eS == Dir.south) SetButtonStyle(s, sButton, "S");
+            if (s.exits.eE == Dir.east) SetButtonStyle(s, eButton, "E");
+            if (s.exits.eW == Dir.west) SetButtonStyle(s, wButton, "W");
+            if (s.exits.eU == Dir.up) upButton.BackColor = Color.IndianRed;
+            if (s.exits.eD == Dir.down) downButton.BackColor = Color.IndianRed;
 
-            infoLabel.Text = "ID: " + s.id + " Dist: " + s.distance + " | " + s.exits.neighbourIDn + "N " + s.exits.neighbourIDs + "S " + s.exits.neighbourIDe + "E " + s.exits.neighbourIDw + "W";
+            infoLabel.Text = "ID: " + s.id + " Dist: " + s.distance + " | " + s.exits.neighbourIDn + "N " + s.exits.neighbourIDs + "S " + s.exits.neighbourIDe + "E " + s.exits.neighbourIDw + "W " + s.exits.neighbourIDu + "U " + s.exits.neighbourIDd + "D " + s.floor+"=Floor";
 
         }
         private void SegmentDoubleClicked(Segment s)
@@ -236,18 +261,20 @@ namespace OtchlanMapGenerator
 
         private void SetDefaultButtonsStyle()
         {
-            Button_set_n.Text = "n";
-            Button_set_n.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            Button_set_n.BackColor = deflaultButtonsColor;
-            Button_set_s.Text = "s";
-            Button_set_s.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            Button_set_s.BackColor = deflaultButtonsColor;
-            Button_set_e.Text = "e";
-            Button_set_e.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            Button_set_e.BackColor = deflaultButtonsColor;
-            Button_set_w.Text = "w";
-            Button_set_w.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            Button_set_w.BackColor = deflaultButtonsColor;
+            nButton.Text = "n";
+            nButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            nButton.BackColor = deflaultButtonsColor;
+            sButton.Text = "s";
+            sButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            sButton.BackColor = deflaultButtonsColor;
+            eButton.Text = "e";
+            eButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            eButton.BackColor = deflaultButtonsColor;
+            wButton.Text = "w";
+            wButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            wButton.BackColor = deflaultButtonsColor;
+            upButton.BackColor = deflaultButtonsColor;
+            downButton.BackColor = deflaultButtonsColor;
         }
         //--------------Atribute changes-----------------
 
@@ -255,7 +282,7 @@ namespace OtchlanMapGenerator
         private void enableKeyInput(object sender, EventArgs e)
         {
             textboxName.Enabled = false;
-            Button_set_n.Focus();
+            nButton.Focus();
 
             chosen.name = textboxName.Text;
             chosen.decription = descriptionTextBox.Text;
@@ -289,7 +316,7 @@ namespace OtchlanMapGenerator
             DisplaySegments(playerOrientation,true);
         }
 
-        //=================Handling painting bitmaps on form======================================
+        //=================Handling painting bitmaps on form==========================================================
         private void DisplaySegments(char from, Boolean centerOnPlayer) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
 
@@ -308,7 +335,10 @@ namespace OtchlanMapGenerator
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
-            foreach (Segment segment in SegMap.segments) e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
+            foreach (Segment segment in SegMap.segments)
+                if(segment.floor == currentFloor)
+                    e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
+
             if (flagDrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
             flagDrawOutline = false;
         }
@@ -333,7 +363,7 @@ namespace OtchlanMapGenerator
 
         private void HideOutlineSelected() { outlineSelect = new Rectangle(); }
 
-        //==================Handling ScrollBars and MouseWheel=================================
+        //==================Handling ScrollBars and MouseWheel======================================================
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             dy = e.NewValue;
@@ -367,7 +397,7 @@ namespace OtchlanMapGenerator
 
 
 
-        //===================Handling adding new Segments and keyboard read========================
+        //===================Handling adding new Segments and keyboard read================================================
         private void Form1_KeyPress(KeyPressEventArgs e)
         {
             //setTexts(); //reset description text
@@ -381,10 +411,14 @@ namespace OtchlanMapGenerator
             //charsSinceEnter += keyBuffer;   //just control
             segmentPanel.Text += keyHandler.keysSinceEnter; //just control
 
-            Added = SegMap.CheckKeyBuffer(newID, keyBuffer); // here adding happens
+            Added = SegMap.CheckKeyBuffer(newID, keyBuffer, currentFloor); // here adding happens
             if (Added == -1) return;
 
-            lastDir = keyBuffer[0];
+            currentFloor=SegMap.playerSeg.floor; //and thats all, change floor viev by user, - same variable, just viev returns to player on move
+            floorTextBox.Text = Texts.text_floorTextBox + currentFloor;
+
+            if(keyBuffer[0]!='u' && keyBuffer[0]!='d') 
+                lastDir = keyBuffer[0];
 
             if (previousSegmentAdded)
             {
@@ -425,7 +459,6 @@ namespace OtchlanMapGenerator
             if (KeyCode != '0') Form1_KeyPress(new KeyPressEventArgs(KeyCode));
 
         }
-
         private void keyInputCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (keyInputCheckBox.Checked == true)
@@ -438,8 +471,8 @@ namespace OtchlanMapGenerator
                 flag_keyInputAcive = true;
                 keyInputCheckBox.Text = Texts.text_disableKeyInput;
             }
-
         }
+
 
         //============================Menu===================================
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -466,6 +499,8 @@ namespace OtchlanMapGenerator
             this.BackColor = SegMap.MainMapColor;
             segmentPanel.BackColor = SegMap.PanelMapColor;
             descriptionTextBox.BackColor = SegMap.PanelMapColor;
+
+            currentFloor = SegMap.playerSeg.floor;
 
             DisplaySegments(playerOrientation, true);
         }
@@ -588,5 +623,7 @@ namespace OtchlanMapGenerator
             }
             deflaultButtonsColor = Control.DefaultBackColor;
         }
+
+
     }
 }
