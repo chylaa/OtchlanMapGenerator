@@ -17,6 +17,8 @@ namespace OtchlanMapGenerator
         public Dir exit_s;
         public Dir exit_e;
         public Dir exit_w;
+        public Dir exit_u;
+        public Dir exit_d;
         public Boolean invalid; // to inform if Reasult was readed properly
     }
 
@@ -37,7 +39,7 @@ namespace OtchlanMapGenerator
             public int right;
             public int bottom;
         }
-
+        int TempIteration = 0;
         IronTesseract ironTesseract;
         //String ssPath;
         Bitmap bitmap;
@@ -86,8 +88,8 @@ namespace OtchlanMapGenerator
                 this.bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
                 Graphics.FromImage(bitmap).CopyFromScreen(rect.left, rect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
-
-                //bitmap.Save("screen.jpg", ImageFormat.Jpeg);
+                this.TempIteration++;
+                bitmap.Save("screen" + TempIteration +".jpg", ImageFormat.Jpeg);
                 //bitmap.Dispose();
 
             }
@@ -117,7 +119,7 @@ namespace OtchlanMapGenerator
             //
             try
             {
-                this.readedString = this.readedString.Substring(0, this.readedString.LastIndexOfAny("<".ToCharArray()) - 1); //
+                this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray()) - 1); //
                 if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
             }catch(Exception e)
             {
@@ -131,26 +133,28 @@ namespace OtchlanMapGenerator
 
         public ReadResult getLocationInfo()
         {
-            ReadResult readRersult = new ReadResult();
-            readRersult.exit_n = Dir.not;
-            readRersult.exit_s = Dir.not;
-            readRersult.exit_e = Dir.not;
-            readRersult.exit_w = Dir.not;
+            ReadResult readResult = new ReadResult();
+            readResult.exit_n = Dir.not;
+            readResult.exit_s = Dir.not;
+            readResult.exit_e = Dir.not;
+            readResult.exit_w = Dir.not;
+            readResult.exit_u = Dir.not;
+            readResult.exit_d = Dir.not;
 
             if (!this.getTextFromScreen())
             {
-                readRersult.invalid = true;
-                return readRersult;
+                readResult.invalid = true;
+                return readResult;
             }
             if (!this.readedString.Contains(":"))
             {
-                readRersult.invalid = true;
-                return readRersult;
+                readResult.invalid = true;
+                return readResult;
             }
 
             //LOCATION NAME
             String locName;
-            if (this.readedString.Substring(0,5).Contains("\r\n\r\n"))
+            if (this.readedString.Substring(0,30).Contains("\r\n\r\n"))
             {
                 locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 4);
             }
@@ -176,16 +180,33 @@ namespace OtchlanMapGenerator
             //for (int i = 0; i < 4; i++) if (locDesc[i] == '\r' || locDesc[i] == '\n') locDesc=locDesc.Substring(i+1);
             //for (int i = locDesc.Length; i > locDesc.Length - 4; i--) if (locDesc[i] == '\r' || locDesc[i] == '\n') locDesc = locDesc.Substring(0,i-1);
 
-            readRersult.locationName = locName;
-            readRersult.locationDescription = locDesc;
+            readResult.locationName = locName;
+            readResult.locationDescription = locDesc;
 
-            if (locExits.Contains("north")) readRersult.exit_n = Dir.north; //: east west north south up \r
-            if (locExits.Contains("south")) readRersult.exit_s = Dir.south;
-            if (locExits.Contains("east")) readRersult.exit_e = Dir.east;
-            if (locExits.Contains("west")) readRersult.exit_w = Dir.west;
+            if (locExits.Contains("north")) readResult.exit_n = Dir.north; //: east west north south up \r
+            if (locExits.Contains("south")) readResult.exit_s = Dir.south;
+            if (locExits.Contains("east")) readResult.exit_e = Dir.east;
+            if (locExits.Contains("west")) readResult.exit_w = Dir.west;
+            if (locExits.Contains("up")) readResult.exit_u = Dir.up;
+            if (locExits.Contains("down")) readResult.exit_d = Dir.down;
 
-            readRersult.invalid = false;
-            return readRersult;
+            if (locDesc.Contains("<") || 
+                locDesc.Contains(">") ||
+                (readResult.exit_n == Dir.not &&
+                readResult.exit_s == Dir.not &&
+                readResult.exit_e == Dir.not &&
+                readResult.exit_w == Dir.not &&
+                readResult.exit_u == Dir.not &&
+                readResult.exit_d == Dir.not))
+            {
+                readResult.invalid = true;
+            }
+            else
+            {
+                readResult.invalid = false;
+            }
+
+            return readResult;
 
         }
     }

@@ -94,6 +94,7 @@ namespace OtchlanMapGenerator
             this.segmentPanel.BackColor = System.Drawing.Color.RosyBrown;
             this.segmentPanel.Controls.Add(this.floorButtonDown);
             this.segmentPanel.Controls.Add(this.floorButtonUP);
+            this.segmentPanel.Controls.Add(this.infoLabel);
             this.segmentPanel.Controls.Add(this.floorTextBox);
             this.segmentPanel.Controls.Add(this.downButton);
             this.segmentPanel.Controls.Add(this.upButton);
@@ -300,7 +301,7 @@ namespace OtchlanMapGenerator
             // infoLabel
             // 
             this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(12, 458);
+            this.infoLabel.Location = new System.Drawing.Point(9, 408);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(70, 13);
             this.infoLabel.TabIndex = 8;
@@ -501,7 +502,6 @@ namespace OtchlanMapGenerator
             this.ClientSize = new System.Drawing.Size(717, 539);
             this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.keyInputCheckBox);
-            this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.segmentPanel);
             this.Controls.Add(this.menuStrip);

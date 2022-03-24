@@ -214,6 +214,8 @@ namespace OtchlanMapGenerator
             this.exits.eS = readResult.exit_s;
             this.exits.eE = readResult.exit_e;
             this.exits.eW = readResult.exit_w;
+            this.exits.eU = readResult.exit_u;
+            this.exits.eD = readResult.exit_d;
 
             this.setBitmap('x', 'x');
 

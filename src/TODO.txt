@@ -30,9 +30,8 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 13)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
-14)/TODO | Bug: When going up&down on the same segment, exits seems sometimes to not set
+14)/TODO | REmember about setting Boolean FirstDeploy = true when loading mapsave
 ---------|------------------------------------------------------------------------------------------------------------]
-
 
 
 

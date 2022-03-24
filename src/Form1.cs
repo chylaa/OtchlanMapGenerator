@@ -52,16 +52,17 @@ namespace OtchlanMapGenerator
             this.saveFileDialog.Filter = Texts.mapFileExtentionPattern;
             this.saveFileDialog.InitialDirectory = @"Saves\";
             this.saveFileDialog.DefaultExt = Texts.mapFileExtention;
-        
+
+            Texts.setLanguage(Language.EN); //must be before new Map() - using Texts.DeflautLocationName
+            setTexts();
+
             SegMap = new Map();
             initializeMap();
             //confirmButton.Enabled=false;
             //textboxName.Enabled = false;
-            Texts.setLanguage(SegMap.activeLanguage);
-            setTexts();
 
             textboxName.Enabled = false;
-            segmentPanel.Enabled = false;
+            segmentPanel.Enabled = true;
         }
 
         private void initializeMap()
@@ -424,7 +425,7 @@ namespace OtchlanMapGenerator
             {
                 //SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
 
-                void SetInfo() { SegMap.findSegment(SegMap.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
+                void SetInfo() { if(SegMap.findSegment(SegMap.previousSegment)!= null )SegMap.findSegment(SegMap.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
                 Thread thread = new Thread(SetInfo);
                 thread.Start();
 
@@ -623,7 +624,6 @@ namespace OtchlanMapGenerator
             }
             deflaultButtonsColor = Control.DefaultBackColor;
         }
-
 
     }
 }
