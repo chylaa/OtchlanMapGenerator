@@ -24,13 +24,17 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 10)\DONE | Ctrl + key problem
 ---------|------------------------------------------------------------------------------------------------------------]
-11)/TODO | Automatically copy route to clipboard + exits correction ability for user?
+11)/DONE | Bug with reserved screen - duplicate of location when using "spojrz" after non-direction command
 ---------|------------------------------------------------------------------------------------------------------------]
-12)/TODO | Handle problems with "disappearing" of location's atributes when player use for e.g EQ (make ss in reserve?) 
+12)/DONE | Handle problems with "disappearing" of location's atributes when player use for e.g EQ 
+---------|------------------------------------------------------------------------------------------------------------]
+12)/TODO | Automatically copy route to clipboard + exits correction ability for user?
 ---------|------------------------------------------------------------------------------------------------------------]
 13)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
 14)/TODO | REmember about setting Boolean FirstDeploy = true when loading mapsave
+---------|------------------------------------------------------------------------------------------------------------]
+15)/TODO | Handle situations when doors in way player goes are locked or "hmmm?" - recognize maybe by no exits? (!!)
 ---------|------------------------------------------------------------------------------------------------------------]
 
 
@@ -47,13 +51,13 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 3)\\DONE | Add the ability to correct player's position by the user (Based on the selected segment)
 ---------|------------------------------------------------------------------------------------------------------------]
-8)\\DONE | Give user ability to change colors - Open Dialog Colors
+4)\\DONE | Give user ability to change colors - Open Dialog Colors
 ---------|------------------------------------------------------------------------------------------------------------]
-4)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
+5)//DONE | Handle "up" and "down" commands
 ---------|------------------------------------------------------------------------------------------------------------]
-5)//IDEA | Undo function?
+6)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
 ---------|------------------------------------------------------------------------------------------------------------]
-6)//IDEA | Searching location by name
+7)//IDEA | Undo function?
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//IDEA | Handle "up" and "down" commands
+8)//IDEA | Searching location by name
 ---------|------------------------------------------------------------------------------------------------------------]

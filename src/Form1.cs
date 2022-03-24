@@ -36,6 +36,7 @@ namespace OtchlanMapGenerator
         int descBoxHeight = 24;
         Boolean flag_findWayBitmapsActive = false;
         Boolean flag_keyInputAcive = true;
+        Boolean flag_makeScreen= true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
         int currentFloor; //Floor to display, by default - floor where player is located
 
@@ -399,7 +400,7 @@ namespace OtchlanMapGenerator
 
 
         //===================Handling adding new Segments and keyboard read================================================
-        private void Form1_KeyPress(KeyPressEventArgs e)
+        private void Form1_KeyPress(KeyPressEventArgs e) //after writing something else - enter -> screenshot -> dont sc & wait till move command -> n/s/w/e/u/d = new Thread(setInfo)
         {
             //setTexts(); //reset description text
             int Added = -1;
@@ -409,8 +410,23 @@ namespace OtchlanMapGenerator
 
             keyBuffer = keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
-            //charsSinceEnter += keyBuffer;   //just control
+
             segmentPanel.Text += keyHandler.keysSinceEnter; //just control
+
+            //here screenshot if e.keyChar == '\r' and set flag -> if flag setted and keyBuffer[0] not dir dont screen -> 
+            // -> if flag setted and Dir command reset flag // Make atribute in ScreenRead to hold screenshot and use CaptureScreen() method
+
+            //Make screenshot - each enter after direction command and first time after non-dir command to store locatioon info 
+            if(keyHandler.keywordDetectedFlag==false && flag_makeScreen)
+            {
+                screenRead.CaptureScreen();
+                flag_makeScreen = false;
+            }
+            if(keyHandler.keywordDetectedFlag)
+            {
+                if(flag_makeScreen) screenRead.CaptureScreen();
+                flag_makeScreen = true;
+            }
 
             Added = SegMap.CheckKeyBuffer(newID, keyBuffer, currentFloor); // here adding happens
             if (Added == -1) return;

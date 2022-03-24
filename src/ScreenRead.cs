@@ -8,7 +8,6 @@ using IronOcr;
 
 namespace OtchlanMapGenerator
 {
-
     public struct ReadResult
     {
         public String locationName;
@@ -39,10 +38,10 @@ namespace OtchlanMapGenerator
             public int right;
             public int bottom;
         }
-        int TempIteration = 0;
-        IronTesseract ironTesseract;
+        //int TempIteration = 0;
         //String ssPath;
-        Bitmap bitmap;
+        IronTesseract ironTesseract;
+        public Bitmap capturedBitmap;
         String readedString;
         Boolean FirstDeploy = true;
 
@@ -54,11 +53,9 @@ namespace OtchlanMapGenerator
             this.ironTesseract.AddSecondaryLanguage(OcrLanguage.EnglishFast);
 
             this.readedString = "";
-            
-            //this.ssPath = "Capture.jpg";
         }
 
-        Boolean CaptureScreen() //returns false if program has problem with capturing screen of game process
+        public Boolean CaptureScreen() //returns false if program has problem with capturing screen of game process
         {
             if (Process.GetProcessesByName("otchlan_starter").Length == 0)
             {
@@ -85,11 +82,11 @@ namespace OtchlanMapGenerator
                 int width = rect.right - rect.left;
                 int height = rect.bottom - rect.top;
 
-                this.bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-                Graphics.FromImage(bitmap).CopyFromScreen(rect.left, rect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
+                this.capturedBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+                Graphics.FromImage(capturedBitmap).CopyFromScreen(rect.left, rect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
-                this.TempIteration++;
-                bitmap.Save("screen" + TempIteration +".jpg", ImageFormat.Jpeg);
+                //this.TempIteration++;
+                //bitmap.Save("screen" + TempIteration +".jpg", ImageFormat.Jpeg);
                 //bitmap.Dispose();
 
             }
@@ -103,9 +100,9 @@ namespace OtchlanMapGenerator
         }
         Boolean getTextFromScreen() // //returns false if program has problem with capturing screen of game process 
         {
-            if(!this.CaptureScreen()) return false;
+           // if(!this.CaptureScreen()) return false;
 
-            var result = this.ironTesseract.Read(this.bitmap);
+            var result = this.ironTesseract.Read(this.capturedBitmap);
             this.readedString = result.Text;
 
             //=======Searched========
@@ -119,8 +116,9 @@ namespace OtchlanMapGenerator
             //
             try
             {
+                if (this.readedString.Contains("$$") && !(this.readedString.Contains(">"))) return false; //if this is starting screen
                 this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray()) - 1); //
-                if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny("<".ToCharArray()));
+                if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny(">".ToCharArray()));
             }catch(Exception e)
             {
                 MessageBox.Show(Texts.msg_ReadError);
@@ -154,7 +152,7 @@ namespace OtchlanMapGenerator
 
             //LOCATION NAME
             String locName;
-            if (this.readedString.Substring(0,30).Contains("\r\n\r\n"))
+            if (this.readedString.Substring(0,10).Contains("\r\n\r\n"))
             {
                 locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 4);
             }
@@ -167,7 +165,7 @@ namespace OtchlanMapGenerator
 
             //EXITS
             
-            String locExits = this.readedString.Substring(this.readedString.IndexOf(":"));
+            String locExits = this.readedString.Substring(this.readedString.LastIndexOf(":")); //(":")
             String locDesc = locExits;
             locExits = locExits.Substring(0, locExits.IndexOf("\n")); 
 
@@ -211,3 +209,28 @@ namespace OtchlanMapGenerator
         }
     }
 }
+
+//[N] Nowa gra
+//[Z] Załaduj poprzednią grę
+//[W] Wyjście
+
+//1.Micha Mag Poz:0 2.Test Mag Poz:0
+
+//e.Menu
+//bierz numer zapisu: 2
+
+//Skrzyżowanie
+
+//Wyjścia: east west north south
+
+//Stoisz na skrzyżowaniu ulic, będącym jednocześnie dużym placem. Na zachód
+//przechodzi on w niewielki targ, za którym stoi świątynia. Na południe
+//niewielka uliczka biegnie wzdłuż muru. Na północ plac kończy się przy rzece,
+//Jza którą stoi jakaś rezydencja.
+//  ^^^
+//throws {"Długość nie może być mniejsza od zera.\r\nNazwa parametru: length"} exception //KINDA DONE??? Check again
+//make converting more "step by step" - not in one line
+//also when first deploy may be neccesary to change rules of detecting and cutting proper string
+//((make change to not include in cutted string < ... > - players stats ? it will be easier to have the same code for first and next deploys))
+// (maybe also second set of protection? for eg. detecting "OTHLAN"-capition elements ? )
+//

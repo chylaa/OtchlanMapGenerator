@@ -25,6 +25,7 @@ namespace OtchlanMapGenerator
         private static extern short GetAsyncKeyState(int vKey);
 
         public String keysSinceEnter = "";
+        public Boolean keywordDetectedFlag;
         char directionKeyword;
 
         public Boolean addCharToSequence(char keyChar) //returns false if Char not added (was Backspace)
@@ -53,6 +54,7 @@ namespace OtchlanMapGenerator
                 //return this.keysSinceEnter.Substring(this.keysSinceEnter.Length - 2); //return last 2 characters
                 if (keywordDetected())
                 {
+                    this.keywordDetectedFlag = true;
                     return (directionKeyword + "\r");
                 }
                 else
@@ -60,6 +62,7 @@ namespace OtchlanMapGenerator
                     this.clearKeysSequence(); //clear if oher command was entered
                 }
             }
+            this.keywordDetectedFlag = false;
             return this.keysSinceEnter;
         }
         private string choseKeyword(char first) //List of potential keywords
