@@ -19,16 +19,19 @@ namespace OtchlanMapGenerator
 
         ScreenRead screenRead = new ScreenRead();
         ReadResult readResult = new ReadResult();
-        Boolean previousSegmentAdded = true;
+        Boolean flag_previousSegmentAdded = true;
 
         String keyBuffer = "";
 
         Rectangle outlineSelect;
-        Boolean flagDrawOutline = false;
+        Boolean flag_DrawOutline = false;
 
-        Color defaultMainColor = Color.Brown;
-        Color defaultPanelColor = Color.RosyBrown;
-        Color deflaultButtonsColor = Control.DefaultBackColor;
+        Color brownThemeMainColor = Color.Brown;
+        Color brownThemePanelColor = Color.RosyBrown;
+        Color brownThemeButtonsColor = Control.DefaultBackColor;
+        Color blackThemeMainColor = Color.Black;
+        Color blackThemePanelColor = Color.Green;
+        Color blackThemeButtonsColor = Control.DefaultBackColor;
 
         int dx = 0;
         int dy = 0;
@@ -76,10 +79,19 @@ namespace OtchlanMapGenerator
                 SegMap.playerSeg = SegMap.segments.First();
             }
 
-            SegMap.MainMapColor = defaultMainColor;
-            SegMap.PanelMapColor = defaultPanelColor;
+            SegMap.MainMapColor = brownThemeMainColor;
+            SegMap.PanelMapColor = brownThemePanelColor;
 
             SegMap.centerCameraOnPlayerSegment(this.Size, segmentPanel.Size);
+        }
+
+        private void resetFlags()
+        {
+            flag_DrawOutline = false;
+            flag_findWayBitmapsActive = false;
+            flag_keyInputAcive = true;
+            flag_makeScreen = true;
+            flag_previousSegmentAdded = true;
         }
         //================================Language things============================================
         private void setTexts()
@@ -105,7 +117,8 @@ namespace OtchlanMapGenerator
             colorsToolStripMenuItem.Text = Texts.text_menuVievColors;
             panelColorToolStripMenuItem.Text = Texts.text_menuVievColorsPanelColor;
             mainColorToolStripMenuItem.Text = Texts.text_menuVievColorsMainColor;
-            resetColorsToolStripMenuItem.Text = Texts.text_menuVievColorsResetColors;
+            brownThemeToolStripMenuItem.Text = Texts.text_menuVievColorsBrownTheme;
+            blackGreenThemeToolStripMenuItem.Text = Texts.text_menuVievColorsBlackTheme;
             helpToolStripMenuItem.Text = Texts.text_menuHelp;
             usageToolStripMenuItem.Text = Texts.text_menuHelpUsage;
 
@@ -265,18 +278,18 @@ namespace OtchlanMapGenerator
         {
             nButton.Text = "n";
             nButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            nButton.BackColor = deflaultButtonsColor;
+            nButton.BackColor = brownThemeButtonsColor;
             sButton.Text = "s";
             sButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            sButton.BackColor = deflaultButtonsColor;
+            sButton.BackColor = brownThemeButtonsColor;
             eButton.Text = "e";
             eButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            eButton.BackColor = deflaultButtonsColor;
+            eButton.BackColor = brownThemeButtonsColor;
             wButton.Text = "w";
             wButton.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
-            wButton.BackColor = deflaultButtonsColor;
-            upButton.BackColor = deflaultButtonsColor;
-            downButton.BackColor = deflaultButtonsColor;
+            wButton.BackColor = brownThemeButtonsColor;
+            upButton.BackColor = brownThemeButtonsColor;
+            downButton.BackColor = brownThemeButtonsColor;
         }
         //--------------Atribute changes-----------------
 
@@ -341,8 +354,8 @@ namespace OtchlanMapGenerator
                 if(segment.floor == currentFloor)
                     e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
 
-            if (flagDrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
-            flagDrawOutline = false;
+            if (flag_DrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
+            flag_DrawOutline = false;
         }
         private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
         {
@@ -359,7 +372,7 @@ namespace OtchlanMapGenerator
                 outlineSelect = new Rectangle(selected.BMPlocation, selected.bitmap.Size);
 
             }
-            flagDrawOutline = true;
+            flag_DrawOutline = true;
             DisplaySegments(playerOrientation, false);
         }
 
@@ -437,23 +450,20 @@ namespace OtchlanMapGenerator
             if(keyBuffer[0]!='u' && keyBuffer[0]!='d') 
                 lastDir = keyBuffer[0];
 
-            if (previousSegmentAdded)
+            if (flag_previousSegmentAdded)
             {
-                //SegList.findSegment(SegList.previousSegment).setSegmentInfo(screenRead.getLocationInfo());
-
                 void SetInfo() { if(SegMap.findSegment(SegMap.previousSegment)!= null )SegMap.findSegment(SegMap.previousSegment).setSegmentInfo(screenRead.getLocationInfo()); }
                 Thread thread = new Thread(SetInfo);
                 thread.Start();
 
-                //label1.Text = SegList.findSegment(SegList.previousSegment).decription; // just control
-                previousSegmentAdded = false;
+                flag_previousSegmentAdded = false;
             }
 
             if (Added == 1)  //new segment added                             
             {
                 newID++;
                 keyHandler.clearKeysSequence();
-                previousSegmentAdded = true;
+                flag_previousSegmentAdded = true;
 
                 //timesKeyPressed = 0;
                 //SegList.playerSeg = SegList.segments.Last();
@@ -519,6 +529,7 @@ namespace OtchlanMapGenerator
 
             currentFloor = SegMap.playerSeg.floor;
 
+            resetFlags();
             DisplaySegments(playerOrientation, true);
         }
 
@@ -565,9 +576,11 @@ namespace OtchlanMapGenerator
         {
             SegMap = new Map();
             initializeMap();
+            resetFlags();
             DisplaySegments(playerOrientation, true);
 
         }
+        //------colors---------
 
         private void mainColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -611,7 +624,7 @@ namespace OtchlanMapGenerator
                     {
                         if (c.Name.Contains("Button")) c.BackColor = Color.Black;
                     }
-                    deflaultButtonsColor = Color.Black;
+                    //brownThemeButtonsColor = Color.Black;
                 }
                 else
                 {
@@ -621,25 +634,42 @@ namespace OtchlanMapGenerator
                     {
                         if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
                     }
-                    deflaultButtonsColor = Control.DefaultBackColor;
+                    //brownThemeButtonsColor = Control.DefaultBackColor;
                 }
             }    
         }
 
-        private void resetColorsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void setBrownThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.BackColor = defaultMainColor;
-            segmentPanel.BackColor = defaultPanelColor;
-            descriptionTextBox.BackColor = defaultPanelColor;
-            SegMap.MainMapColor = defaultMainColor;
-            SegMap.PanelMapColor = defaultPanelColor;
-            
+            this.BackColor = brownThemeMainColor;
+            segmentPanel.BackColor = brownThemePanelColor;
+            descriptionTextBox.BackColor = brownThemePanelColor;
+            SegMap.MainMapColor = brownThemeMainColor;
+            SegMap.PanelMapColor = brownThemePanelColor;
+            keyInputCheckBox.ForeColor = Color.Black;
+
+            setButtonsColorDefault();
+            //brownThemeButtonsColor = Control.DefaultBackColor;
+        }
+
+        private void blackGreenThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = blackThemeMainColor;
+            segmentPanel.BackColor = blackThemePanelColor;
+            descriptionTextBox.BackColor = blackThemePanelColor;
+            SegMap.MainMapColor = blackThemeMainColor;
+            SegMap.PanelMapColor = blackThemePanelColor;
+            keyInputCheckBox.ForeColor = Color.White;
+
+            setButtonsColorDefault();
+        }
+
+        private void setButtonsColorDefault()
+        {
             foreach (Control c in segmentPanel.Controls)
             {
                 if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
             }
-            deflaultButtonsColor = Control.DefaultBackColor;
         }
-
     }
 }

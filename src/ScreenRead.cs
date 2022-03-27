@@ -121,7 +121,7 @@ namespace OtchlanMapGenerator
                 if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny(">".ToCharArray()));
             }catch(Exception e)
             {
-                MessageBox.Show(Texts.msg_ReadError);
+                MessageBox.Show(Texts.msg_ReadError + ": " +e.Message);
                 return false;
             }
 
@@ -138,17 +138,14 @@ namespace OtchlanMapGenerator
             readResult.exit_w = Dir.not;
             readResult.exit_u = Dir.not;
             readResult.exit_d = Dir.not;
+            readResult.invalid = true; //only false if makes to the end of method 
 
             if (!this.getTextFromScreen())
-            {
-                readResult.invalid = true;
                 return readResult;
-            }
+
             if (!this.readedString.Contains(":"))
-            {
-                readResult.invalid = true;
                 return readResult;
-            }
+            
 
             //LOCATION NAME
             String locName;
@@ -158,7 +155,11 @@ namespace OtchlanMapGenerator
             }
             else
             {
-                locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 2);
+                if (this.readedString.Contains("\r\n"))
+                {
+                    locName = this.readedString.Substring(this.readedString.IndexOf("\r\n") + 2);
+                }
+                else { return readResult; }
             }
 
             locName = locName.Substring(0, locName.IndexOf("\r"));
@@ -188,6 +189,7 @@ namespace OtchlanMapGenerator
             if (locExits.Contains("up")) readResult.exit_u = Dir.up;
             if (locExits.Contains("down")) readResult.exit_d = Dir.down;
 
+            //validation check 
             if (locDesc.Contains("<") || 
                 locDesc.Contains(">") ||
                 (readResult.exit_n == Dir.not &&
@@ -197,12 +199,10 @@ namespace OtchlanMapGenerator
                 readResult.exit_u == Dir.not &&
                 readResult.exit_d == Dir.not))
             {
-                readResult.invalid = true;
+                return readResult;
             }
-            else
-            {
-                readResult.invalid = false;
-            }
+
+            readResult.invalid = false;
 
             return readResult;
 

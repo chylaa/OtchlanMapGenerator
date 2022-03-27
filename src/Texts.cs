@@ -37,7 +37,8 @@ namespace OtchlanMapGenerator
         public static string text_menuVievColors;
         public static string text_menuVievColorsMainColor;
         public static string text_menuVievColorsPanelColor;
-        public static string text_menuVievColorsResetColors;
+        public static string text_menuVievColorsBrownTheme;
+        public static string text_menuVievColorsBlackTheme;
         public static string text_menuHelpUsage;
 
         public static string msg_LanguageChange;
@@ -80,12 +81,13 @@ namespace OtchlanMapGenerator
                 text_menuMapSaveFile = "Save";
                 text_menuMapSaveFileAs = "Save As";
                 text_menuVievColors = "Colors";
-                text_menuVievColorsMainColor = "Main Color";
-                text_menuVievColorsPanelColor = "Panel Color";
+                text_menuVievColorsMainColor = "Choose Main Color";
+                text_menuVievColorsPanelColor = "Choose Panel Color";
                 text_menuHelpUsage = "Usage";
-                text_menuVievColorsResetColors = "Reset Colors";
+                text_menuVievColorsBrownTheme = "Brown Theme";
+                text_menuVievColorsBlackTheme = "Black-Green Theme";
 
-        mapFileExtentionPattern = "(Map files (*.omg))|*.omg";
+                mapFileExtentionPattern = "(Map files (*.omg))|*.omg";
 
             }
             if(language == Language.PL)
@@ -119,9 +121,10 @@ namespace OtchlanMapGenerator
                 text_menuMapSaveFile = "Zapisz mapę";
                 text_menuMapSaveFileAs = "Zapisz jako";
                 text_menuVievColors = "Motyw";
-                text_menuVievColorsMainColor = "Kolor Główny";
-                text_menuVievColorsPanelColor = "Kolor Panelu";
-                text_menuVievColorsResetColors = "Przywróć domyślne";
+                text_menuVievColorsMainColor = "Wybierz Kolor Główny";
+                text_menuVievColorsPanelColor = "Wybierz Kolor Panelu";
+                text_menuVievColorsBrownTheme = "Motyw Brązowy";
+                text_menuVievColorsBlackTheme = "Motyw Czarno-Zielony";
                 text_menuHelpUsage = "Instrukcja";
 
                 mapFileExtentionPattern = "(Pliki mapy (*.omg))|*.omg";

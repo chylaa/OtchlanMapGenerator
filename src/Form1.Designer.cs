@@ -35,6 +35,7 @@ namespace OtchlanMapGenerator
             this.segmentPanel = new System.Windows.Forms.GroupBox();
             this.floorButtonDown = new System.Windows.Forms.Button();
             this.floorButtonUP = new System.Windows.Forms.Button();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.floorTextBox = new System.Windows.Forms.TextBox();
             this.downButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
@@ -50,7 +51,6 @@ namespace OtchlanMapGenerator
             this.eButton = new System.Windows.Forms.Button();
             this.nButton = new System.Windows.Forms.Button();
             this.textboxName = new System.Windows.Forms.TextBox();
-            this.infoLabel = new System.Windows.Forms.Label();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.keyInputCheckBox = new System.Windows.Forms.CheckBox();
@@ -66,12 +66,13 @@ namespace OtchlanMapGenerator
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.resetColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blackGreenThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.brownThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -135,6 +136,16 @@ namespace OtchlanMapGenerator
             this.floorButtonUP.Text = "/\\";
             this.floorButtonUP.UseVisualStyleBackColor = true;
             this.floorButtonUP.Click += new System.EventHandler(this.floorButtonUP_Click);
+            // 
+            // infoLabel
+            // 
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Location = new System.Drawing.Point(9, 408);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(70, 13);
+            this.infoLabel.TabIndex = 8;
+            this.infoLabel.Text = "Segment Info";
+            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // floorTextBox
             // 
@@ -298,16 +309,6 @@ namespace OtchlanMapGenerator
             this.textboxName.MouseEnter += new System.EventHandler(this.disableKeyInput);
             this.textboxName.MouseLeave += new System.EventHandler(this.enableKeyInput);
             // 
-            // infoLabel
-            // 
-            this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(9, 408);
-            this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(70, 13);
-            this.infoLabel.TabIndex = 8;
-            this.infoLabel.Text = "Segment Info";
-            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // hScrollBar1
             // 
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -439,36 +440,32 @@ namespace OtchlanMapGenerator
             this.mainColorToolStripMenuItem,
             this.panelColorToolStripMenuItem,
             this.toolStripSeparator1,
-            this.resetColorsToolStripMenuItem});
+            this.blackGreenThemeToolStripMenuItem,
+            this.brownThemeToolStripMenuItem});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.colorsToolStripMenuItem.Text = "&Colors";
             // 
             // mainColorToolStripMenuItem
             // 
             this.mainColorToolStripMenuItem.Name = "mainColorToolStripMenuItem";
-            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.mainColorToolStripMenuItem.Text = "Main Color";
             this.mainColorToolStripMenuItem.Click += new System.EventHandler(this.mainColorToolStripMenuItem_Click);
             // 
             // panelColorToolStripMenuItem
             // 
             this.panelColorToolStripMenuItem.Name = "panelColorToolStripMenuItem";
-            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.panelColorToolStripMenuItem.Text = "Panel Color";
             this.panelColorToolStripMenuItem.Click += new System.EventHandler(this.panelColorToolStripMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // blackGreenThemeToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
-            // 
-            // resetColorsToolStripMenuItem
-            // 
-            this.resetColorsToolStripMenuItem.Name = "resetColorsToolStripMenuItem";
-            this.resetColorsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.resetColorsToolStripMenuItem.Text = "Reset Colors";
-            this.resetColorsToolStripMenuItem.Click += new System.EventHandler(this.resetColorsToolStripMenuItem_Click);
+            this.blackGreenThemeToolStripMenuItem.Name = "blackGreenThemeToolStripMenuItem";
+            this.blackGreenThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.blackGreenThemeToolStripMenuItem.Text = "Black-Green Theme";
+            this.blackGreenThemeToolStripMenuItem.Click += new System.EventHandler(this.blackGreenThemeToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -492,6 +489,19 @@ namespace OtchlanMapGenerator
             // saveFileDialog
             // 
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
+            // 
+            // brownThemeToolStripMenuItem
+            // 
+            this.brownThemeToolStripMenuItem.Name = "brownThemeToolStripMenuItem";
+            this.brownThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.brownThemeToolStripMenuItem.Text = "Brown Theme";
+            this.brownThemeToolStripMenuItem.Click += new System.EventHandler(this.setBrownThemeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // Form1
             // 
@@ -563,13 +573,14 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem mainColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem panelColorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetColorsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button floorButtonDown;
         private System.Windows.Forms.Button floorButtonUP;
         private System.Windows.Forms.TextBox floorTextBox;
+        private System.Windows.Forms.ToolStripMenuItem blackGreenThemeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem brownThemeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
