@@ -10,7 +10,6 @@ namespace OtchlanMapGenerator
     public partial class Form1 : Form
     {
         
-        //Segment segment = new Segment();
         Map SegMap;
 
         Segment chosen = new Segment();
@@ -40,6 +39,7 @@ namespace OtchlanMapGenerator
         Boolean flag_makeScreen= true;
         Boolean flag_firstDeploy = true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
+        char lastDir = 'x'; //last move direction 
         int currentFloor; //Floor to display, by default - floor where player is located
 
         public Form1()
@@ -61,8 +61,6 @@ namespace OtchlanMapGenerator
 
             SegMap = new Map();
             initializeMap();
-            //confirmButton.Enabled=false;
-            //textboxName.Enabled = false;
 
             textboxName.Enabled = false;
             segmentPanel.Enabled = true;
@@ -246,7 +244,7 @@ namespace OtchlanMapGenerator
             
             textboxName.Text = s.name;
             descriptionTextBox.Text = s.decription;
-            chosen.assignValues(s); //after "conmfirm" button clicked if chosen.id = s.id -> s=chosen??
+            chosen.assignValues(s); 
 
             if (s.exits.eN == Dir.north) SetButtonStyle(s, nButton, "N");
             if (s.exits.eS == Dir.south) SetButtonStyle(s, sButton, "S");
@@ -255,7 +253,7 @@ namespace OtchlanMapGenerator
             if (s.exits.eU == Dir.up) upButton.BackColor = Color.IndianRed;
             if (s.exits.eD == Dir.down) downButton.BackColor = Color.IndianRed;
 
-            infoLabel.Text = "ID: " + s.id + " Dist: " + s.distance + " | " + s.exits.neighbourIDn + "N " + s.exits.neighbourIDs + "S " + s.exits.neighbourIDe + "E " + s.exits.neighbourIDw + "W " + s.exits.neighbourIDu + "U " + s.exits.neighbourIDd + "D " + s.floor+"=Floor";
+            //infoLabel.Text = "ID: " + s.id + " Dist: " + s.distance + " | " + s.exits.neighbourIDn + "N " + s.exits.neighbourIDs + "S " + s.exits.neighbourIDe + "E " + s.exits.neighbourIDw + "W " + s.exits.neighbourIDu + "U " + s.exits.neighbourIDd + "D " + s.floor+"=Floor";
 
         }
         private void SegmentDoubleClicked(Segment s)
@@ -336,7 +334,6 @@ namespace OtchlanMapGenerator
         //=================Handling painting bitmaps on form==========================================================
         private void DisplaySegments(char from, Boolean centerOnPlayer) //param: char from - describe direction from which player came. Can be n/e/s/w or 'x' (none) if player hasn't moved. 
         {
-
             descriptionTextBox.Visible = false;
             playerOrientation = from;
             SegMap.playerSeg.setPlayerBitmap(from);
@@ -350,8 +347,7 @@ namespace OtchlanMapGenerator
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            //for(int i=0;i<SegList.segments.Count;i++) if(SegList.segments[i].bitmap!=null) e.Graphics.DrawImage(SegList.segments[i].bitmap, SegList.segments[i].BMPlocation);
+        {         
             foreach (Segment segment in SegMap.segments)
                 if(segment.floor == currentFloor)
                     e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
@@ -385,7 +381,7 @@ namespace OtchlanMapGenerator
         {
             dy = e.NewValue;
 
-            segmentPanel.Text = "dx: " + dx + " dy: " + dy;
+            //segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegMap.UpdateSegmentsLocationScroll(dx, dy, dx, e.OldValue);
 
             DrawOutlineForSelected(SegMap.findSegment(chosen));
@@ -395,7 +391,7 @@ namespace OtchlanMapGenerator
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             dx = e.NewValue;
-            segmentPanel.Text = "dx: " + dx + " dy: " + dy;
+            //segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegMap.UpdateSegmentsLocationScroll(dx, dy, e.OldValue, dy);
 
             DrawOutlineForSelected(SegMap.findSegment(chosen));
@@ -404,8 +400,9 @@ namespace OtchlanMapGenerator
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
-            SegMap.ChangeSegmentSizes(e.Delta);
+            // Temporary disabled due to problems
+            //segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
+            //SegMap.ChangeSegmentSizes(e.Delta);
 
             //DrawOutlineForSelected(SegList.findSegment(chosen));
             DisplaySegments('x', false);
@@ -413,23 +410,19 @@ namespace OtchlanMapGenerator
         }
 
         //===================Handling adding new Segments and keyboard read================================================
-        private void Form1_KeyPress(KeyPressEventArgs e) //after writing something else - enter -> screenshot -> dont sc & wait till move command -> n/s/w/e/u/d = new Thread(setInfo)
+        private void Form1_KeyPress(KeyPressEventArgs e) 
         {
-            //setTexts(); //reset description text
             int Added = -1;
-            char lastDir = 'x';
 
             if (keyHandler.addCharToSequence(e.KeyChar) == false) return; //must be before chceckKeyState()!
 
             keyBuffer = keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
-            segmentPanel.Text += keyHandler.keysSinceEnter; //just control
-
             //here screenshot if e.keyChar == '\r' and set flag -> if flag setted and keyBuffer[0] not dir dont screen -> 
             // -> if flag setted and Dir command reset flag // Make atribute in ScreenRead to hold screenshot and use CaptureScreen() method
 
             //Make screenshot - each enter after direction command and first time after non-dir command to store locatioon info 
-            if(keyHandler.keywordDetectedFlag==false && flag_makeScreen && !flag_firstDeploy)
+            if(keyHandler.keywordDetectedFlag==false && flag_makeScreen && !flag_firstDeploy && e.KeyChar == '\r') //rethink that onceagain?
             {
                 screenRead.CaptureScreen();
                 flag_makeScreen = false;
@@ -471,7 +464,6 @@ namespace OtchlanMapGenerator
             SegmentClicked(SegMap.playerSeg);
             DisplaySegments(lastDir, true);
             playerOrientation = lastDir;
-            segmentPanel.Text = "";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -495,7 +487,6 @@ namespace OtchlanMapGenerator
                 keyInputCheckBox.Text = Texts.text_disableKeyInput;
             }
         }
-
 
         //============================Menu===================================
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -522,6 +513,7 @@ namespace OtchlanMapGenerator
             this.BackColor = SegMap.MainMapColor;
             segmentPanel.BackColor = SegMap.PanelMapColor;
             descriptionTextBox.BackColor = SegMap.PanelMapColor;
+            setTextColors();
 
             currentFloor = SegMap.playerSeg.floor;
 
@@ -587,15 +579,7 @@ namespace OtchlanMapGenerator
                 this.BackColor = colorDialog.Color;
                 SegMap.MainMapColor = colorDialog.Color;
 
-                //determine if backgroud is too dark for black text
-                if ((colorDialog.Color.R * 0.299) + (colorDialog.Color.G*0.587) + (colorDialog.Color.B*0.114) < 64 ) 
-                {
-                    keyInputCheckBox.ForeColor = Color.White;
-
-                }else
-                {
-                    keyInputCheckBox.ForeColor = Color.Black;
-                }              
+                setTextColors();
             }
         }
 
@@ -610,28 +594,39 @@ namespace OtchlanMapGenerator
                 descriptionTextBox.BackColor = colorDialog.Color;
                 SegMap.PanelMapColor = colorDialog.Color;
 
-                //determine if backgroud is too dark for black text
-                if ((colorDialog.Color.R * 0.299) + (colorDialog.Color.G * 0.587) + (colorDialog.Color.B * 0.114) < 64)
-                {
-                    segmentPanel.ForeColor = Color.White;
-                    languageGroupBox.ForeColor = Color.White;
-                    foreach(Control c in segmentPanel.Controls) 
-                    {
-                        if (c.Name.Contains("Button")) c.BackColor = Color.Black;
-                    }
-                    //brownThemeButtonsColor = Color.Black;
-                }
-                else
-                {
-                    segmentPanel.ForeColor = Color.Black;
-                    languageGroupBox.ForeColor = Color.Black;
-                    foreach (Control c in segmentPanel.Controls)
-                    {
-                        if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
-                    }
-                    //brownThemeButtonsColor = Control.DefaultBackColor;
-                }
+                setTextColors();
             }    
+        }
+
+        private void setTextColors()
+        {
+            //determine if backgroud is too dark for black text
+            if ((SegMap.MainMapColor.R * 0.299) + (SegMap.MainMapColor.G * 0.587) + (SegMap.MainMapColor.B * 0.114) < 64)
+            {
+                keyInputCheckBox.ForeColor = Color.White;
+            }
+            else
+            {
+                keyInputCheckBox.ForeColor = Color.Black;
+            }
+            if ((SegMap.PanelMapColor.R * 0.299) + (SegMap.PanelMapColor.G * 0.587) + (SegMap.PanelMapColor.B * 0.114) < 64)
+            {
+                segmentPanel.ForeColor = Color.White;
+                languageGroupBox.ForeColor = Color.White;
+                foreach (Control c in segmentPanel.Controls)
+                {
+                    if (c.Name.Contains("Button")) c.BackColor = Color.Black;
+                }
+            }
+            else
+            {
+                segmentPanel.ForeColor = Color.Black;
+                languageGroupBox.ForeColor = Color.Black;
+                foreach (Control c in segmentPanel.Controls)
+                {
+                    if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
+                }
+            }
         }
 
         private void setBrownThemeToolStripMenuItem_Click(object sender, EventArgs e)

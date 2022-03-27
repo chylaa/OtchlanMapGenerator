@@ -30,13 +30,11 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 13)/DONE | Add black&green theme and brown theme
 ---------|------------------------------------------------------------------------------------------------------------]
-14)/TODO | Automatically copy route to clipboard 
+14)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
-15)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
+15)/TODO | Handle situations when doors in way player goes are locked - (!!) - tell user to correct this manualy ? :c
 ---------|------------------------------------------------------------------------------------------------------------]
-16)/TODO | Handle situations when doors in way player goes are locked - (!!)
----------|------------------------------------------------------------------------------------------------------------]
-17)/TODO | Test how app behave when starting new game and !!! in dialogues, combats etc !!!!
+16)/TODO | Test app when starting new game and in dialogues etc(!!!) - Poosible Bugs in 432 (pre-capturingScreen) 
 ---------|------------------------------------------------------------------------------------------------------------]
 
 
