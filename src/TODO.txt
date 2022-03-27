@@ -28,15 +28,15 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 12)/DONE | Handle problems with "disappearing" of location's atributes when player use for e.g EQ 
 ---------|------------------------------------------------------------------------------------------------------------]
-12)/TODO | Automatically copy route to clipboard + exits correction ability for user?
+13)/DONE | Add black&green theme and brown theme
 ---------|------------------------------------------------------------------------------------------------------------]
-13)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
+14)/TODO | Automatically copy route to clipboard 
 ---------|------------------------------------------------------------------------------------------------------------]
-14)/TODO | REmember about setting Boolean FirstDeploy = true when loading mapsave
+15)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
-15)/TODO | Handle situations when doors in way player goes are locked or "hmmm?" - recognize maybe by no exits? (!!)
+16)/TODO | Handle situations when doors in way player goes are locked - (!!)
 ---------|------------------------------------------------------------------------------------------------------------]
-16)/TODO | Add black&green theme and brown theme
+17)/TODO | Test how app behave when starting new game and !!! in dialogues, combats etc !!!!
 ---------|------------------------------------------------------------------------------------------------------------]
 
 
@@ -59,7 +59,7 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 6)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//IDEA | Undo function?
+7)//IDEA | Undo function and exits correction ability for user?
 ---------|------------------------------------------------------------------------------------------------------------]
 8)//IDEA | Searching location by name
 ---------|------------------------------------------------------------------------------------------------------------]

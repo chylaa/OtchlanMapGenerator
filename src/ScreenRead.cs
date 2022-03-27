@@ -43,7 +43,7 @@ namespace OtchlanMapGenerator
         IronTesseract ironTesseract;
         public Bitmap capturedBitmap;
         String readedString;
-        Boolean FirstDeploy = true;
+        Boolean captureScreenOK = true;
 
         public ScreenRead()
         {
@@ -56,10 +56,12 @@ namespace OtchlanMapGenerator
         }
 
         public Boolean CaptureScreen() //returns false if program has problem with capturing screen of game process
+        
         {
             if (Process.GetProcessesByName("otchlan_starter").Length == 0)
             {
                 MessageBox.Show(Texts.msg_GameProcessNotFound);
+                captureScreenOK = false;
                 return false;
             }
 
@@ -93,18 +95,19 @@ namespace OtchlanMapGenerator
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                captureScreenOK = false;
                 return false;
             }
-
+            captureScreenOK = true;
             return true;
         }
         Boolean getTextFromScreen() // //returns false if program has problem with capturing screen of game process 
         {
-           // if(!this.CaptureScreen()) return false;
+            if(!this.captureScreenOK) return false;
 
             var result = this.ironTesseract.Read(this.capturedBitmap);
             this.readedString = result.Text;
-
+            Boolean flag_firstDeploy = false;
             //=======Searched========
             //---------last----------
             //
@@ -117,15 +120,16 @@ namespace OtchlanMapGenerator
             try
             {
                 if (this.readedString.Contains("$$") && !(this.readedString.Contains(">"))) return false; //if this is starting screen
+                if (countChar62InReadedString() < 2) flag_firstDeploy = true;
                 this.readedString = this.readedString.Substring(0,this.readedString.LastIndexOfAny("<".ToCharArray()) - 1); //
-                if (!FirstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny(">".ToCharArray()));
+                if (!flag_firstDeploy) this.readedString = this.readedString.Substring(this.readedString.LastIndexOfAny(">".ToCharArray()));
             }catch(Exception e)
             {
                 MessageBox.Show(Texts.msg_ReadError + ": " +e.Message);
                 return false;
             }
 
-            this.FirstDeploy = false;
+            //this.FirstDeploy = false;
             return true;
         }
 
@@ -145,9 +149,11 @@ namespace OtchlanMapGenerator
 
             if (!this.readedString.Contains(":"))
                 return readResult;
-            
+
 
             //LOCATION NAME
+            if (this.readedString.Contains("$$")) cutStringToStartFromLastNumber();
+
             String locName;
             if (this.readedString.Substring(0,10).Contains("\r\n\r\n"))
             {
@@ -207,6 +213,28 @@ namespace OtchlanMapGenerator
             return readResult;
 
         }
+
+        private int countChar62InReadedString()
+        {
+            int count=0;
+            foreach (char c in this.readedString)
+            {
+                if (c == '>') count++;
+            }
+            return count;
+        }
+        private void cutStringToStartFromLastNumber()
+        {
+            int i = 0;
+            int LastPos = 0;
+            foreach (char c in this.readedString)
+            {
+                i++;
+                if (c > '0' && c < '9') LastPos = i;
+            }
+
+            this.readedString = this.readedString.Substring(LastPos);
+        }
     }
 }
 
@@ -234,3 +262,80 @@ namespace OtchlanMapGenerator
 //((make change to not include in cutted string < ... > - players stats ? it will be easier to have the same code for first and next deploys))
 // (maybe also second set of protection? for eg. detecting "OTHLAN"-capition elements ? )
 //
+
+
+//===========Before adding new flag_firstDeploy in line 121
+
+//after first move:
+
+
+//| Otchłań — m s
+//Sprawdzanie plikow. ..Ok A
+//Inicjalizacja ustawien. . .Ok
+//Deklaracja mobow. . .Ok
+//Deklaracja przedmiotow. . .Ok
+
+//S STH JE c
+//.S$$$5. RZ © LG $'
+//.SSS' "SSS, SssOssS = KIEJ
+//c "5 45% .S$$$$55. $5.S$5. $SS'  .55S. "$s 5$5.
+//S, oe $S' .S .S$s .S $.  $S' .S
+//CEJĄ , Ś5 $5$ SS, LE S'$$s 5, Ek) LG Sy
+//"SEE, „Sk $S$ SSS. .SSS $5 5) $s $5, .S. LG S
+//ooh SS Sole $S$ +55 eS 'Ss .s$. 'S$$$5 $s .s$. '$5
+//LP:
+//Pi
+//Wersja 1.3 v76
+//[N] Nowa gra
+//[Z] Załaduj poprzednią grę
+//[W] Wyjście
+//1.Micha
+
+//after second move:
+
+//| Otchłań — m s
+//Sprawdzanie plikow. ..Ok A
+//Inicjalizacja ustawien. . .Ok
+//Deklaracja mobow. . .Ok
+//Deklaracja przedmiotow. . .Ok
+
+//S STH JE c
+//.S$$$5. RZ © LG $'
+//.SSS' "SSS, SssOssS = KIEJ
+//c "5 45% .S$$$$55. $5.S$5. $SS'  .55S. "$s 5$5.
+//S, oe $S' .S .S$s .S $.  $S' .S
+//CEJĄ , Ś5 $5$ SS, LE S'$$s 5, Ek) LG Sy
+//"SEE, „Sk $S$ SSS. .SSS $5 5) $s $5, .S. LG S
+//ooh SS Sole $S$ +55 eS 'Ss .s$. 'S$$$5 $s .s$. '$5
+//LP:
+//Pi
+//Wersja 1.3 v76
+//[N] Nowa gra
+//[Z] Załaduj poprzednią grę
+//[W] Wyjście
+//1.Micha Mag Poz:0 2.Test Mag Poz:0
+//e.Menu
+//Wybierz numer zapisu: 2
+//Skrzyżowanie
+
+//Ayjścia: east west north south
+
+//Stoisz na skrzyżowaniu ulic, będącym jednocześnie dużym placem. Na zachód
+//przechodzi on w niewielki targ, za którym stoi świątynia. Na południe
+//niewielka uliczka biegnie wzdłuż muru. Na północ plac kończy się przy rzece,
+//za którą stoi jakaś rezydencja.
+
+//<18hp 128m 96mv 78exp>s
+
+//Ulica Murna
+
+//dyjścia: west north south
+
+//a ulica biegnie wzdłuż muru wschodniego i ciągnie się na południe.
+
+//Na zachód jest inna ulica, ale nie tak ładna jak ta. Eleganckie latarnie
+
+//ciągną się wzdłuż niej, a kostka brukowa jest rzeźbiona w jakieś fantastyczne
+//zory.
+
+//<18hp 128m 95mv 78exp>s,

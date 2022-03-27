@@ -38,7 +38,7 @@ namespace OtchlanMapGenerator
             {
                 File.WriteAllBytes(filename, MapData);
 
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 return false;
             }
@@ -54,7 +54,7 @@ namespace OtchlanMapGenerator
                 byte[] MapDataArray = File.ReadAllBytes(filename);
                 ReadedSegList = (Map)ByteArrayToObject(MapDataArray);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return null;
             }

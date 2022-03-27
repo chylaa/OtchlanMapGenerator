@@ -18,7 +18,6 @@ namespace OtchlanMapGenerator
         KeyHandler keyHandler = new KeyHandler();
 
         ScreenRead screenRead = new ScreenRead();
-        ReadResult readResult = new ReadResult();
         Boolean flag_previousSegmentAdded = true;
 
         String keyBuffer = "";
@@ -35,11 +34,11 @@ namespace OtchlanMapGenerator
 
         int dx = 0;
         int dy = 0;
-        int newID = 1; // start from 1 becouse there is always starting element 
         int descBoxHeight = 24;
         Boolean flag_findWayBitmapsActive = false;
         Boolean flag_keyInputAcive = true;
         Boolean flag_makeScreen= true;
+        Boolean flag_firstDeploy = true;
         char playerOrientation = 'x'; //n,s,e,w or x if player_pos not shown.
         int currentFloor; //Floor to display, by default - floor where player is located
 
@@ -72,7 +71,7 @@ namespace OtchlanMapGenerator
         private void initializeMap()
         {
             currentFloor = 0;
-            newID = 1;
+            SegMap.newID = 1;
             if (SegMap.segments.Count() > 0)
             {
                 SegmentClicked((SegMap.segments.First()));
@@ -92,6 +91,7 @@ namespace OtchlanMapGenerator
             flag_keyInputAcive = true;
             flag_makeScreen = true;
             flag_previousSegmentAdded = true;
+            flag_firstDeploy = true;
         }
         //================================Language things============================================
         private void setTexts()
@@ -126,6 +126,7 @@ namespace OtchlanMapGenerator
         }
         private void ENradioButton_CheckedChanged(object sender, EventArgs e)
         {
+            SegmentClicked(SegMap.playerSeg); // to not accidentally change name of selected location
             SegMap.activeLanguage = Language.EN;
             Texts.setLanguage(SegMap.activeLanguage);
             setTexts();
@@ -136,6 +137,7 @@ namespace OtchlanMapGenerator
 
         private void PLradioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            SegmentClicked(SegMap.playerSeg); // to not accidentally change name of selected location
             SegMap.activeLanguage = Language.PL;
             Texts.setLanguage(SegMap.activeLanguage);
             setTexts();
@@ -410,8 +412,6 @@ namespace OtchlanMapGenerator
 
         }
 
-
-
         //===================Handling adding new Segments and keyboard read================================================
         private void Form1_KeyPress(KeyPressEventArgs e) //after writing something else - enter -> screenshot -> dont sc & wait till move command -> n/s/w/e/u/d = new Thread(setInfo)
         {
@@ -423,14 +423,13 @@ namespace OtchlanMapGenerator
 
             keyBuffer = keyHandler.chceckKeySequence(); //Last chars are 1:1 writed sequence 
 
-
             segmentPanel.Text += keyHandler.keysSinceEnter; //just control
 
             //here screenshot if e.keyChar == '\r' and set flag -> if flag setted and keyBuffer[0] not dir dont screen -> 
             // -> if flag setted and Dir command reset flag // Make atribute in ScreenRead to hold screenshot and use CaptureScreen() method
 
             //Make screenshot - each enter after direction command and first time after non-dir command to store locatioon info 
-            if(keyHandler.keywordDetectedFlag==false && flag_makeScreen)
+            if(keyHandler.keywordDetectedFlag==false && flag_makeScreen && !flag_firstDeploy)
             {
                 screenRead.CaptureScreen();
                 flag_makeScreen = false;
@@ -438,14 +437,15 @@ namespace OtchlanMapGenerator
             if(keyHandler.keywordDetectedFlag)
             {
                 if(flag_makeScreen) screenRead.CaptureScreen();
+                flag_firstDeploy = false;
                 flag_makeScreen = true;
             }
 
-            Added = SegMap.CheckKeyBuffer(newID, keyBuffer, currentFloor); // here adding happens
-            if (Added == -1) return;
-
             currentFloor=SegMap.playerSeg.floor; //and thats all, change floor viev by user, - same variable, just viev returns to player on move
             floorTextBox.Text = Texts.text_floorTextBox + currentFloor;
+
+            Added = SegMap.CheckKeyBuffer(keyBuffer, currentFloor); // here adding happens
+            if (Added == -1) return;
 
             if(keyBuffer[0]!='u' && keyBuffer[0]!='d') 
                 lastDir = keyBuffer[0];
@@ -461,21 +461,17 @@ namespace OtchlanMapGenerator
 
             if (Added == 1)  //new segment added                             
             {
-                newID++;
+                SegMap.newID++;
                 keyHandler.clearKeysSequence();
                 flag_previousSegmentAdded = true;
-
-                //timesKeyPressed = 0;
-                //SegList.playerSeg = SegList.segments.Last();
-                //SegList.ResetBitmapSizes();
             }
 
             routeTextBox.Visible = false; //hide routeTextBox if player moved
+            currentFloor = SegMap.playerSeg.floor; //in case player changed floors
             SegmentClicked(SegMap.playerSeg);
             DisplaySegments(lastDir, true);
             playerOrientation = lastDir;
             segmentPanel.Text = "";
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -532,7 +528,6 @@ namespace OtchlanMapGenerator
             resetFlags();
             DisplaySegments(playerOrientation, true);
         }
-
 
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -671,5 +666,6 @@ namespace OtchlanMapGenerator
                 if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
             }
         }
+
     }
 }

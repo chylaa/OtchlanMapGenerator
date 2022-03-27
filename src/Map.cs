@@ -15,17 +15,16 @@ namespace OtchlanMapGenerator
         public Language activeLanguage = Language.EN;
 
         //==============================
+        public int newID=1;
         public Segment previousSegment;
         public Segment playerSeg;
         public List<Segment> segments;
         public int baseBitmapSize = 50;
-        int padding;
         int ScrollSpeed = 15;
         public Map()
         {
             segments = new List<Segment>();
-            segments.Add(new Segment(0, new Point(padding, padding),0, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Texts.text_DefaultName)); //add base segment
-
+            segments.Add(new Segment(0, new Point(0, 0),0, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Texts.text_DefaultName)); //add base segment
         }
 
         public void UpdateSegmentsLocationScroll(int dx, int dy, int old_dx, int old_dy)
@@ -53,7 +52,7 @@ namespace OtchlanMapGenerator
         }
 
         //Returns "1" if segment added, "0" if segment not added, "-1" if keyBuffer was never equal 
-        public int CheckKeyBuffer(int newID, String keyBuffer, int currentFloor)
+        public int CheckKeyBuffer(String keyBuffer, int currentFloor)
         {
             
             if (keyBuffer.Equals("n\r"))
@@ -62,15 +61,15 @@ namespace OtchlanMapGenerator
                 //{
                 //    CorrectSegmentsLocationOnMap(0, baseBitmapSize);                  
                 //}
-                return AddSegment(newID, 0, -1 * baseBitmapSize, new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not, Dir.not, Dir.not), currentFloor);
+                return AddSegment(0, -1 * baseBitmapSize, new ExitPoints(Dir.not, Dir.south, Dir.not, Dir.not, Dir.not, Dir.not), currentFloor);
             }
             if (keyBuffer.Equals("s\r"))
             {
-                return AddSegment(newID, 0, baseBitmapSize, new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not),currentFloor);            
+                return AddSegment(0, baseBitmapSize, new ExitPoints(Dir.north, Dir.not, Dir.not, Dir.not, Dir.not, Dir.not),currentFloor);            
             }
             if (keyBuffer.Equals("e\r"))
             {
-               return AddSegment(newID, baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west, Dir.not, Dir.not),currentFloor);
+               return AddSegment(baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.west, Dir.not, Dir.not),currentFloor);
                
             }
             if (keyBuffer.Equals("w\r"))
@@ -79,29 +78,28 @@ namespace OtchlanMapGenerator
                 //{                 
                 //    CorrectSegmentsLocationOnMap(baseBitmapSize, 0);
                 //}
-                return AddSegment(newID, -1 * baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not, Dir.not, Dir.not),currentFloor);
+                return AddSegment(-1 * baseBitmapSize, 0, new ExitPoints(Dir.not, Dir.not, Dir.east, Dir.not, Dir.not, Dir.not),currentFloor);
 
             }
             if(keyBuffer.Equals("u\r"))
             {
-                return AddSegment(newID, 0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.down), currentFloor+1);
+                return AddSegment(0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.not, Dir.down), currentFloor+1);
             }
             if (keyBuffer.Equals("d\r"))
             {
-                return AddSegment(newID, 0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.up, Dir.not), currentFloor-1);
+                return AddSegment(0, 0, new ExitPoints(Dir.not, Dir.not, Dir.not, Dir.not, Dir.up, Dir.not), currentFloor-1);
             }
             return -1; 
 
         }
         ///Returns "1" if segment added, "0" if segment not added.
-        private int AddSegment(int newID, int xShift, int yShift, ExitPoints e, int floor) //xShift yShift - shift of coordinates relative to the chosen segment
+        private int AddSegment(int xShift, int yShift, ExitPoints e, int floor) //xShift yShift - shift of coordinates relative to the chosen segment
         {
-            Segment s = new Segment(newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift),floor, e.eN, e.eS, e.eE, e.eW, e.eU,e.eD, Texts.text_DefaultName);
+            Segment s = new Segment(this.newID, new Point(playerSeg.BMPlocation.X + xShift, playerSeg.BMPlocation.Y + yShift),floor, e.eN, e.eS, e.eE, e.eW, e.eU,e.eD, Texts.text_DefaultName);
             this.previousSegment = this.playerSeg;
 
             Dir previousSegmentDirection = e.getExistingExit();
-            Dir newSegmentDirection = e.getOppositeDir();
-            //if(UpdatePrevSegmentExits(findSegmentByLocation(s.BMPlocation), e)==1) return 0; 
+            Dir newSegmentDirection = e.getOppositeDir(); 
             //if(findSegmentByLocation(s.BMPlocation) != null) return 0;
             if (UpdateEnterdSegmentExits(findSegmentByLocation(s.BMPlocation, floor), e) == 0) //handle adding new path when entering existing segment 
             {     
@@ -112,11 +110,12 @@ namespace OtchlanMapGenerator
                 this.playerSeg.setNeighbourID(this.previousSegment.id, previousSegmentDirection);
                 this.previousSegment.setNeighbourID(this.playerSeg.id, newSegmentDirection);
                 //--------------------------------------------------------------------------------
+                this.newID++;
                 return 1;
             }
-            this.playerSeg = findSegmentByLocation(s.BMPlocation, floor); //What in case of using "up" "down" ??? Better search by ID? //(WAS by Location)
+            this.playerSeg = findSegmentByLocation(s.BMPlocation, floor);
             //----------------------------------------------------------------------------------------
-            UpdatePrevSegmentExits(this.previousSegment,e); //when up 'if' returns 1 only update exit
+            UpdatePrevSegmentExits(this.previousSegment,e); //when top 'if' returns 1 only update exit
             this.playerSeg.setNeighbourID(this.previousSegment.id, previousSegmentDirection);
             this.previousSegment.setNeighbourID(this.playerSeg.id, newSegmentDirection);
             //-----------------------------------------------------------------------------------------
@@ -139,14 +138,7 @@ namespace OtchlanMapGenerator
             int yShift = ((formSize.Height / 2) - playerSeg.BMPlocation.Y - this.baseBitmapSize);
 
             CorrectSegmentsLocationOnMap(xShift, yShift);
-
         }
-
-        //void UpdatePlayerSegLocation(Segment chosen)
-        //{
-        //    foreach (Segment s in segments) if (s.id == chosen.id) chosen.BMPlocation = s.BMPlocation;
-        //}
-
 
         int UpdatePrevSegmentExits(Segment selected, ExitPoints e) //updates previous segment exits and neighbours IDs
         {

@@ -41,8 +41,8 @@ namespace OtchlanMapGenerator
         public static string text_menuVievColorsBlackTheme;
         public static string text_menuHelpUsage;
 
-        public static string msg_LanguageChange;
-        public static string msg_OnExit;
+        //public static string msg_LanguageChange;
+        //public static string msg_OnExit;
         public static string msg_ReadError;
         public static string msg_FileReadError;
         public static string msg_FileSaveError;
