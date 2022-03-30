@@ -70,7 +70,7 @@ namespace OtchlanMapGenerator
             {
                 IntPtr procHnd = proc.MainWindowHandle;
                 SetForegroundWindow(procHnd);
-                ShowWindow(procHnd, 9); //Activates and displays the window. 9 - If the window is minimized or maximized, the system restores it to its original size and position. 
+                //ShowWindow(procHnd, 9); //Activates and displays the window. 9 - If the window is minimized or maximized, the system restores it to its original size and position. 
 
                 //Handle covering the window
                 Rect rect = new Rect();
@@ -148,6 +148,8 @@ namespace OtchlanMapGenerator
             if (!this.readedString.Contains(":"))
                 return readResult;
 
+            //if (checkForSentence("Tam niestety nie pójdziesz!", 80))
+               // return readResult;
 
             //LOCATION NAME
             if (this.readedString.Contains("$$")) cutStringToStartFromLastNumber();
@@ -210,6 +212,21 @@ namespace OtchlanMapGenerator
 
             return readResult;
 
+        }
+
+        private Boolean checkForSentence(String sentence, int accuracy) //returns true if specified amount of chars are in right place (int accuracy is min precent of right chars)
+        {
+            int count = 0;
+            //if (accuracy > 100) accuracy = 100; if(accuracy<0) accuracy=0;
+            if (readedString.Contains(sentence)) return true;
+            for(int i=0; i<sentence.Length; i++)
+            {
+                if (i > readedString.Length) break;
+                if (this.readedString[i] == sentence[i]) count++;
+            }
+            if ((count/sentence.Length)*100 > accuracy)
+                return true;
+            return false;
         }
 
         private int countChar62InReadedString()

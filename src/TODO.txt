@@ -32,9 +32,12 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 14)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
-15)/TODO | Handle situations when doors in way player goes are locked - (!!) :c
+15)/KINDA| Handle situations when doors in way player goes are locked - (!!) :c
 ---------|------------------------------------------------------------------------------------------------------------]
-16)/TODO | Test app when starting new game and in dialogues etc(!!!) - Poosible Bugs in 432 (pre-capturingScreen) 
+16)/TODO | Make Red(?) hilight on segments with unsuccessful info assignment?
+		 |	Delete all segments with "Deflaut Name" and ID < max ID of already assigned segment?   
+---------|------------------------------------------------------------------------------------------------------------]
+17)/TODO | Test app when starting new game and in dialogues etc - Poosible Bugs in 432 (pre-capturingScreen) 
 ---------|------------------------------------------------------------------------------------------------------------]
 
 

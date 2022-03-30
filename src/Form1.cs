@@ -522,6 +522,9 @@ namespace OtchlanMapGenerator
             SegMap.MapFileName = openFileDialog.SafeFileName;
             this.Text = Texts.text_MainFormName + " - " + openFileDialog.SafeFileName; //set form name to open file name
 
+            Texts.setLanguage(SegMap.activeLanguage);
+            if (SegMap.activeLanguage == Language.EN) ENradioButton.Checked = true;
+            if (SegMap.activeLanguage == Language.PL) PLradioButton1.Checked = true;
             this.BackColor = SegMap.MainMapColor;
             segmentPanel.BackColor = SegMap.PanelMapColor;
             descriptionTextBox.BackColor = SegMap.PanelMapColor;

@@ -229,15 +229,6 @@ namespace OtchlanMapGenerator
             this.segments.Remove(this.findSegment(toDelete));
         }
 
-        //public void setNeighbourOnCorrect(Segment corected, Dir exit)
-        //{
-        //    foreach(Segment s in segments)
-        //    {
-        //        if (exit == Dir.east && (s.BMPlocation.X - corected.BMPlocation.X)) s.exits.neighbourIDw = corected.id; 
-        //    }
-        //}
-
-
         public Segment findSegmentByLocation(Point location, int floor)
         {
             foreach (Segment s in segments)
