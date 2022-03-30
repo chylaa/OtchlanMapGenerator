@@ -32,7 +32,7 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 14)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
 ---------|------------------------------------------------------------------------------------------------------------]
-15)/TODO | Handle situations when doors in way player goes are locked - (!!) - tell user to correct this manualy ? :c
+15)/TODO | Handle situations when doors in way player goes are locked - (!!) :c
 ---------|------------------------------------------------------------------------------------------------------------]
 16)/TODO | Test app when starting new game and in dialogues etc(!!!) - Poosible Bugs in 432 (pre-capturingScreen) 
 ---------|------------------------------------------------------------------------------------------------------------]
@@ -55,9 +55,9 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 5)//DONE | Handle "up" and "down" commands
 ---------|------------------------------------------------------------------------------------------------------------]
-6)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
+6)//DONE | Searching location by name
 ---------|------------------------------------------------------------------------------------------------------------]
-7)//IDEA | Undo function and exits correction ability for user?
+7)//IDEA | Make more bitmaps for different location types and allow user to change them in app. 
 ---------|------------------------------------------------------------------------------------------------------------]
-8)//IDEA | Searching location by name
+8)//IDEA | Undo function and exits correction ability for user?
 ---------|------------------------------------------------------------------------------------------------------------]

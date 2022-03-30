@@ -60,7 +60,6 @@ namespace OtchlanMapGenerator
         {
             if (Process.GetProcessesByName("otchlan_starter").Length == 0)
             {
-                MessageBox.Show(Texts.msg_GameProcessNotFound);
                 captureScreenOK = false;
                 return false;
             }
@@ -92,9 +91,8 @@ namespace OtchlanMapGenerator
                 //bitmap.Dispose();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
                 captureScreenOK = false;
                 return false;
             }

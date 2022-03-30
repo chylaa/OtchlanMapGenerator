@@ -66,13 +66,14 @@ namespace OtchlanMapGenerator
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.blackGreenThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.brownThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.brownThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.segmentPanel.SuspendLayout();
             this.languageGroupBox.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -364,6 +365,7 @@ namespace OtchlanMapGenerator
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mapFileToolStripMenuItem,
+            this.searchToolStripMenuItem,
             this.vievToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -449,23 +451,43 @@ namespace OtchlanMapGenerator
             // mainColorToolStripMenuItem
             // 
             this.mainColorToolStripMenuItem.Name = "mainColorToolStripMenuItem";
-            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mainColorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.mainColorToolStripMenuItem.Text = "Main Color";
             this.mainColorToolStripMenuItem.Click += new System.EventHandler(this.mainColorToolStripMenuItem_Click);
             // 
             // panelColorToolStripMenuItem
             // 
             this.panelColorToolStripMenuItem.Name = "panelColorToolStripMenuItem";
-            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.panelColorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.panelColorToolStripMenuItem.Text = "Panel Color";
             this.panelColorToolStripMenuItem.Click += new System.EventHandler(this.panelColorToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // blackGreenThemeToolStripMenuItem
             // 
             this.blackGreenThemeToolStripMenuItem.Name = "blackGreenThemeToolStripMenuItem";
-            this.blackGreenThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.blackGreenThemeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.blackGreenThemeToolStripMenuItem.Text = "Black-Green Theme";
             this.blackGreenThemeToolStripMenuItem.Click += new System.EventHandler(this.blackGreenThemeToolStripMenuItem_Click);
+            // 
+            // brownThemeToolStripMenuItem
+            // 
+            this.brownThemeToolStripMenuItem.Name = "brownThemeToolStripMenuItem";
+            this.brownThemeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.brownThemeToolStripMenuItem.Text = "Brown Theme";
+            this.brownThemeToolStripMenuItem.Click += new System.EventHandler(this.setBrownThemeToolStripMenuItem_Click);
+            // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.searchToolStripMenuItem.Text = "&Search";
+            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -489,19 +511,6 @@ namespace OtchlanMapGenerator
             // saveFileDialog
             // 
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
-            // 
-            // brownThemeToolStripMenuItem
-            // 
-            this.brownThemeToolStripMenuItem.Name = "brownThemeToolStripMenuItem";
-            this.brownThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.brownThemeToolStripMenuItem.Text = "Brown Theme";
-            this.brownThemeToolStripMenuItem.Click += new System.EventHandler(this.setBrownThemeToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // Form1
             // 
@@ -581,6 +590,7 @@ namespace OtchlanMapGenerator
         private System.Windows.Forms.ToolStripMenuItem blackGreenThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem brownThemeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
     }
 }
 

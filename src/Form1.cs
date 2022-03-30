@@ -94,8 +94,7 @@ namespace OtchlanMapGenerator
         //================================Language things============================================
         private void setTexts()
         {
-
-            this.Text = Texts.text_FormName;
+            this.Text = Texts.text_MainFormName;
             detailButton.Text = Texts.text_detailButton;
             segmentPanel.Text = Texts.text_segmentPanel;
             textboxName.Text = Texts.text_textboxName;
@@ -112,6 +111,7 @@ namespace OtchlanMapGenerator
             saveToolStripMenuItem.Text = Texts.text_menuMapSaveFile;
             openToolStripMenuItem.Text = Texts.text_menuMapOpenFile;
             vievToolStripMenuItem.Text = Texts.text_menuViev;
+            searchToolStripMenuItem.Text = Texts.text_menuSearch;
             colorsToolStripMenuItem.Text = Texts.text_menuVievColors;
             panelColorToolStripMenuItem.Text = Texts.text_menuVievColorsPanelColor;
             mainColorToolStripMenuItem.Text = Texts.text_menuVievColorsMainColor;
@@ -119,8 +119,6 @@ namespace OtchlanMapGenerator
             blackGreenThemeToolStripMenuItem.Text = Texts.text_menuVievColorsBlackTheme;
             helpToolStripMenuItem.Text = Texts.text_menuHelp;
             usageToolStripMenuItem.Text = Texts.text_menuHelpUsage;
-
-
         }
         private void ENradioButton_CheckedChanged(object sender, EventArgs e)
         {
@@ -130,6 +128,7 @@ namespace OtchlanMapGenerator
             setTexts();
             keyInputCheckBox_CheckedChanged(sender, e); //to set proper text associated with checkbox
             exitsLabel.Left = 72;
+            
             //return activeLanguage;
         }
 
@@ -263,10 +262,12 @@ namespace OtchlanMapGenerator
             infoLabel.Text = "";
 
             routeTextBox.Text = SegMap.FindWay(SegMap.playerSeg, SegMap.findSegment(chosen));
+            Clipboard.SetText(routeTextBox.Text.Replace(',','\r')+'\r'); //replace all commas with new line in routeString and copy to clippboard 
             DisplaySegments(playerOrientation, false);
-
+            
             flag_findWayBitmapsActive = true;
         }
+
         private void SetButtonStyle(Segment s, Button b, string x)
         {
             b.Text = x;
@@ -424,12 +425,23 @@ namespace OtchlanMapGenerator
             //Make screenshot - each enter after direction command and first time after non-dir command to store locatioon info 
             if(keyHandler.keywordDetectedFlag==false && flag_makeScreen && !flag_firstDeploy && e.KeyChar == '\r') //rethink that onceagain?
             {
-                screenRead.CaptureScreen();
+                if(screenRead.CaptureScreen()==false)
+                {
+                    MessageBox.Show(Texts.msg_GameProcessNotFound, Texts.msg_MessageBoxTitle);
+                    //return; // comment this to test wihout game process
+                }
                 flag_makeScreen = false;
             }
             if(keyHandler.keywordDetectedFlag)
             {
-                if(flag_makeScreen) screenRead.CaptureScreen();
+                if (flag_makeScreen)
+                {
+                    if (screenRead.CaptureScreen() == false)
+                    {
+                        MessageBox.Show(Texts.msg_GameProcessNotFound, Texts.msg_MessageBoxTitle);
+                        //return; //comment this to test wihout game process 
+                    }
+                }
                 flag_firstDeploy = false;
                 flag_makeScreen = true;
             }
@@ -508,7 +520,7 @@ namespace OtchlanMapGenerator
             SegMap = MapSave.LoadMapFromFile(openFileDialog.FileName);
             SegMap.MapFilePath = openFileDialog.FileName;
             SegMap.MapFileName = openFileDialog.SafeFileName;
-            this.Text = Texts.text_FormName + " - " + openFileDialog.SafeFileName; //set form name to open file name
+            this.Text = Texts.text_MainFormName + " - " + openFileDialog.SafeFileName; //set form name to open file name
 
             this.BackColor = SegMap.MainMapColor;
             segmentPanel.BackColor = SegMap.PanelMapColor;
@@ -535,7 +547,7 @@ namespace OtchlanMapGenerator
             if (MapSave.SaveMapToFile(SegMap.MapFilePath,SegMap))
             {
                 flag_keyInputAcive = true;
-                this.Text = Texts.text_FormName + " - " + SegMap.MapFileName;
+                this.Text = Texts.text_MainFormName + " - " + SegMap.MapFileName;
                 return;
             }
             else
@@ -629,6 +641,7 @@ namespace OtchlanMapGenerator
             }
         }
 
+        //----------Search----------------
         private void setBrownThemeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.BackColor = brownThemeMainColor;
@@ -638,8 +651,7 @@ namespace OtchlanMapGenerator
             SegMap.PanelMapColor = brownThemePanelColor;
             keyInputCheckBox.ForeColor = Color.Black;
 
-            setButtonsColorDefault();
-            //brownThemeButtonsColor = Control.DefaultBackColor;
+            setTextColors();
         }
 
         private void blackGreenThemeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -651,15 +663,54 @@ namespace OtchlanMapGenerator
             SegMap.PanelMapColor = blackThemePanelColor;
             keyInputCheckBox.ForeColor = Color.White;
 
-            setButtonsColorDefault();
+            setTextColors();
         }
 
-        private void setButtonsColorDefault()
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Control c in segmentPanel.Controls)
+            flag_keyInputAcive = false;
+            
+            using (Form searchForm = new Form())
             {
-                if (c.Name.Contains("Button")) c.BackColor = Control.DefaultBackColor;
+                SearchLocationUserControl searchControl = new SearchLocationUserControl();
+                searchControl.Show();
+                searchControl.BackColor = SegMap.PanelMapColor;
+
+                searchForm.MaximumSize = new System.Drawing.Size(325, 200);
+                searchForm.MinimumSize = new System.Drawing.Size(325, 200);
+                searchForm.BackColor = SegMap.MainMapColor;
+                searchForm.Width = 325;
+                searchForm.Height = 200;
+                searchForm.Controls.Add(searchControl);
+                searchForm.ActiveControl = searchControl;
+                searchForm.Activate();
+                searchForm.ShowDialog();
+                
+                String searched = "";
+                if (searchControl.WasButtonClicked())
+                {
+                    searched = searchControl.getSearchedText();
+                }
+
+                if (searched.Length != 0) findLocationContainingString(searched); //add "Not foud" message or smth
+                searchControl.Hide();
             }
+            flag_keyInputAcive = true;
+        }
+
+        private void findLocationContainingString(String searched)
+        {
+            searched = searched.ToLower();
+            foreach (Segment s in SegMap.segments )
+            {
+                if(s.name.ToLower().Contains(searched) || s.decription.ToLower().Contains(searched))
+                {
+                    SegmentClicked(s);
+                    detailButton.PerformClick();
+                    return;
+                }
+            }
+            MessageBox.Show(Texts.msg_LocationNotFound,Texts.msg_MessageBoxTitle);
         }
 
     }
