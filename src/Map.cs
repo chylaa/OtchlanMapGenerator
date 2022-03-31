@@ -261,9 +261,9 @@ namespace OtchlanMapGenerator
             {
                 foreach (Segment s in this.segments)
                 {
-                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width * dt), (int)(s.bitmap.Height * dt)));
-                    s.BMPlocation.X = (int)((dt*s.BMPlocation.X)); //
-                    s.BMPlocation.Y = (int)((dt*s.BMPlocation.Y)); //use s.correctSegmentLocationOnMap ?                   
+                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)Math.Round(s.bitmap.Width * dt), (int)Math.Round(s.bitmap.Height * dt)));
+                    s.BMPlocation.X = (int)Math.Round((dt*s.BMPlocation.X)); //
+                    s.BMPlocation.Y = (int)Math.Round((dt*s.BMPlocation.Y)); //use s.correctSegmentLocationOnMap ?                   
                 }
             }                                                           
             if(dt<0)
@@ -271,9 +271,9 @@ namespace OtchlanMapGenerator
                 dt *= -1; //make it positive :)
                 foreach (Segment s in this.segments)
                 {
-                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)(s.bitmap.Width / dt), (int)(s.bitmap.Height / dt)));
-                    s.BMPlocation.X = (int)((s.BMPlocation.X / dt));
-                    s.BMPlocation.Y = (int)((s.BMPlocation.Y / dt));
+                    s.bitmap = new Bitmap(s.standardBitmap, new Size((int)Math.Round(s.bitmap.Width / dt), (int)Math.Round(s.bitmap.Height / dt)));
+                    s.BMPlocation.X = (int)Math.Round((s.BMPlocation.X / dt));
+                    s.BMPlocation.Y = (int)Math.Round((s.BMPlocation.Y / dt));
                 }
             }
 
@@ -403,6 +403,10 @@ namespace OtchlanMapGenerator
             
         }
 
+        public void UpdateSegmentsRectanglePosition()
+        {
+           foreach (Segment s in this.segments) s.setRectangle(); //update invalid Info outlineRect pos 
+        }
 
 
     }

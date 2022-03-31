@@ -78,7 +78,8 @@ namespace OtchlanMapGenerator
         public String decription;
         //public List<Dir> exits;
         public ExitPoints exits;
-
+        public Boolean flag_infoProperAssigned;
+        public Rectangle outlineRect;
 
         public Segment()
         {
@@ -88,12 +89,12 @@ namespace OtchlanMapGenerator
             this.id = id;
             this.exits = new ExitPoints(exit1, exit2, exit3, exit4,exit5,exit6);
             setBitmap('x','x');
-            setStandardBitmap();
             this.name = name;
             this.BMPlocation = location;
             this.decription = "";
             this.floor = floor;
             this.distance = -1;
+            this.flag_infoProperAssigned = true;
         }
         //params char previusDir/Direction - if == 'x' then sets normal bitmap, otherwise set adequate "route" bitmap. 
         public void setBitmap(char previousDir, char Direction)
@@ -148,6 +149,7 @@ namespace OtchlanMapGenerator
                     Direction = buffer;
                 }
             }
+            setStandardBitmap();
         }
 
         private void setStandardBitmap()
@@ -205,8 +207,13 @@ namespace OtchlanMapGenerator
 
         public void setSegmentInfo(ReadResult readResult)
         {
-
-            if (readResult.invalid || !(this.name.Equals(Texts.text_DefaultName))) return;
+            if (readResult.invalid)
+            {
+                flag_infoProperAssigned = false;
+                this.setRectangle();
+                return;
+            }
+            if (!(this.name.Equals(Texts.text_DefaultName))) return;
 
             this.name = readResult.locationName;
             this.decription = readResult.locationDescription;
@@ -220,6 +227,9 @@ namespace OtchlanMapGenerator
             this.setBitmap('x', 'x');
 
         }
+
+        public void setRectangle() {if(!flag_infoProperAssigned) outlineRect = new Rectangle(this.BMPlocation, this.bitmap.Size); }
+        public void resetRectangle() { outlineRect = new Rectangle(); }
 
     }
 }

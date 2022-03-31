@@ -8,7 +8,7 @@
 2)\\DONE | Fix overflow error in scroll handling method UpdateSegmentsLocationScroll().
 ---------|------------------------------------------------------------------------------------------------------------]
 3)\\DONE | Add recognition if string from keyboard input is proper Direction Command and not end of different one 
-		 | (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
+	| (e.g now 'w/r' is the same as 'ekw/r'), also "north","south", etc should work too. 
 ---------|------------------------------------------------------------------------------------------------------------]
 4)\\DONE | "Camera" following player segment
 ---------|------------------------------------------------------------------------------------------------------------]
@@ -30,12 +30,12 @@
 ---------|------------------------------------------------------------------------------------------------------------]
 13)/DONE | Add black&green theme and brown theme
 ---------|------------------------------------------------------------------------------------------------------------]
-14)/TODO | Bug: Zooming in/out cause Segments to move away of eachother + wrong bitmaps displays
+14)/TODO | Bug: Zooming in/out cause Segments to move away of eachother.
+	|Also now not saving current bitmap size (new ones after using zoom are too big/small)
 ---------|------------------------------------------------------------------------------------------------------------]
 15)/KINDA| Handle situations when doors in way player goes are locked - (!!) :c
 ---------|------------------------------------------------------------------------------------------------------------]
-16)/TODO | Make Red(?) hilight on segments with unsuccessful info assignment?
-		 |	Delete all segments with "Deflaut Name" and ID < max ID of already assigned segment?   
+16)/DONE | Make Red(?) hilight on segments with unsuccessful info assignment?  
 ---------|------------------------------------------------------------------------------------------------------------]
 17)/TODO | Test app when starting new game and in dialogues etc - Poosible Bugs in 432 (pre-capturingScreen) 
 ---------|------------------------------------------------------------------------------------------------------------]

@@ -22,7 +22,7 @@ namespace OtchlanMapGenerator
         String keyBuffer = "";
 
         Rectangle outlineSelect;
-        Boolean flag_DrawOutline = false;
+        Boolean flag_DrawSelectOutline = false;
 
         Color brownThemeMainColor = Color.Brown;
         Color brownThemePanelColor = Color.RosyBrown;
@@ -84,7 +84,7 @@ namespace OtchlanMapGenerator
 
         private void resetFlags()
         {
-            flag_DrawOutline = false;
+            flag_DrawSelectOutline = false;
             flag_findWayBitmapsActive = false;
             flag_keyInputAcive = true;
             flag_makeScreen = true;
@@ -239,8 +239,10 @@ namespace OtchlanMapGenerator
                 foreach (Segment seg in SegMap.segments) seg.setBitmap('x', 'x'); //clear route showing 
             }
 
-            DrawOutlineForSelected(s);
-            
+            MakeOutlineRectangleForSegment(s);
+            s.flag_infoProperAssigned = true; //I assume that the user corrects info
+            s.resetRectangle();
+
             textboxName.Text = s.name;
             descriptionTextBox.Text = s.decription;
             chosen.assignValues(s); 
@@ -344,34 +346,41 @@ namespace OtchlanMapGenerator
                 hScrollBar1.Value = hScrollBar1.Maximum / 2;
                 vScrollBar1.Value = vScrollBar1.Maximum / 2;
             }
+            SegMap.UpdateSegmentsRectanglePosition();
             this.Invalidate();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
-        {         
+        {
             foreach (Segment segment in SegMap.segments)
-                if(segment.floor == currentFloor)
+            {
+                if (segment.floor == currentFloor)
+                {
                     e.Graphics.DrawImage(segment.bitmap, segment.BMPlocation);
+                    if (segment.flag_infoProperAssigned == false && segment.id !=SegMap.playerSeg.id) 
+                        e.Graphics.DrawRectangle(new Pen(Color.Red, 2.0f), segment.outlineRect);
+                }
+            }
 
-            if (flag_DrawOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
-            flag_DrawOutline = false;
+            if (flag_DrawSelectOutline) e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2.0f), outlineSelect);
+            flag_DrawSelectOutline = false;
         }
         private void Form1_SizeChanged(object sender, EventArgs e) //Camera follows player segment  
         {
-            DrawOutlineForSelected(SegMap.findSegment(chosen));
+            MakeOutlineRectangleForSegment(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, true);
         }
 
-        private void DrawOutlineForSelected(Segment selected)
+        private void MakeOutlineRectangleForSegment(Segment segment)
         {
-            if (SegMap.playerSeg == null || selected==null) return;
-            if (selected.id == SegMap.playerSeg.id){
-                HideOutlineSelected(); 
+            if (SegMap.playerSeg == null || segment==null) return;
+            if (segment.id == SegMap.playerSeg.id){
+                HideOutlineSelected();
             }else{
-                outlineSelect = new Rectangle(selected.BMPlocation, selected.bitmap.Size);
+                outlineSelect = new Rectangle(segment.BMPlocation, segment.bitmap.Size);
 
             }
-            flag_DrawOutline = true;
+            flag_DrawSelectOutline = true;
             DisplaySegments(playerOrientation, false);
         }
 
@@ -385,7 +394,7 @@ namespace OtchlanMapGenerator
             //segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegMap.UpdateSegmentsLocationScroll(dx, dy, dx, e.OldValue);
 
-            DrawOutlineForSelected(SegMap.findSegment(chosen));
+            MakeOutlineRectangleForSegment(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, false);
         }
 
@@ -395,19 +404,19 @@ namespace OtchlanMapGenerator
             //segmentPanel.Text = "dx: " + dx + " dy: " + dy;
             SegMap.UpdateSegmentsLocationScroll(dx, dy, e.OldValue, dy);
 
-            DrawOutlineForSelected(SegMap.findSegment(chosen));
+            MakeOutlineRectangleForSegment(SegMap.findSegment(chosen));
             DisplaySegments(playerOrientation, false);
         }
 
         private void Form1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            // Temporary disabled due to problems
+            // <===Temporary disabled due to problems===>
+
             //segmentPanel.Text = e.Delta.ToString(); //e.Delta: int from -120 to 120 
             //SegMap.ChangeSegmentSizes(e.Delta);
 
-            //DrawOutlineForSelected(SegList.findSegment(chosen));
-            DisplaySegments('x', false);
-
+            //MakeOutlineRectangleForSegment(SegMap.findSegment(chosen));
+            //DisplaySegments('x', false);
         }
 
         //===================Handling adding new Segments and keyboard read================================================
