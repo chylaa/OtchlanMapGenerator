@@ -39,7 +39,6 @@ namespace OtchlanMapGenerator
             public int bottom;
         }
         //int TempIteration = 0;
-        //String ssPath;
         IronTesseract ironTesseract;
         public Bitmap capturedBitmap;
         String readedString;
@@ -86,6 +85,7 @@ namespace OtchlanMapGenerator
                 this.capturedBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
                 Graphics.FromImage(capturedBitmap).CopyFromScreen(rect.left, rect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
+                //uncomment if you want to save all subsequent screenshots
                 //this.TempIteration++;
                 //bitmap.Save("screen" + TempIteration +".jpg", ImageFormat.Jpeg);
                 //bitmap.Dispose();

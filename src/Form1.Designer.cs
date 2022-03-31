@@ -62,6 +62,7 @@ namespace OtchlanMapGenerator
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vievToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,6 @@ namespace OtchlanMapGenerator
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.blackGreenThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.brownThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -240,10 +240,10 @@ namespace OtchlanMapGenerator
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.vScrollBar1.LargeChange = 25;
-            this.vScrollBar1.Location = new System.Drawing.Point(180, -2);
+            this.vScrollBar1.Location = new System.Drawing.Point(180, 0);
             this.vScrollBar1.Maximum = 1000;
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 500);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 498);
             this.vScrollBar1.TabIndex = 2;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
@@ -428,6 +428,13 @@ namespace OtchlanMapGenerator
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.searchToolStripMenuItem.Text = "&Search";
+            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
+            // 
             // vievToolStripMenuItem
             // 
             this.vievToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -445,7 +452,7 @@ namespace OtchlanMapGenerator
             this.blackGreenThemeToolStripMenuItem,
             this.brownThemeToolStripMenuItem});
             this.colorsToolStripMenuItem.Name = "colorsToolStripMenuItem";
-            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorsToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.colorsToolStripMenuItem.Text = "&Colors";
             // 
             // mainColorToolStripMenuItem
@@ -481,13 +488,6 @@ namespace OtchlanMapGenerator
             this.brownThemeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.brownThemeToolStripMenuItem.Text = "Brown Theme";
             this.brownThemeToolStripMenuItem.Click += new System.EventHandler(this.setBrownThemeToolStripMenuItem_Click);
-            // 
-            // searchToolStripMenuItem
-            // 
-            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.searchToolStripMenuItem.Text = "&Search";
-            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 

@@ -1,29 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
-//==========ListOfSegments==========
 
-//public Segment previousSegment;
-//public Segment playerSeg;
-//public List<Segment> segments;
-//public int baseBitmapSize = 50;
-//int padding;
-//int ScrollSpeed = 15;
-
-//===========Segment=================
-//public int id;
-//public int distance; //def distance from another, chosen segment.
-//public Bitmap bitmap;
-//public Bitmap standardBitmap; //bitmap of orginal Size (for ListOfSegments::changeSegmentSizes methond)
-//public Point BMPlocation;
-//public String name;
-//public String decription;
-//public ExitPoints exits;
 
 namespace OtchlanMapGenerator
 {
