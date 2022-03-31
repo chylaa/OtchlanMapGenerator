@@ -22,10 +22,10 @@ At any moment map can be saved/opened with hot key or in Menu bar. Users can als
 
 
 ## :Some usage images:
-(20.03)
-![App Viev](https://github.com/chylaa/OtchlanMapGenerator/blob/master/AplicationViev.png)
+
+![Location Details](https://github.com/chylaa/OtchlanMapGenerator/blob/master/AplicationVievDetails.png)
 
 ![Route mapping](https://github.com/chylaa/OtchlanMapGenerator/blob/master/AplicationVievRoute.png)
 
-![Location Details](https://github.com/chylaa/OtchlanMapGenerator/blob/master/AplicationVievDetails.png)
+![App Viev](https://github.com/chylaa/OtchlanMapGenerator/blob/master/AplicationViev.png)
 
